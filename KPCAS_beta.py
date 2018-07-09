@@ -21,35 +21,53 @@ class Application(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        self.title = tk.Label(self, text=u'KrProCessAS', font=("", 20))
-        self.label = tk.Label(self, text=u'入力ファイル')
+        # 各ウィジェット
+        # 文字定義
+        self.title = tk.Label(self, text=u"KrProCessAS", font=("", 20))
+        self.label = tk.Label(self, text=u"入力ファイル")
+
+        # エントリ定義
         self.var_entry = tk.StringVar()
-        self.entry = tk.Entry(self, textvariable=self.var_entry)
+        self.entry = tk.Entry(self, textvariable=self.var_entry, width=22)
+
+        # ボタン定義
         self.button = tk.Button(self, text=u"開く", command=self.button_pushed)
+        self.button_qt = tk.Button(self, text=u"Quit", command=self.button_quit, width=5, height=2)
+        self.button_act = tk.Button(self, text=u"命令セットを開く", command=self.button_action, width=15, height=2)
+        
         #self.var_check = tk.BooleanVar()
         #self.check = tk.Checkbutton(self, text=u'拡張子をjpgに限定')
         #self.text = tk.Text(self)
-        self.canvas = tk.Canvas(self, width=300, height=300)
-        self.button_qt = tk.Button(self, text=u"Quit", command=self.button_quit, width=5, height=2)
 
+        # キャンバス定義
+        self.canvas = tk.Canvas(self, width=200, height=200, relief=tk.RIDGE, bd=2)
+
+        # 命令ウィンドウ表示
+        
+
+        #
         # 各物体の位置(gridだとややこしいので、placeで直接指定する)
         # 文字など
-        self.title.place(x=70, y=10) #title
-        self.label.place(x=480, y=5) #text
+        self.title.place(x=70, y=15)
+        self.label.place(x=500, y=5)
 
         # エントリなど
-        self.entry.place(x=480, y=25) #source
+        self.entry.place(x=500, y=30) #source
         self.entry.insert(tk.END, "開くを押して参照する")
-        
-        self.button.place(x=680, y=29) #open
-        self.button_qt.place(x=10, y=10) #Quit
+
+        # ボタンなど
+        self.button.place(x=650, y=5)
+        self.button_qt.place(x=10, y=10)
+        self.button_act.place(x=300, y=400)
         #self.button.grid(column=2, row=0, sticky=tk.E)
-        self.canvas.place(x=480, y=200)
 
-        #self.columnconfigure(1, weight=1)
-        #self.rowconfigure(2, weight=1)
+        # キャンバスなど
+        self.canvas.place(x=500, y=60)
+        self.canvas.create_text(110, 110, text=u"Not Found Image...")
 
-        self.checkbox_make()
+        # リストボックス・スクロールなど
+
+        
 
     # 参照ファイルコマンド
     def button_pushed(self):
@@ -75,7 +93,7 @@ class Application(tk.Frame):
         self.var_entry.set(fname)
 
         self.img = ImageTk.PhotoImage(file=real_path)
-        self.canvas.create_image(100, 100, image=self.img)
+        self.canvas.create_image(110, 110, image=self.img)
             
 
     # Exitする
@@ -83,6 +101,29 @@ class Application(tk.Frame):
         print("Good Bye.")
         exit()
 
+
+    def button_action(self):
+        sub_win = tk.Toplevel(master=self.master)
+
+        frame1 = tk.Frame(sub_win)
+        frame1.grid()
+        
+        currencies = ('JPY', 'USD', 'EUR', 'CNY', 'MXN', 'CAD')
+        v1 = tk.StringVar(value=currencies)
+        lb = tk.Listbox(frame1, listvariable=v1, height=3)
+        lb.grid(row=0, column=0)
+
+        scrollbar = tk.Scrollbar(frame1, orient="v", command=lb.yview)
+        lb['yscrollcommand'] = scrollbar.set
+        scrollbar.grid(row=0, column=1, sticky=tk.NS)
+        
+        button = tk.Button(frame1, text="thank you", command=sub_win.destroy)
+        button.grid(row=1, column=0, columnspan=2)
+        button.focus_set()
+        sub_win.transient(self.master)
+        sub_win.grab_set()
+        
+        
 
     # チェックボックス(命令セット) 仮で10とする
     def checkbox_make(self):
@@ -93,10 +134,11 @@ class Application(tk.Frame):
             #BooleanVarの作成
             bl = tk.BooleanVar()
             bl.set(False)
-            
-            b = tk.Checkbutton(text = "命令" + str(n+1), variable = bl)
-            b.place(x=100, y=20*n + 50)
 
+            self.listbox.insert(x, "Meirei" + str(n+1))
+            #b = tk.Checkbutton(text=u"命令" + str(n+1), variable = bl)
+            #b.self.place(x=400, y=20*n + 100)
+            
             #チェックの値を入れる
             check_val.append(bl)
             #チェックハンドルを入れる
