@@ -12,6 +12,12 @@ import tkinter.filedialog as tkFD
 from PIL import ImageTk, Image
 from tkinter import PhotoImage
 
+#RuntimeError: maximum recursion depth exceeded (再帰の数が深すぎるエラー)
+#https://qiita.com/narupo/items/e25ac05a9065c0bd9c03
+#http://sucrose.hatenablog.com/entry/2013/01/19/164008
+sys.setrecursionlimit(50000) #再帰の最大数を増やす
+LIMITER = sys.getrecursionlimit()
+print("maximum recursion depth set: " , LIMITER)
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -23,7 +29,7 @@ class Application(tk.Frame):
     def create_widgets(self):
         # 各ウィジェット
         # 文字定義
-        self.title = tk.Label(self, text=u"KrProCessAS", font=("", 20))
+        self.title = tk.Label(self, text=u"beta", font=("", 20))
         self.label = tk.Label(self, text=u"入力ファイル")
 
         # エントリ定義
@@ -148,7 +154,7 @@ class Application(tk.Frame):
 # ひながた        
 if __name__ == "__main__":
     root = tk.Tk()
-    root.title("KPCAS_beta")
+    root.title("beta")
     root.geometry("720x480") # ウィンドウサイズ
     
     app = Application(master=root)

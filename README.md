@@ -5,6 +5,12 @@ This is test upload.
 [Tkinterの基本はこちら](https://qiita.com/nnahito/items/41be8e02a6ebc91386e7)  
 [ファイル参照方法](http://spcx8.hatenablog.com/entry/2017/12/24/112528)
 
+# py2app を使ったビルドメモ
+setup.pyをそのまんまmakeしたが、うまくいかずsetupのみで構成したファイルを実行
+以下、ビルドするための実行コマンド。後ろの引数はアイコンを埋め込むためのもの。
+
+`python3 setup.py py2app --iconfile test.icns` 
+
 # 作業環境
 <dl>
   <dt>MacBook Air Early 2015</dt>
