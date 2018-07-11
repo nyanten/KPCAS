@@ -39,7 +39,7 @@ class Application(tk.Frame):
         # ボタン定義
         self.button = tk.Button(self, text=u"開く", command=self.button_pushed)
         self.button_qt = tk.Button(self, text=u"Quit", command=self.button_quit)
-        self.button_act = tk.Button(self, text=u"命令セットを開く", command=self.button_action)
+        self.button_act = tk.Button(self, text=u"命令セットを開く", command=self.action)
         
         #self.var_check = tk.BooleanVar()
         #self.check = tk.Checkbutton(self, text=u'拡張子をjpgに限定')
@@ -113,8 +113,20 @@ class Application(tk.Frame):
         exit()
 
 
+    def action_add_bn(self):
+        self.show_selection()
+    
+    def listbox_selected(self, event):
+        self.show_selection()
+    
+    def show_selection(self):
+        for i in lb.curselection():
+            print(lb.get(i))
+
+
     # 命令セット
-    def button_action(self):
+    def action(self):
+        global lb
         sub_win = tk.Toplevel(master=self.master)
         sub_win.title("命令セット")
         sub_win.geometry("480x240")
@@ -123,39 +135,30 @@ class Application(tk.Frame):
 
         frame1 = tk.Frame(sub_win)
         frame1.place(x=10, y=50)
-        
-        FILTER = ['２値化', 'グレイスケール', '赤成分抽出', '緑成分抽出', '青成分抽出',
+
+        FILTER = ('２値化', 'グレイスケール', '赤成分抽出', '緑成分抽出', '青成分抽出',
                   'フーリエ変換', '逆フーリエ変換', '平滑化', 'エッジ抽出', 'hoge',
                   'ノイズのせ', 'メディアンフィルタ', 'ガウシアンフィルタ',
-                  '細線化', 'タイル化', '顔検出']
+                  '細線化', 'タイル化', '顔検出')
         
         v1 = tk.StringVar(value=FILTER)
-        lb = tk.Listbox(frame1, width=15, height=10)
+        lb = tk.Listbox(frame1, listvariable=v1, width=15, height=10)
+        
         lb.grid(row=0, column=0)
 
         scrollbar = tk.Scrollbar(frame1, orient="v", command=lb.yview)
         lb['yscrollcommand'] = scrollbar.set
         scrollbar.grid(row=0, column=1, sticky=tk.NS)
+        lb.bind("<<ListboxSelect>>", self.listbox_selected)
         
         button = tk.Button(sub_win, text="Quit", command=sub_win.destroy)
         button.place(x=10, y=10)
-        button = tk.Button(sub_win, text="命令を組む", command=self.sub_win_select)
+        button = tk.Button(sub_win, text="命令を組む", command=self.action_add_bn)
         button.place(x=80, y=10)
-
-        lb.bind("<Double-Button-1>", self.sub_win_select())
-        lb.insert(tk.END, *FILTER)
-
-        var_entry = tk.StringVar()
-        entry_com = tk.Entry(sub_win, textvariable=self.var_entry, width=22)
-        entry_com.place(x=20, y=50)
         
         button.focus_set()
         sub_win.transient(self.master)
         sub_win.grab_set()
-
-
-    def sub_win_select(self):
-        print("Fuck")
 
         
     # チェックボックス(命令セット) 仮で10とする
@@ -175,6 +178,7 @@ class Application(tk.Frame):
             check_val.append(bl)
             #チェックハンドルを入れる
             check_h.append(b)
+
 
 
 # ひながた        
