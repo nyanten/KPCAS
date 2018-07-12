@@ -48,8 +48,8 @@ class Application(tk.Frame):
         # ボタン定義
         self.button = tk.Button(self, text=u"開く", command=self.button_pushed)
         self.button_qt = tk.Button(self, text=u"Quit", command=self.button_quit)
-        self.button_act = tk.Button(self, text=u"命令セットを開く", command=self.action, width=20)
-        
+        self.button_act = tk.Button(self, text=u"命令を組み込む", command=self.action, width=20)
+        self.button_man = tk.Button(self, text=u"マニュアル", command=self.manual_op, width=20)
         #self.var_check = tk.BooleanVar()
         #self.check = tk.Checkbutton(self, text=u'拡張子をjpgに限定')
         #self.text = tk.Text(self)
@@ -72,6 +72,7 @@ class Application(tk.Frame):
         self.button.place(x=655, y=0)
         self.button_qt.place(x=10, y=5)
         self.button_act.place(x=500, y=300)
+        self.button_man.place(x=500, y=270)
         #self.button.grid(column=2, row=0, sticky=tk.E)
 
         # キャンバスなど
@@ -136,7 +137,7 @@ class Application(tk.Frame):
             FILTER_SET += (slb, )
             self.action()
 
-        
+    # 命令削除系統
     def action_del_bn(self):
         self.show_selection_d()
     
@@ -148,9 +149,9 @@ class Application(tk.Frame):
         global FILTER_SET
         for i in lb_new.curselection():
             dlb = lb_new.get(i)
-            dlb_l = list(FILTER_SET)
-            del dlb_l[i]
-            FILTER_SET = tuple(dlb_l)
+            dlb_l = list(FILTER_SET) # タプルの要素削除はできないのでリストへ変更する
+            del dlb_l[i] # リストで選択されている部分を削除する
+            FILTER_SET = tuple(dlb_l) # タプルに戻す
             print(dlb + "を削除しました")
             self.action()
         
@@ -203,6 +204,29 @@ class Application(tk.Frame):
         sub_win.transient(self.master)
         sub_win.grab_set()
 
+
+    def manual_op(self):
+        man = open("./manual.txt","r")
+        
+        man_win = tk.Toplevel(master=self.master)
+        man_win.title("マニュアル")
+        man_win.geometry("680x420")
+
+        text_in = man.read()
+        print(text_in)
+        #text = tk.Label(self, text=)
+
+        button = tk.Button(man_win, text="Quit", command=man_win.destroy)
+        button.place(x=10, y=10)
+
+        self.label = tk.Label(man_win, text=text_in)
+        self.label.grid()
+
+        button.focus_set()
+        man_win.transient(self.master)
+        man_win.grab_set()
+        man.close()
+    
     
     # チェックボックス(命令セット) 仮で10とする
     def checkbox_make(self):
