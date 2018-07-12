@@ -12,7 +12,7 @@ import tkinter.filedialog as tkFD
 from tkinter import PhotoImage
 from PIL import ImageTk
 
-#kekr
+
 #RuntimeError: maximum recursion depth exceeded (再帰の数が深すぎるエラー)
 #https://qiita.com/narupo/items/e25ac05a9065c0bd9c03
 #http://sucrose.hatenablog.com/entry/2013/01/19/164008
