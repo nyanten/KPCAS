@@ -48,7 +48,7 @@ class Application(tk.Frame):
         # ボタン定義
         self.button = tk.Button(self, text=u"開く", command=self.button_pushed)
         self.button_qt = tk.Button(self, text=u"Quit", command=self.button_quit)
-        self.button_act = tk.Button(self, text=u"命令セットを開く", command=self.action)
+        self.button_act = tk.Button(self, text=u"命令セットを開く", command=self.action, width=20)
         
         #self.var_check = tk.BooleanVar()
         #self.check = tk.Checkbutton(self, text=u'拡張子をjpgに限定')
@@ -71,7 +71,7 @@ class Application(tk.Frame):
         # ボタンなど
         self.button.place(x=655, y=0)
         self.button_qt.place(x=10, y=5)
-        self.button_act.place(x=300, y=400)
+        self.button_act.place(x=500, y=300)
         #self.button.grid(column=2, row=0, sticky=tk.E)
 
         # キャンバスなど
@@ -122,25 +122,44 @@ class Application(tk.Frame):
 
     # 命令追加系統
     def action_add_bn(self):
-        self.show_selection()
+        self.show_selection_a()
     
     def listbox_selected(self, event):
-        self.show_selection()
+        self.show_selection_a()
     
-    def show_selection(self):
+    def show_selection_a(self):
         global slb
         global FILTER_SET
         for i in lb_default.curselection():
             slb = lb_default.get(i)
             print(slb + "を組み込みました")
-            print(slb)
             FILTER_SET += (slb, )
             self.action()
 
+        
+    def action_del_bn(self):
+        self.show_selection_d()
+    
+    def listbox_selected(self, event):
+        self.show_selection_d()
+    
+    def show_selection_d(self):
+        global dlb
+        global FILTER_SET
+        for i in lb_new.curselection():
+            dlb = lb_new.get(i)
+            dlb_l = list(FILTER_SET)
+            del dlb_l[i]
+            FILTER_SET = tuple(dlb_l)
+            print(dlb + "を削除しました")
+            
+            self.action()
+        
 
     # 命令セット
     def action(self):
         global lb_default
+        global lb_new
         
         sub_win = tk.Toplevel(master=self.master)
         sub_win.title("命令セット")
@@ -175,6 +194,11 @@ class Application(tk.Frame):
         button.place(x=10, y=10)
         button = tk.Button(sub_win, text="命令を組む", command=self.action_add_bn)
         button.place(x=80, y=10)
+        button = tk.Button(sub_win, text="命令を消す", command=self.action_del_bn)
+        button.place(x=250, y=10)
+
+        button = tk.Button(sub_win, text="実装")
+        button.place(x=350, y=10)
         
         button.focus_set()
         sub_win.transient(self.master)
