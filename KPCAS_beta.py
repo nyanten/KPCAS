@@ -152,7 +152,6 @@ class Application(tk.Frame):
             del dlb_l[i]
             FILTER_SET = tuple(dlb_l)
             print(dlb + "を削除しました")
-            
             self.action()
         
 
