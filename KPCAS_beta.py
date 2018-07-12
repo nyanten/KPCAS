@@ -19,6 +19,14 @@ from PIL import ImageTk
 #LIMITER = sys.getrecursionlimit()
 #print("maximum recursion depth set: " , LIMITER)
 
+FILTER = ('２値化', 'グレイスケール', '赤成分抽出', '緑成分抽出', '青成分抽出',
+          'フーリエ変換', '逆フーリエ変換', '平滑化', 'エッジ抽出', 'hoge',
+          'ノイズのせ', 'メディアンフィルタ', 'ガウシアンフィルタ',
+          '細線化', 'タイル化', '顔検出')
+
+FILTER_SET = ('画像を読み込む', )
+
+
 class Application(tk.Frame):
     def __init__(self, master=None):
         tk.Frame.__init__(self, master)
@@ -48,10 +56,8 @@ class Application(tk.Frame):
         # キャンバス定義
         self.canvas = tk.Canvas(self, width=200, height=200, relief=tk.RIDGE, bd=2)
 
-        # 命令ウィンドウ表示
-        
 
-        #
+        
         # 各物体の位置(gridだとややこしいので、placeで直接指定する)
         # 文字など
         self.title.place(x=100, y=5)
@@ -75,7 +81,7 @@ class Application(tk.Frame):
 
 
         # その他
-        self.checkbox_make()
+        #self.checkbox_make()
 
     # 参照ファイルコマンド
     def button_pushed(self):
@@ -113,6 +119,7 @@ class Application(tk.Frame):
         exit()
 
 
+    # 命令追加系統
     def action_add_bn(self):
         self.show_selection()
     
@@ -120,13 +127,20 @@ class Application(tk.Frame):
         self.show_selection()
     
     def show_selection(self):
-        for i in lb.curselection():
-            print(lb.get(i))
+        global slb
+        global FILTER_SET
+        for i in lb_default.curselection():
+            slb = lb_default.get(i)
+            print(slb + "を組み込みました")
+            print(slb)
+            FILTER_SET += (slb, )
+            self.action()
 
 
     # 命令セット
     def action(self):
-        global lb
+        global lb_default
+        
         sub_win = tk.Toplevel(master=self.master)
         sub_win.title("命令セット")
         sub_win.geometry("480x240")
@@ -135,21 +149,26 @@ class Application(tk.Frame):
 
         frame1 = tk.Frame(sub_win)
         frame1.place(x=10, y=50)
-
-        FILTER = ('２値化', 'グレイスケール', '赤成分抽出', '緑成分抽出', '青成分抽出',
-                  'フーリエ変換', '逆フーリエ変換', '平滑化', 'エッジ抽出', 'hoge',
-                  'ノイズのせ', 'メディアンフィルタ', 'ガウシアンフィルタ',
-                  '細線化', 'タイル化', '顔検出')
+        frame2 = tk.Frame(sub_win)
+        frame2.place(x=250, y=50)
         
         v1 = tk.StringVar(value=FILTER)
-        lb = tk.Listbox(frame1, listvariable=v1, width=15, height=10)
+        v2 = tk.StringVar(value=FILTER_SET)
+        lb_default = tk.Listbox(frame1, listvariable=v1, width=18, height=10)
+        lb_new = tk.Listbox(frame2, listvariable=v2, width=18, height=10)
         
-        lb.grid(row=0, column=0)
+        lb_default.grid(row=0, column=0)
+        lb_new.grid(row=0, column=0)
 
-        scrollbar = tk.Scrollbar(frame1, orient="v", command=lb.yview)
-        lb['yscrollcommand'] = scrollbar.set
-        scrollbar.grid(row=0, column=1, sticky=tk.NS)
-        lb.bind("<<ListboxSelect>>", self.listbox_selected)
+        scrollbar_1 = tk.Scrollbar(frame1, orient="v", command=lb_default.yview)
+        scrollbar_2 = tk.Scrollbar(frame2, orient="v", command=lb_new.yview)
+        lb_default['yscrollcommand'] = scrollbar_1.set
+        lb_new['yscrollcommand'] = scrollbar_2.set
+        
+        scrollbar_1.grid(row=0, column=1, sticky=tk.NS)
+        scrollbar_2.grid(row=0, column=1, sticky=tk.NS)
+        
+        lb_default.bind("<<Double-Button-1>>", self.listbox_selected)
         
         button = tk.Button(sub_win, text="Quit", command=sub_win.destroy)
         button.place(x=10, y=10)
@@ -160,7 +179,7 @@ class Application(tk.Frame):
         sub_win.transient(self.master)
         sub_win.grab_set()
 
-        
+    
     # チェックボックス(命令セット) 仮で10とする
     def checkbox_make(self):
         check_val = []
