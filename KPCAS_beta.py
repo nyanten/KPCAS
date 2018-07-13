@@ -213,19 +213,19 @@ class Application(tk.Frame):
         man_win.geometry("680x420")
 
         text_in = man.read()
-        print(text_in)
-        #text = tk.Label(self, text=)
+        text_in.ljust(100)
 
-        button = tk.Button(man_win, text="Quit", command=man_win.destroy)
+        button = tk.Button(man_win, text="Quit", command=kill)
         button.place(x=10, y=10)
 
-        self.label = tk.Label(man_win, text=text_in)
-        self.label.grid()
+        self.label = tk.Label(man_win, text=text_in, justify="left")
+        self.label.place(x=10, y=50)
 
-        button.focus_set()
+        #button.focus_set()
         man_win.transient(self.master)
-        man_win.grab_set()
+        #man_win.grab_set()
         man.close()
+            
     
     
     # チェックボックス(命令セット) 仮で10とする
