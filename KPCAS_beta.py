@@ -50,6 +50,7 @@ class Application(tk.Frame):
         self.button_qt = tk.Button(self, text=u"Quit", command=self.button_quit)
         self.button_act = tk.Button(self, text=u"命令を組み込む", command=self.action, width=20)
         self.button_man = tk.Button(self, text=u"マニュアル", command=self.manual_op, width=20)
+        self.button_exe = tk.Button(self, text=u"実行", command=self.exe_action, width=20)
         #self.var_check = tk.BooleanVar()
         #self.check = tk.Checkbutton(self, text=u'拡張子をjpgに限定')
         #self.text = tk.Text(self)
@@ -73,6 +74,7 @@ class Application(tk.Frame):
         self.button_qt.place(x=10, y=5)
         self.button_act.place(x=500, y=300)
         self.button_man.place(x=500, y=270)
+        self.button_exe.place(x=500, y=330)
         #self.button.grid(column=2, row=0, sticky=tk.E)
 
         # キャンバスなど
@@ -205,6 +207,21 @@ class Application(tk.Frame):
         sub_win.grab_set()
 
 
+    # 命令セット逐次実行
+    def exe_action(self):
+        print(len(FILTER_SET))
+        j = range(len(FILTER_SET))
+        
+        for i in j:
+            if FILTER_SET[i] in {"画像を読み込む"}:
+                print("正常")
+            elif FILTER_SET[i] in {"フーリエ変換"}:
+                print("フーリエ変換")
+            else:
+                print("ぶっこわれ")
+            
+
+
     def manual_op(self):
         man = open("./manual.txt","r")
         
@@ -215,7 +232,7 @@ class Application(tk.Frame):
         text_in = man.read()
         text_in.ljust(100)
 
-        button = tk.Button(man_win, text="Quit", command=kill)
+        button = tk.Button(man_win, text="Quit", command=man_win.destroy)
         button.place(x=10, y=10)
 
         self.label = tk.Label(man_win, text=text_in, justify="left")
@@ -225,8 +242,7 @@ class Application(tk.Frame):
         man_win.transient(self.master)
         #man_win.grab_set()
         man.close()
-            
-    
+
     
     # チェックボックス(命令セット) 仮で10とする
     def checkbox_make(self):
