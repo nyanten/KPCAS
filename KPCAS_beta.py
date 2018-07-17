@@ -12,6 +12,9 @@ import tkinter.filedialog as tkFD
 from tkinter import PhotoImage
 from PIL import ImageTk
 
+# 外部ファイル
+import func_collection as fc
+
 
 #RuntimeError: maximum recursion depth exceeded (再帰の数が深すぎるエラー)
 #https://qiita.com/narupo/items/e25ac05a9065c0bd9c03
@@ -20,12 +23,17 @@ from PIL import ImageTk
 #LIMITER = sys.getrecursionlimit()
 #print("maximum recursion depth set: " , LIMITER)
 
+
 FILTER = ('２値化', 'グレイスケール', '赤成分抽出', '緑成分抽出', '青成分抽出',
           'フーリエ変換', '逆フーリエ変換', '平滑化', 'エッジ抽出', 'hoge',
           'ノイズのせ', 'メディアンフィルタ', 'ガウシアンフィルタ',
           '細線化', 'タイル化', '顔検出')
 
-FILTER_SET = ('画像を読み込む', )
+FILTER_SET = ()
+
+# 画像リサイズ後の保存先。読み込むたびに上書きされる。
+# このパスを自分の環境に合わせて設定してください。
+REAL_PATH = "/Users/nyanten/Documents/Documents /killtime2/RealPython/OC/resize_picture/import_pic.jpg"
 
 
 class Application(tk.Frame):
@@ -94,6 +102,7 @@ class Application(tk.Frame):
         # Windowsの場合は以下のようになる
         # fname = tkFD.askopenfilename(filetypes=[('data files','*.csv;*.txt')],initialdir=os.getcwd())
         # 参照ファイルの拡張子を絞る方法が異なるようで、Windowsの場合は'*.*'で全表示も可能
+        global REAL_PATH
         
         fname = tkFD.askopenfilename(filetypes=[("jpg files","*.jpg")],initialdir=os.getcwd())
         print(fname)
@@ -103,17 +112,16 @@ class Application(tk.Frame):
         # picture_resize(self.fname)
         img_r = cv2.imread(fname)
         im_re = cv2.resize(img_r, (256, 256))
-        cv2.imwrite("/Users/nyanten/Documents/Documents /killtime2/RealPython/OC/resize_picture/import_pic.jpg", im_re)
+        cv2.imwrite(REAL_PATH, im_re)
         # ソースコードの保存場所に気をつける
 
         # 以下、リサイズ後の絶対パス。なぜかはわからないが、絶対パスでないとエラーを吐く
         # ex) ~/Documents/... とするとエラー
         # 読み込み毎にリサイズされて上書きされる
-        real_path = "/Users/nyanten/Documents/Documents /killtime2/RealPython/OC/resize_picture/import_pic.jpg"
         
         self.var_entry.set(fname)
 
-        self.img = ImageTk.PhotoImage(file=real_path)
+        self.img = ImageTk.PhotoImage(file=REAL_PATH)
         self.canvas.create_image(110, 110, image=self.img)
             
 
@@ -215,8 +223,10 @@ class Application(tk.Frame):
         for i in j:
             if FILTER_SET[i] in {"画像を読み込む"}:
                 print("正常")
-            elif FILTER_SET[i] in {"フーリエ変換"}:
-                print("フーリエ変換")
+                
+            elif FILTER_SET[i] in {"２値化"}:
+                print("２値化")
+                fc.Binary(REAL_PATH)
             else:
                 print("ぶっこわれ")
             
