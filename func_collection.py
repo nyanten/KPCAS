@@ -48,6 +48,39 @@ def Binary(self):
     # 結果
     cv2.imwrite(O_REAL_PATH, output_img)
 
+
+def Blue(self):
+    img = cv2.imread(self)
+    c1 = cv2.split(img)
+    blue = c1[0]
+
+    cv2.imwrite(O_REAL_PATH, blue)
+
+
+    
+
+
+def Rotate(self):
+    img = cv2.imread(self)
+    gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+
+    # 回転角・拡大率
+    theta = 90
+    scale = 1.0
+
+    # 中心座標
+    cy, cx = int(gray.shape[0]/2), int(gray.shape[1]/2)
+
+    # 回転変換行列の算出
+    R = cv2.getRotationMatrix2D((cx, cy), theta, scale)
+
+    # アフィン変換
+    dst = cv2.warpAffine(gray, R, gray.shape, flags=cv2.INTER_CUBIC)
+
+    # 出力
+    cv2.imwrite(O_REAL_PATH, dst)
+
+
     
     
     

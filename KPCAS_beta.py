@@ -25,8 +25,8 @@ import func_collection as fc
 
 
 FILTER = ('２値化', 'グレイスケール', '赤成分抽出', '緑成分抽出', '青成分抽出',
-          'フーリエ変換', '逆フーリエ変換', '平滑化', 'エッジ抽出', 'hoge',
-          'ノイズのせ', 'メディアンフィルタ', 'ガウシアンフィルタ',
+          'フーリエ変換', '逆フーリエ変換', 'エッジ抽出', 'ノイズのせ', '平均化', 
+          'メディアンフィルタ', 'ガウシアンフィルタ', 'アフィン変換(90度)', 
           '細線化', 'タイル化', '顔検出')
 
 FILTER_SET = ()
@@ -34,6 +34,9 @@ FILTER_SET = ()
 # 画像リサイズ後の保存先。読み込むたびに上書きされる。
 # このパスを自分の環境に合わせて設定してください。
 REAL_PATH = "/Users/nyanten/Documents/Documents /killtime2/RealPython/OC/resize_picture/import_pic.jpg"
+
+# 出力先
+O_REAL_PATH = "/Users/nyanten/Documents/Documents /killtime2/RealPython/OC/output_img/output_img.jpg"
 
 
 class Application(tk.Frame):
@@ -221,14 +224,40 @@ class Application(tk.Frame):
         j = range(len(FILTER_SET))
         
         for i in j:
-            if FILTER_SET[i] in {"画像を読み込む"}:
-                print("正常")
-                
-            elif FILTER_SET[i] in {"２値化"}:
-                print("２値化")
-                fc.Binary(REAL_PATH)
+            if i == 0:
+                if FILTER_SET[i] in {"２値化"}:
+                    print("２値化")
+                    fc.Binary(REAL_PATH)
+                elif FILTER_SET[i] in {"赤成分抽出"}:
+                    print("赤成分抽出")
+                elif FILTER_SET[i] in {"緑成分抽出"}:
+                    print("緑成分抽出")
+                elif FILTER_SET[i] in {"青成分抽出"}:
+                    print("青成分抽出")
+                    fc.Blue(REAL_PATH)
+                elif FILTER_SET[i] in {"アフィン変換(90度)"}:
+                    print("アフィン変換")
+                    fc.Rotate(REAL_PATH)
+                else:
+                    print("ぶっこわれ")
+
             else:
-                print("ぶっこわれ")
+                if FILTER_SET[i] in {"２値化"}:
+                    print("２値化")
+                    fc.Binary(O_REAL_PATH)
+                elif FILTER_SET[i] in {"赤成分抽出"}:
+                    print("赤成分抽出")
+                elif FILTER_SET[i] in {"緑成分抽出"}:
+                    print("緑成分抽出")
+                elif FILTER_SET[i] in {"青成分抽出"}:
+                    print("青成分抽出")
+                    fc.Blue(O_REAL_PATH)
+                elif FILTER_SET[i] in {"アフィン変換(90度)"}:
+                    print("アフィン変換")
+                    fc.Rotate(O_REAL_PATH)
+                else:
+                    print("ぶっこわれ")
+                
             
 
 
