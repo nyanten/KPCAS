@@ -230,8 +230,10 @@ class Application(tk.Frame):
                     fc.Binary(REAL_PATH)
                 elif FILTER_SET[i] in {"赤成分抽出"}:
                     print("赤成分抽出")
+                    fc.Red(REAL_PATH)
                 elif FILTER_SET[i] in {"緑成分抽出"}:
                     print("緑成分抽出")
+                    fc.Green(REAL_PATH)
                 elif FILTER_SET[i] in {"青成分抽出"}:
                     print("青成分抽出")
                     fc.Blue(REAL_PATH)
@@ -247,8 +249,10 @@ class Application(tk.Frame):
                     fc.Binary(O_REAL_PATH)
                 elif FILTER_SET[i] in {"赤成分抽出"}:
                     print("赤成分抽出")
+                    fc.Red(O_REAL_PATH)
                 elif FILTER_SET[i] in {"緑成分抽出"}:
                     print("緑成分抽出")
+                    fc.Green(O_REAL_PATH)
                 elif FILTER_SET[i] in {"青成分抽出"}:
                     print("青成分抽出")
                     fc.Blue(O_REAL_PATH)

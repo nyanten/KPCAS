@@ -49,17 +49,30 @@ def Binary(self):
     cv2.imwrite(O_REAL_PATH, output_img)
 
 
+# 赤・緑・青 分解
+def Red(self):
+    img = cv2.imread(self)
+    c1 = cv2.split(img)
+    blue = c1[2]
+
+    cv2.imwrite(O_REAL_PATH, red)
+    
+def Green(self):
+    img = cv2.imread(self)
+    c1 = cv2.split(img)
+    green = c1[1]
+
+    cv2.imwrite(O_REAL_PATH, green)
+
 def Blue(self):
     img = cv2.imread(self)
     c1 = cv2.split(img)
     blue = c1[0]
 
     cv2.imwrite(O_REAL_PATH, blue)
-
-
     
 
-
+# アフィン変換(90度)
 def Rotate(self):
     img = cv2.imread(self)
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
