@@ -12,6 +12,8 @@ import tkinter.filedialog as tkFD
 from tkinter import PhotoImage
 from PIL import ImageTk
 
+#print(sys.path)
+
 # 外部ファイル
 import func_collection as fc
 
@@ -32,11 +34,20 @@ FILTER = ('２値化', 'グレイスケール', '赤成分抽出', '緑成分抽
 FILTER_SET = ()
 
 # 画像リサイズ後の保存先。読み込むたびに上書きされる。
-# このパスを自分の環境に合わせて設定してください。
+# このパスを自分の環境に合わせて設定。
 REAL_PATH = "/Users/nyanten/Documents/Documents /killtime2/RealPython/OC/resize_picture/import_pic.jpg"
 
 # 出力先
 O_REAL_PATH = "/Users/nyanten/Documents/Documents /killtime2/RealPython/OC/output_img/output_img.jpg"
+
+
+# 命令セット追加削除時のリスト用グローバル変数
+# 本来、グローバル変数は大文字表記が暗黙の了解だが、これら以下のものは例外とする。理由は以下の通り。
+# 1. このグローバル変数は一部の関数内でのみ扱う。
+# 2. 中身の変化状態を別関数では用いていない。
+# 3. 結局のところ、組み込んだ命令はグローバル変数 FILTER_SET を読み出すため。
+global lb_default
+global lb_new
 
 
 class Application(tk.Frame):
@@ -68,7 +79,6 @@ class Application(tk.Frame):
 
         # キャンバス定義
         self.canvas = tk.Canvas(self, width=200, height=200, relief=tk.RIDGE, bd=2)
-
 
         
         # 各物体の位置(gridだとややこしいので、placeで直接指定する)
@@ -133,42 +143,50 @@ class Application(tk.Frame):
         print("Good Bye.")
         exit()
 
-
-    # 命令追加系統
-    def action_add_bn(self):
-        self.show_selection_a()
-    
-    def listbox_selected(self, event):
-        self.show_selection_a()
-    
-    def show_selection_a(self):
-        global slb
-        global FILTER_SET
-        for i in lb_default.curselection():
-            slb = lb_default.get(i)
-            print(slb + "を組み込みました")
-            FILTER_SET += (slb, )
-            self.action()
-
-    # 命令削除系統
-    def action_del_bn(self):
-        self.show_selection_d()
-    
-    def listbox_selected(self, event):
-        self.show_selection_d()
-    
-    def show_selection_d(self):
-        global dlb
-        global FILTER_SET
-        for i in lb_new.curselection():
-            dlb = lb_new.get(i)
-            dlb_l = list(FILTER_SET) # タプルの要素削除はできないのでリストへ変更する
-            del dlb_l[i] # リストで選択されている部分を削除する
-            FILTER_SET = tuple(dlb_l) # タプルに戻す
-            print(dlb + "を削除しました")
-            self.action()
         
-
+    #
+    # beta作成時に発生していた、命令セットサブウィンドウが無限に増えるVer
+    # 組み込んだ命令を動的にリストボックス表示したいがためにaction関数を繰り返し呼び出していた
+    #
+    # 命令追加系統
+    #def action_add_bn(self):
+    #    self.show_selection_a()
+    
+    #def listbox_selected(self, event):
+    #    self.show_selection_a()
+    
+    # def show_selection_a(self):
+    #     global slb
+    #     global FILTER_SET
+    #     for i in lb_default.curselection():
+    #         slb = lb_default.get(i)
+    #         print(slb + "を組み込みました")
+    #         FILTER_SET += (slb, )
+    #         self.action()
+    #
+    # 命令削除系統
+    # def action_del_bn(self):
+    #     self.show_selection_d()
+    
+    # def listbox_selected(self, event):
+    #     self.show_selection_d()
+    
+    # def show_selection_d(self):
+    #     global dlb
+    #     global FILTER_SET
+    #     for i in lb_new.curselection():
+    #         dlb = lb_new.get(i)
+    #         dlb_l = list(FILTER_SET) # タプルの要素削除はできないのでリストへ変更する
+    #         del dlb_l[i] # リストで選択されている部分を削除する
+    #         FILTER_SET = tuple(dlb_l) # タプルに戻す
+    #         print(dlb + "を削除しました")
+    #         self.action()
+    #
+    # action関数を繰り返し呼び出さず、組み込んだリストボックス(lb_new)を再表示させるために、以下のようにコード改変。
+    # action関数に内部関数として呼び出すことで解決。
+    #
+    
+    
     # 命令セット
     def action(self):
         global lb_default
@@ -179,40 +197,110 @@ class Application(tk.Frame):
         sub_win.geometry("480x240")
 
         print("Open Assembly Set")
+        
+        # 命令追加系統
+        def action_add_bn():
+            show_selection_a()
+    
+        def listbox_selected():
+            show_selection_a()
+    
+        def show_selection_a():
+            global lb_default
+            global lb_new
+            global FILTER_SET
+            for i in lb_default.curselection():
+                slb = lb_default.get(i)
+                print(slb + "を組み込みました")
+                FILTER_SET += (slb, )
 
+                # リストボックスの更新
+                frame2 = tk.Frame(sub_win)
+                frame2.place(x=250, y=50)
+                v2 = tk.StringVar(value=FILTER_SET)
+                lb_new = tk.Listbox(frame2, listvariable=v2, width=18, height=10)
+                lb_new.grid(row=0, column=0)
+                scrollbar_2 = tk.Scrollbar(frame2, orient="v", command=lb_new.yview)
+                lb_new['yscrollcommand'] = scrollbar_2.set
+                scrollbar_2.grid(row=0, column=1, sticky=tk.NS)
+                
+
+        # 命令削除系統
+        def action_del_bn():
+            show_selection_d()
+    
+        def listbox_selected_d():
+            show_selection_d()
+    
+        def show_selection_d():
+            global lb_new
+            global FILTER_SET
+            for i in lb_new.curselection():
+                dlb = lb_new.get(i)
+                dlb_l = list(FILTER_SET) # タプルの要素削除はできないのでリストへ変更する
+                del dlb_l[i] # リストで選択されている部分を削除する
+                FILTER_SET = tuple(dlb_l) # タプルに戻す
+                print(dlb + "を削除しました")
+
+                # リストボックス更新
+                frame2 = tk.Frame(sub_win)
+                frame2.place(x=250, y=50)
+                v2 = tk.StringVar(value=FILTER_SET)
+                lb_new = tk.Listbox(frame2, listvariable=v2, width=18, height=10)
+                lb_new.grid(row=0, column=0)
+                scrollbar_2 = tk.Scrollbar(frame2, orient="v", command=lb_new.yview)
+                lb_new['yscrollcommand'] = scrollbar_2.set
+                scrollbar_2.grid(row=0, column=1, sticky=tk.NS)
+                
+
+        # リストボックス用フレーム
         frame1 = tk.Frame(sub_win)
         frame1.place(x=10, y=50)
         frame2 = tk.Frame(sub_win)
         frame2.place(x=250, y=50)
-        
+
+        # 内部関数(ネストした関数)は関数オブジェクトとして扱う
+        f1 = action_add_bn
+        f2 = listbox_selected
+        f3 = action_del_bn
+        f4 = listbox_selected_d
+
+        # デフォルトでのリストボックスとスクロールバー生成
         v1 = tk.StringVar(value=FILTER)
         v2 = tk.StringVar(value=FILTER_SET)
         lb_default = tk.Listbox(frame1, listvariable=v1, width=18, height=10)
         lb_new = tk.Listbox(frame2, listvariable=v2, width=18, height=10)
-        
+
+        # リストボックスの配置
         lb_default.grid(row=0, column=0)
         lb_new.grid(row=0, column=0)
 
+        # スクロールバーの詳細設定
         scrollbar_1 = tk.Scrollbar(frame1, orient="v", command=lb_default.yview)
         scrollbar_2 = tk.Scrollbar(frame2, orient="v", command=lb_new.yview)
         lb_default['yscrollcommand'] = scrollbar_1.set
         lb_new['yscrollcommand'] = scrollbar_2.set
-        
+
+        # スクロールバーの配置
         scrollbar_1.grid(row=0, column=1, sticky=tk.NS)
         scrollbar_2.grid(row=0, column=1, sticky=tk.NS)
-        
-        lb_default.bind("<<Double-Button-1>>", self.listbox_selected)
-        
+
+        # 選択されている部分をバインドするためのもの
+        lb_default.bind("<<Double-Button-1>>", f2)
+        lb_new.bind("<<Double-Button-1>>", f4)
+
+        # 各ボタンの役割と配置
         button = tk.Button(sub_win, text="Quit", command=sub_win.destroy)
         button.place(x=10, y=10)
-        button = tk.Button(sub_win, text="命令を組む", command=self.action_add_bn)
+        button = tk.Button(sub_win, text="命令を組む", command=f1)
         button.place(x=80, y=10)
-        button = tk.Button(sub_win, text="命令を消す", command=self.action_del_bn)
+        button = tk.Button(sub_win, text="命令を消す", command=f3)
         button.place(x=250, y=10)
 
         button = tk.Button(sub_win, text="実装")
         button.place(x=350, y=10)
-        
+
+        # 命令組み込み時にサブウィンドウへとフォーカスする
         button.focus_set()
         sub_win.transient(self.master)
         sub_win.grab_set()
