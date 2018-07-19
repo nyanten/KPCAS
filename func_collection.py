@@ -79,6 +79,7 @@ def Blue(self):
     cv2.imwrite(O_REAL_PATH, blue)
 
 
+# HSV 色相シフト
 def HSV_h(self):
     img = Image.open(self, 'r')
     h, s, v = img.convert("HSV").split()
