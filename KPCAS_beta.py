@@ -27,6 +27,7 @@ import func_collection as fc
 
 
 FILTER = ('２値化', 'グレイスケール', '赤成分抽出', '緑成分抽出', '青成分抽出',
+          'HSV色空間(色相環シフト)', 'HSV色空間(彩度シフト)', 'HSV色空間(明度シフト)',
           'フーリエ変換', '逆フーリエ変換', 'エッジ抽出', 'ノイズのせ', '平均化', 
           'メディアンフィルタ', 'ガウシアンフィルタ', 'アフィン変換(90度)', 
           '細線化', 'タイル化', '顔検出')
@@ -79,6 +80,7 @@ class Application(tk.Frame):
 
         # キャンバス定義
         self.canvas = tk.Canvas(self, width=200, height=200, relief=tk.RIDGE, bd=2)
+        self.o_canvas = tk.Canvas(self, width=250, height=250, relief=tk.RIDGE, bd=2)
 
         
         # 各物体の位置(gridだとややこしいので、placeで直接指定する)
@@ -101,12 +103,13 @@ class Application(tk.Frame):
         # キャンバスなど
         self.canvas.place(x=500, y=60)
         self.canvas.create_text(110, 110, text=u"Not Found Image...")
+        self.o_canvas.place(x=10, y=40)
+        self.o_canvas.create_text(127, 127, text=u"Not Output Image...")
 
         # リストボックス・スクロールなど
-
-
         # その他
         #self.checkbox_make()
+        
 
     # 参照ファイルコマンド
     def button_pushed(self):
@@ -138,9 +141,12 @@ class Application(tk.Frame):
         self.canvas.create_image(110, 110, image=self.img)
             
 
-    # Exitする
+    # Exitする 全リセットして終了
     def button_quit(self):
         print("Good Bye.")
+        FILTER_SET = ()
+        os.remove(REAL_PATH)
+        os.remove(O_REAL_PATH)
         exit()
 
         
@@ -309,13 +315,19 @@ class Application(tk.Frame):
     # 命令セット逐次実行
     def exe_action(self):
         print(len(FILTER_SET))
+        # 作成した命令セットの長さ
         j = range(len(FILTER_SET))
-        
+
+        # 命令セット分だけ順に実行する
         for i in j:
+            # 初回はリサイズしたものを読み込み、以降は処理後を繰り返し読む
             if i == 0:
                 if FILTER_SET[i] in {"２値化"}:
                     print("２値化")
                     fc.Binary(REAL_PATH)
+                elif FILTER_SET[i] in {"グレイスケール"}:
+                    print("グレイスケール")
+                    fc.Gray(REAL_PATH)
                 elif FILTER_SET[i] in {"赤成分抽出"}:
                     print("赤成分抽出")
                     fc.Red(REAL_PATH)
@@ -325,16 +337,23 @@ class Application(tk.Frame):
                 elif FILTER_SET[i] in {"青成分抽出"}:
                     print("青成分抽出")
                     fc.Blue(REAL_PATH)
+                elif FILTER_SET[i] in {"HSV色空間(色相環シフト)"}:
+                    print("HSV色空間(色相環シフト)")
+                    fc.HSV_h(REAL_PATH)
                 elif FILTER_SET[i] in {"アフィン変換(90度)"}:
                     print("アフィン変換")
                     fc.Rotate(REAL_PATH)
                 else:
                     print("ぶっこわれ")
 
+            # 初回以降
             else:
                 if FILTER_SET[i] in {"２値化"}:
                     print("２値化")
                     fc.Binary(O_REAL_PATH)
+                elif FILTER_SET[i] in {"グレイスケール"}:
+                    print("グレイスケール")
+                    fc.Gray(O_REAL_PATH)
                 elif FILTER_SET[i] in {"赤成分抽出"}:
                     print("赤成分抽出")
                     fc.Red(O_REAL_PATH)
@@ -344,12 +363,18 @@ class Application(tk.Frame):
                 elif FILTER_SET[i] in {"青成分抽出"}:
                     print("青成分抽出")
                     fc.Blue(O_REAL_PATH)
+                elif FILTER_SET[i] in {"HSV色空間(色相環シフト)"}:
+                    print("HSV色空間(色相環シフト)")
+                    fc.HSV_h(O_REAL_PATH)
                 elif FILTER_SET[i] in {"アフィン変換(90度)"}:
                     print("アフィン変換")
                     fc.Rotate(O_REAL_PATH)
                 else:
                     print("ぶっこわれ")
-                
+
+        
+        self.img_2 = ImageTk.PhotoImage(file=O_REAL_PATH)
+        self.o_canvas.create_image(127, 127, image=self.img_2)
             
 
 
@@ -392,7 +417,6 @@ class Application(tk.Frame):
             check_val.append(bl)
             #チェックハンドルを入れる
             check_h.append(b)
-
 
 
 # ひながた        
