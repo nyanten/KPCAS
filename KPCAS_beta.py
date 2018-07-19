@@ -27,10 +27,11 @@ import func_collection as fc
 
 
 FILTER = ('２値化', 'グレイスケール', '赤成分抽出', '緑成分抽出', '青成分抽出',
-          'HSV色空間(色相環シフト)', 'HSV色空間(彩度シフト)', 'HSV色空間(明度シフト)',
+          'HSV色空間(色相シフト)', 'HSV色空間(彩度シフト)', 'HSV色空間(明度シフト)',
+          '明るく', '暗く', 'ガンマ補正', 'セピア', 'モザイク', 'ネガポジ反転', 
           'フーリエ変換', '逆フーリエ変換', 'エッジ抽出', 'ノイズのせ', '平均化', 
           'メディアンフィルタ', 'ガウシアンフィルタ', 'アフィン変換(90度)', 
-          '細線化', 'タイル化', '顔検出')
+          '顔検出')
 
 FILTER_SET = ()
 
@@ -337,9 +338,33 @@ class Application(tk.Frame):
                 elif FILTER_SET[i] in {"青成分抽出"}:
                     print("青成分抽出")
                     fc.Blue(REAL_PATH)
-                elif FILTER_SET[i] in {"HSV色空間(色相環シフト)"}:
-                    print("HSV色空間(色相環シフト)")
+                elif FILTER_SET[i] in {"HSV色空間(色相シフト)"}:
+                    print("HSV色空間(色相シフト)")
                     fc.HSV_h(REAL_PATH)
+                elif FILTER_SET[i] in {"HSV色空間(彩度シフト)"}:
+                    print("HSV色空間(彩度シフト)")
+                    fc.HSV_s(REAL_PATH)
+                elif FILTER_SET[i] in {"HSV色空間(明度シフト)"}:
+                    print("HSV色空間(明度シフト)")
+                    fc.HSV_v(REAL_PATH)
+                elif FILTER_SET[i] in {"明るく"}:
+                    print("明るく")
+                    fc.Bright(REAL_PATH)
+                elif FILTER_SET[i] in {"暗く"}:
+                    print("暗く")
+                    fc.Dark(REAL_PATH)
+                elif FILTER_SET[i] in {"ガンマ補正"}:
+                    print("ガンマ補正")
+                    fc.Gamma(REAL_PATH)
+                elif FILTER_SET[i] in {"セピア"}:
+                    print("セピア")
+                    fc.Sepia(REAL_PATH)
+                elif FILTER_SET[i] in {"モザイク"}:
+                    print("モザイク")
+                    fc.Moza(REAL_PATH)
+                elif FILTER_SET[i] in {"ネガポジ反転"}:
+                    print("ネガポジ反転")
+                    fc.NegaPosi(REAL_PATH)
                 elif FILTER_SET[i] in {"アフィン変換(90度)"}:
                     print("アフィン変換")
                     fc.Rotate(REAL_PATH)
@@ -363,9 +388,33 @@ class Application(tk.Frame):
                 elif FILTER_SET[i] in {"青成分抽出"}:
                     print("青成分抽出")
                     fc.Blue(O_REAL_PATH)
-                elif FILTER_SET[i] in {"HSV色空間(色相環シフト)"}:
-                    print("HSV色空間(色相環シフト)")
+                elif FILTER_SET[i] in {"HSV色空間(色相シフト)"}:
+                    print("HSV色空間(色相シフト)")
                     fc.HSV_h(O_REAL_PATH)
+                elif FILTER_SET[i] in {"HSV色空間(彩度シフト)"}:
+                    print("HSV色空間(彩度シフト)")
+                    fc.HSV_s(O_REAL_PATH)
+                elif FILTER_SET[i] in {"HSV色空間(明度シフト)"}:
+                    print("HSV色空間(明度シフト)")
+                    fc.HSV_v(O_REAL_PATH)
+                elif FILTER_SET[i] in {"明るく"}:
+                    print("明るく")
+                    fc.Bright(O_REAL_PATH)
+                elif FILTER_SET[i] in {"暗く"}:
+                    print("暗く")
+                    fc.Dark(O_REAL_PATH)
+                elif FILTER_SET[i] in {"ガンマ補正"}:
+                    print("ガンマ補正")
+                    fc.Gamma(O_REAL_PATH)
+                elif FILTER_SET[i] in {"セピア"}:
+                    print("セピア")
+                    fc.Sepia(O_REAL_PATH)
+                elif FILTER_SET[i] in {"モザイク"}:
+                    print("モザイク")
+                    fc.Moza(O_REAL_PATH)
+                elif FILTER_SET[i] in {"ネガポジ反転"}:
+                    print("ネガポジ反転")
+                    fc.NegaPosi(O_REAL_PATH)
                 elif FILTER_SET[i] in {"アフィン変換(90度)"}:
                     print("アフィン変換")
                     fc.Rotate(O_REAL_PATH)

@@ -19,7 +19,7 @@
 import sys, os
 import cv2
 import numpy as np
-from PIL import Image, ImageFilter, ImageMath
+from PIL import Image, ImageFilter, ImageMath, ImageOps
 
 
 # 出力パス
@@ -60,7 +60,7 @@ def Gray(self):
 def Red(self):
     img = cv2.imread(self)
     c1 = cv2.split(img)
-    blue = c1[2]
+    red = c1[2]
 
     cv2.imwrite(O_REAL_PATH, red)
     
@@ -86,7 +86,81 @@ def HSV_h(self):
     _h = ImageMath.eval("(h + 128) % 255", h=h).convert("L")
     hsv_h = Image.merge("HSV", (_h, s, v)).convert("RGB")
     hsv_h.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+
+# HSV 彩度シフト
+def HSV_s(self):
+    img = Image.open(self, 'r')
+    h, s, v = img.convert("HSV").split()
+    _s = ImageMath.eval("(s + 128) % 255", s=s).convert("L")
+    hsv_s = Image.merge("HSV", (h, _s, v)).convert("RGB")
+    hsv_s.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+
+# HSV 明度シフト
+def HSV_v(self):
+    img = Image.open(self, 'r')
+    h, s, v = img.convert("HSV").split()
+    _v = ImageMath.eval("(v + 128) % 255", v=v).convert("L")
+    hsv_v = Image.merge("HSV", (h, s, _v)).convert("RGB")
+    hsv_v.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+
+
+# 明るく
+def Bright(self):
+    img = Image.open(self, 'r')
+    img_b = img.point(lambda x: x * 1.5)
+    img_b.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+
+# 暗く
+def Dark(self):
+    img = Image.open(self, 'r')
+    img_d = img.point(lambda x: x * 0.5)
+    img_d.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+
+
+# ガンマ補正
+def Gamma(self):
+    img = Image.open(self, 'r')
+
+    def gamma_table(g_r, g_g, g_b, gain_r=1.0, gain_g=1.0, gain_b=1.0):
+        r_t = [min(255, int((x / 255.) ** (1. /g_r) * gain_r * 255.)) for x in range(256)]
+        g_t = [min(255, int((x / 255.) ** (1. /g_g) * gain_g * 255.)) for x in range(256)]
+        b_t = [min(255, int((x / 255.) ** (1. /g_b) * gain_b * 255.)) for x in range(256)]
+        return r_t + g_t + b_t
+
+    img_g = img.point(gamma_table(1.2, 0.5, 0.5))
+    img_g.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+
+
+# セピア
+def Sepia(self):
+    img = Image.open(self, 'r')
+    gray_img = img.convert("L")
+
+    sepia = Image.merge(
+        "RGB",
+        (
+            gray_img.point(lambda x: x * 240 / 255),
+            gray_img.point(lambda x: x * 200 / 255),
+            gray_img.point(lambda x: x * 145 / 255)
+        )
+    )
+
+    sepia.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     
+
+# モザイク
+def Moza(self):
+    img = Image.open(self, 'r')
+    pix = img.resize([x // 8 for x in img.size]).resize(img.size)
+    pix.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+
+
+# ネガポジ反転
+def NegaPosi(self):
+    img = Image.open(self, 'r')
+    im_np = ImageOps.invert(img)
+    im_np.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+
 
 # アフィン変換(90度)
 def Rotate(self):
