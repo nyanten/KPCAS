@@ -60,24 +60,57 @@ def Gray(self):
 def Red(self):
     img = np.array(Image.open(self))
     im_r = img.copy()
-    im_r[:, :, (1,2)] = 0
+    im_r[:, :, (1, 2)] = 0
 
     red = Image.fromarray(im_r)
     red.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     
 def Green(self):
-    img = cv2.imread(self)
-    c1 = cv2.split(img)
-    green = c1[1]
+    img = np.array(Image.open(self))
+    im_g = img.copy()
+    im_g[:, :, (0, 2)] = 0
 
-    cv2.imwrite(O_REAL_PATH, green)
-
+    green = Image.fromarray(im_g)
+    green.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    
 def Blue(self):
-    img = cv2.imread(self)
-    c1 = cv2.split(img)
-    blue = c1[0]
+    img = np.array(Image.open(self))
+    im_b = img.copy()
+    im_b[:, :, (0, 1)] = 0
 
-    cv2.imwrite(O_REAL_PATH, blue)
+    blue = Image.fromarray(im_b)
+    blue.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+
+
+# 色交換(R <-> B)
+def RtoB(self):
+    img = np.array(Image.open(self))
+    im_swap_rb = img.copy()
+    im_swap_rb[:, :, 0] = img[:, :, 2]
+    im_swap_rb[:, :, 2] = img[:, :, 0]
+
+    rtob = Image.fromarray(im_swap_rb)
+    rtob.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+
+# (R <-> G)
+def RtoG(self):
+    img = np.array(Image.open(self))
+    im_swap_rg = img.copy()
+    im_swap_rg[:, :, 1] = img[:, :, 2]
+    im_swap_rg[:, :, 2] = img[:, :, 1]
+
+    rtog = Image.fromarray(im_swap_rg)
+    rtog.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+
+# (G <-> B)
+def GtoB(self):
+    img = np.array(Image.open(self))
+    im_swap_gb = img.copy()
+    im_swap_gb[:, :, 0] = img[:, :, 1]
+    im_swap_gb[:, :, 1] = img[:, :, 0]
+
+    gtob = Image.fromarray(im_swap_gb)
+    gtob.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
 
 
 # HSV 色相シフト

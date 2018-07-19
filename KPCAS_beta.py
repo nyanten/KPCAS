@@ -26,7 +26,8 @@ import func_collection as fc
 #print("maximum recursion depth set: " , LIMITER)
 
 
-FILTER = ('２値化', 'グレイスケール', '赤成分抽出', '緑成分抽出', '青成分抽出',
+FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青単色',
+          '色交換(赤青)', '色交換(赤緑)', '色交換(緑青)', 
           'HSV色空間(色相シフト)', 'HSV色空間(彩度シフト)', 'HSV色空間(明度シフト)',
           '明るく', '暗く', 'ガンマ補正', 'セピア', 'モザイク', 'ネガポジ反転', 'ミラー', 
           'フーリエ変換', '逆フーリエ変換', 'エッジ抽出', 'ノイズのせ', '平均化', 
@@ -72,9 +73,11 @@ class Application(tk.Frame):
         # ボタン定義
         self.button = tk.Button(self, text=u"開く", command=self.button_pushed)
         self.button_qt = tk.Button(self, text=u"Quit", command=self.button_quit)
-        self.button_act = tk.Button(self, text=u"命令を組み込む", command=self.action, width=20)
         self.button_man = tk.Button(self, text=u"マニュアル", command=self.manual_op, width=20)
+        self.button_act = tk.Button(self, text=u"命令を組み込む", command=self.action, width=20)
         self.button_exe = tk.Button(self, text=u"実行", command=self.exe_action, width=20)
+        self.button_save = tk.Button(self, text=u"出力結果を保存", command=self.save, width=20)
+        self.button_clear = tk.Button(self, text=u"すべてクリア", command=self.all_clear, width=20)
         #self.var_check = tk.BooleanVar()
         #self.check = tk.Checkbutton(self, text=u'拡張子をjpgに限定')
         #self.text = tk.Text(self)
@@ -96,9 +99,11 @@ class Application(tk.Frame):
         # ボタンなど
         self.button.place(x=655, y=0)
         self.button_qt.place(x=10, y=5)
-        self.button_act.place(x=500, y=300)
         self.button_man.place(x=500, y=270)
+        self.button_act.place(x=500, y=300)
         self.button_exe.place(x=500, y=330)
+        self.button_save.place(x=500, y=360)
+        self.button_clear.place(x=500, y=390)
         #self.button.grid(column=2, row=0, sticky=tk.E)
 
         # キャンバスなど
@@ -140,10 +145,60 @@ class Application(tk.Frame):
 
         self.img = ImageTk.PhotoImage(file=REAL_PATH)
         self.canvas.create_image(110, 110, image=self.img)
+
+
+    # マニュアルを開く
+    def manual_op(self):
+        man = open("./manual.txt","r")
+        
+        man_win = tk.Toplevel(master=self.master)
+        man_win.title("マニュアル")
+        man_win.geometry("680x420")
+
+        text_in = man.read()
+        text_in.ljust(100)
+
+        button = tk.Button(man_win, text="Quit", command=man_win.destroy)
+        button.place(x=10, y=10)
+
+        self.label = tk.Label(man_win, text=text_in, justify="left")
+        self.label.place(x=10, y=50)
+
+        #button.focus_set()
+        man_win.transient(self.master)
+        #man_win.grab_set()
+        man.close()
+
+
+    def save():
+        print("save")
             
+
+    # すべてクリア
+    def all_clear(self):
+        global FILTER_SET
+        print("All Set clear")
+        FILTER_SET = ()
+        flag1 = os.path.exists(REAL_PATH)
+        flag2 = os.path.exists(O_REAL_PATH)
+        if flag1 == True:
+            os.remove(REAL_PATH)
+        elif flag2 == True:
+            os.remove(O_REAL_PATH)
+        elif flag1 == True and flag2 == True:
+            os.remove(REAL_PATH)
+            os.remove(O_REAL_PATH)
+
+        self.canvas.delete("all")
+        self.canvas.create_text(110, 110, text=u"Not Found Image...")
+        self.o_canvas.delete("all")
+        self.o_canvas.create_text(127, 127, text=u"Not Output Image...")
+        print("FILTER SET EMPTY")
+
 
     # Exitする 全リセットして終了
     def button_quit(self):
+        global FILTER_SET
         print("Good Bye.")
         FILTER_SET = ()
         flag1 = os.path.exists(REAL_PATH)
@@ -156,7 +211,7 @@ class Application(tk.Frame):
             os.remove(REAL_PATH)
             os.remove(O_REAL_PATH)
 
-        print(FILTER_SET)
+        print("FILTER SET EMPTY")
         exit()
 
         
@@ -210,7 +265,7 @@ class Application(tk.Frame):
         
         sub_win = tk.Toplevel(master=self.master)
         sub_win.title("命令セット")
-        sub_win.geometry("480x240")
+        sub_win.geometry("480x240+100+50")
 
         print("Open Assembly Set")
         
@@ -269,6 +324,7 @@ class Application(tk.Frame):
                 scrollbar_2.grid(row=0, column=1, sticky=tk.NS)
 
 
+        # 命令全クリア
         def action_all_clear():
             global FILTER_SET
             FILTER_SET = ()
@@ -354,15 +410,24 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"グレイスケール"}:
                         print("グレイスケール")
                         fc.Gray(REAL_PATH)
-                    elif FILTER_SET[i] in {"赤成分抽出"}:
-                        print("赤成分抽出")
+                    elif FILTER_SET[i] in {"赤単色"}:
+                        print("赤単色")
                         fc.Red(REAL_PATH)
-                    elif FILTER_SET[i] in {"緑成分抽出"}:
-                        print("緑成分抽出")
+                    elif FILTER_SET[i] in {"緑単色"}:
+                        print("緑単色")
                         fc.Green(REAL_PATH)
-                    elif FILTER_SET[i] in {"青成分抽出"}:
-                        print("青成分抽出")
+                    elif FILTER_SET[i] in {"青単色"}:
+                        print("青単色")
                         fc.Blue(REAL_PATH)
+                    elif FILTER_SET[i] in {"色交換(赤青)"}:
+                        print("色交換(赤青)")
+                        fc.RtoB(REAL_PATH)
+                    elif FILTER_SET[i] in {"色交換(赤緑)"}:
+                        print("色交換(赤緑)")
+                        fc.RtoG(REAL_PATH)
+                    elif FILTER_SET[i] in {"色交換(緑青)"}:
+                        print("色交換(緑青)")
+                        fc.GtoB(REAL_PATH)
                     elif FILTER_SET[i] in {"HSV色空間(色相シフト)"}:
                         print("HSV色空間(色相シフト)")
                         fc.HSV_h(REAL_PATH)
@@ -407,15 +472,24 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"グレイスケール"}:
                         print("グレイスケール")
                         fc.Gray(O_REAL_PATH)
-                    elif FILTER_SET[i] in {"赤成分抽出"}:
-                        print("赤成分抽出")
+                    elif FILTER_SET[i] in {"赤単色"}:
+                        print("赤単色")
                         fc.Red(O_REAL_PATH)
-                    elif FILTER_SET[i] in {"緑成分抽出"}:
-                        print("緑成分抽出")
+                    elif FILTER_SET[i] in {"緑単色"}:
+                        print("緑単色")
                         fc.Green(O_REAL_PATH)
-                    elif FILTER_SET[i] in {"青成分抽出"}:
-                        print("青成分抽出")
+                    elif FILTER_SET[i] in {"青単色"}:
+                        print("青単色")
                         fc.Blue(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"色交換(赤青)"}:
+                        print("色交換(赤青)")
+                        fc.RtoB(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"色交換(赤緑)"}:
+                        print("色交換(赤緑)")
+                        fc.RtoG(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"色交換(緑青)"}:
+                        print("色交換(緑青)")
+                        fc.GtoB(O_REAL_PATH)
                     elif FILTER_SET[i] in {"HSV色空間(色相シフト)"}:
                         print("HSV色空間(色相シフト)")
                         fc.HSV_h(O_REAL_PATH)
@@ -457,28 +531,6 @@ class Application(tk.Frame):
 
         else:
             print("命令セットが組み込まれていません")
-            
-
-    def manual_op(self):
-        man = open("./manual.txt","r")
-        
-        man_win = tk.Toplevel(master=self.master)
-        man_win.title("マニュアル")
-        man_win.geometry("680x420")
-
-        text_in = man.read()
-        text_in.ljust(100)
-
-        button = tk.Button(man_win, text="Quit", command=man_win.destroy)
-        button.place(x=10, y=10)
-
-        self.label = tk.Label(man_win, text=text_in, justify="left")
-        self.label.place(x=10, y=50)
-
-        #button.focus_set()
-        man_win.transient(self.master)
-        #man_win.grab_set()
-        man.close()
 
     
     # チェックボックス(命令セット) 仮で10とする
