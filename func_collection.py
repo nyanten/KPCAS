@@ -58,11 +58,12 @@ def Gray(self):
 
 # 赤・緑・青 分解
 def Red(self):
-    img = cv2.imread(self)
-    c1 = cv2.split(img)
-    red = c1[2]
+    img = np.array(Image.open(self))
+    im_r = img.copy()
+    im_r[:, :, (1,2)] = 0
 
-    cv2.imwrite(O_REAL_PATH, red)
+    red = Image.fromarray(im_r)
+    red.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     
 def Green(self):
     img = cv2.imread(self)
@@ -160,6 +161,13 @@ def NegaPosi(self):
     img = Image.open(self, 'r')
     im_np = ImageOps.invert(img)
     im_np.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+
+
+# ミラー
+def Mirror(self):
+    img = Image.open(self, 'r')
+    im_m = ImageOps.mirror(img)
+    im_m.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
 
 
 # アフィン変換(90度)
