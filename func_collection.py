@@ -3,10 +3,6 @@
 # 実のところ、このプログラムは画像を読み込む時に一旦リサイズし、保存している。
 # 新規のリサイズ画像は指定された絶対パスにある。
 
-# 絶対パスはわかっちゃっているため、プログラムを楽に組み込むならこっち。
-# 但し、環境を変えたりファイルの置き場所によってはエラーになるので注意。
-# REAL_PATH = "/Users/nyanten/Documents/Documents /killtime2/RealPython/OC/resize_picture/import_pic.jpg"
-
 # 前提知識
 # 画像は画素(ピクセル)という単位の細かな正方形でできている。
 # 色の表現は、赤・緑・青の色の組み合わせで構成されている。
@@ -21,9 +17,11 @@ import cv2
 import numpy as np
 from PIL import Image, ImageFilter, ImageMath, ImageOps
 
+# カレントディレクトリ取得
+CD = os.getcwd()
 
-# 出力パス
-O_REAL_PATH = "/Users/nyanten/Documents/Documents /killtime2/RealPython/OC/output_img/output_img.jpg"
+# 出力絶対パス
+O_REAL_PATH = os.path.join(CD, "output_img", "output_img.jpg")
 
 
 # ２値化処理

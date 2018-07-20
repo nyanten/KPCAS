@@ -36,13 +36,19 @@ FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青�
 
 FILTER_SET = ()
 
+# カレントディレクトリ取得
+CD = os.getcwd()
+print(CD)
+
 # 画像リサイズ後の保存先。読み込むたびに上書きされる。
 # このパスを自分の環境に合わせて設定。
-REAL_PATH = "/Users/nyanten/Documents/Documents /killtime2/RealPython/OC/resize_picture/import_pic.jpg"
+# 絶対パス
+REAL_PATH = os.path.join(CD, "resize_picture", "import_pic.jpg")
+print(REAL_PATH)
 
-# 出力先
-O_REAL_PATH = "/Users/nyanten/Documents/Documents /killtime2/RealPython/OC/output_img/output_img.jpg"
-
+# 出力絶対パス
+O_REAL_PATH = os.path.join(CD, "output_img", "output_img.jpg")
+print(O_REAL_PATH)
 
 # 命令セット追加削除時のリスト用グローバル変数
 # 本来、グローバル変数は大文字表記が暗黙の了解だが、これら以下のものは例外とする。理由は以下の通り。
@@ -75,7 +81,7 @@ class Application(tk.Frame):
         self.button_qt = tk.Button(self, text=u"Quit", command=self.button_quit)
         self.button_man = tk.Button(self, text=u"マニュアル", command=self.manual_op, width=20)
         self.button_act = tk.Button(self, text=u"命令を組み込む", command=self.action, width=20)
-        self.button_exe = tk.Button(self, text=u"実行", command=self.exe_action, width=20)
+        self.button_exe = tk.Button(self, text=u"命令を実行", command=self.exe_action, width=20)
         self.button_save = tk.Button(self, text=u"出力結果を保存", command=self.save, width=20)
         self.button_clear = tk.Button(self, text=u"すべてクリア", command=self.all_clear, width=20)
         #self.var_check = tk.BooleanVar()
@@ -171,6 +177,7 @@ class Application(tk.Frame):
 
 
     def save():
+        
         print("save")
             
 

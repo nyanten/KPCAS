@@ -119,6 +119,8 @@ setup.pyをそのまんまmakeしたが、うまくいかずsetupのみで構成
   <dd>OS: macOS High Sierra ver10</dd>
   <dd>Proessor: 1.6Ghz Intel Core i5</dd>
   <dd>Memory: 8GB 1600 MHz DDR3</dd>
+  <dt>Edit</dt>
+  <dd>Emacs Version 25.2 (9.0)</dd>
   <dt>Python</dt>
   <dd>Python 3.6.5</dd>
   <dd>tkinter ver8.5</dd>
