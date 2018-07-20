@@ -102,6 +102,7 @@ class Application(tk.Frame):
         self.button_exe = tk.Button(self, text=u"命令を実行", command=self.exe_action, width=20)
         self.button_save = tk.Button(self, text=u"出力結果を保存", command=self.save, width=20)
         self.button_clear = tk.Button(self, text=u"すべてクリア", command=self.all_clear, width=20)
+        self.button_output_clear = tk.Button(self, text=u"出力結果をクリア", command=self.output_clear, width=20)
         self.button_web = tk.Button(self, text=u"Wikiをみる", command=self.web_link, width=20)
         
         # キャンバス定義
@@ -133,7 +134,8 @@ class Application(tk.Frame):
         self.button_man.place(x=500, y=275)
         self.button_act.place(x=280, y=310)
         self.button_exe.place(x=280, y=340)
-        self.button_save.place(x=40, y=320)
+        self.button_save.place(x=40, y=310)
+        self.button_output_clear.place(x=40, y=340)
         self.button_clear.place(x=500, y=310)
         self.button_web.place(x=500, y=340)
         #self.button.grid(column=2, row=0, sticky=tk.E)
@@ -223,19 +225,13 @@ class Application(tk.Frame):
     def all_clear(self):
         global FILTER_SET
         print("All Set clear")
-        FILTER_SET = ()
-        flag1 = os.path.exists(REAL_PATH)
-        flag2 = os.path.exists(O_REAL_PATH)
-        if flag1 == True:
-            os.remove(REAL_PATH)
-        if flag2 == True:
-            os.remove(O_REAL_PATH)
+
+        clear_module()
 
         self.canvas.delete("all")
         self.canvas.create_text(110, 110, text=u"Not Found Image...")
         self.o_canvas.delete("all")
         self.o_canvas.create_text(127, 127, text=u"Not Output Image...")
-        print("FILTER SET EMPTY")
 
         # メインのリストボックスを更新
         frame = tk.Frame(root)
@@ -250,10 +246,30 @@ class Application(tk.Frame):
         self.scrollbar_m.grid(row=0, column=1, sticky=tk.NS)
 
 
+    # 出力結果画像クリア
+    def output_clear(self):
+        global FILTER_SET
+        print("All Set clear")
+        FILTER_SET = ()
+        flag2 = os.path.exists(O_REAL_PATH)
+        if flag2 == True:
+            os.remove(O_REAL_PATH)
+
+        self.o_canvas.delete("all")
+        self.o_canvas.create_text(127, 127, text=u"Not Output Image...")
+        print("Output Image Delete")
+
+
     # Exitする 全リセットして終了
     def button_quit(self):
         global FILTER_SET
         print("Good Bye.")
+        clear_module()
+        exit()
+
+
+    # クリア系統
+    def clear_module():
         FILTER_SET = ()
         flag1 = os.path.exists(REAL_PATH)
         flag2 = os.path.exists(O_REAL_PATH)
@@ -263,7 +279,6 @@ class Application(tk.Frame):
             os.remove(O_REAL_PATH)
 
         print("FILTER SET EMPTY")
-        exit()
 
         
     #

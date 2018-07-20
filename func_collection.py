@@ -361,7 +361,7 @@ def Sobel(self):
 # ラプラシアン
 def Laplacian(self):
     img = cv2.imread(self)
-
+    
     kernel = np.array([[1, 1, 1],
                        [1, -8, 1],
                        [1, 1, 1]])
