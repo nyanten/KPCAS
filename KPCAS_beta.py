@@ -18,6 +18,9 @@ from PIL import ImageTk
 # 外部ファイル
 import func_collection as fc
 
+root = tk.Tk()
+root.title("beta")
+root.geometry("720x480") # ウィンドウサイズ
 
 #RuntimeError: maximum recursion depth exceeded (再帰の数が深すぎるエラー)
 #https://qiita.com/narupo/items/e25ac05a9065c0bd9c03
@@ -80,7 +83,7 @@ class Application(tk.Frame):
     def create_widgets(self):
         # 各ウィジェット
         # 文字定義
-        self.title = tk.Label(self, text=u"KrProCessAS", font=("", 20))
+        self.title = tk.Label(self, text=u"KrProCessAS", font=("", 20), bg='#ffaacc')
         self.label = tk.Label(self, text=u"入力ファイル")
 
         # エントリ定義
@@ -95,14 +98,20 @@ class Application(tk.Frame):
         self.button_exe = tk.Button(self, text=u"命令を実行", command=self.exe_action, width=20)
         self.button_save = tk.Button(self, text=u"出力結果を保存", command=self.save, width=20)
         self.button_clear = tk.Button(self, text=u"すべてクリア", command=self.all_clear, width=20)
-        #self.var_check = tk.BooleanVar()
-        #self.check = tk.Checkbutton(self, text=u'拡張子をjpgに限定')
-        #self.text = tk.Text(self)
-
+        
         # キャンバス定義
         self.canvas = tk.Canvas(self, width=200, height=200, relief=tk.RIDGE, bd=2)
-        self.o_canvas = tk.Canvas(self, width=250, height=250, relief=tk.RIDGE, bd=2)
+        self.o_canvas = tk.Canvas(self, width=256, height=256, relief=tk.RIDGE, bd=2)
 
+        # リストボックス/スクロールバー
+        frame = tk.Frame(root)
+        frame.place(x=285, y=43)
+        
+        v = tk.StringVar(value=FILTER_SET)
+        self.listbox_main = tk.Listbox(frame, listvariable=v, width=20, height=15, relief=tk.RIDGE, bd=2)
+        self.scrollbar_m = tk.Scrollbar(frame, orient="v", command=self.listbox_main.yview)
+        self.listbox_main['yscrollcommand'] = self.scrollbar_m.set
+        
         
         # 各物体の位置(gridだとややこしいので、placeで直接指定する)
         # 文字など
@@ -129,9 +138,12 @@ class Application(tk.Frame):
         self.o_canvas.place(x=10, y=40)
         self.o_canvas.create_text(127, 127, text=u"Not Output Image...")
 
-        # リストボックス・スクロールなど
+        # リストボックス/スクロールバーなど
+        self.listbox_main.grid(row=0, column=0)
+        self.scrollbar_m.grid(row=0, column=1, sticky=tk.NS)
+        
         # その他
-
+        
         
 
     # 参照ファイルコマンド
@@ -204,10 +216,7 @@ class Application(tk.Frame):
         flag2 = os.path.exists(O_REAL_PATH)
         if flag1 == True:
             os.remove(REAL_PATH)
-        elif flag2 == True:
-            os.remove(O_REAL_PATH)
-        elif flag1 == True and flag2 == True:
-            os.remove(REAL_PATH)
+        if flag2 == True:
             os.remove(O_REAL_PATH)
 
         self.canvas.delete("all")
@@ -215,6 +224,18 @@ class Application(tk.Frame):
         self.o_canvas.delete("all")
         self.o_canvas.create_text(127, 127, text=u"Not Output Image...")
         print("FILTER SET EMPTY")
+
+        # メインのリストボックスを更新
+        frame = tk.Frame(root)
+        frame.place(x=285, y=43)
+        
+        v = tk.StringVar(value=FILTER_SET)
+        self.listbox_main = tk.Listbox(frame, listvariable=v, width=20, height=15, relief=tk.RIDGE, bd=2)
+        self.scrollbar_m = tk.Scrollbar(frame, orient="v", command=self.listbox_main.yview)
+        self.listbox_main['yscrollcommand'] = self.scrollbar_m.set
+        
+        self.listbox_main.grid(row=0, column=0)
+        self.scrollbar_m.grid(row=0, column=1, sticky=tk.NS)
 
 
     # Exitする 全リセットして終了
@@ -303,15 +324,7 @@ class Application(tk.Frame):
                 print(slb + "を組み込みました")
                 FILTER_SET += (slb, )
 
-                # リストボックスの更新
-                frame2 = tk.Frame(sub_win)
-                frame2.place(x=250, y=50)
-                v2 = tk.StringVar(value=FILTER_SET)
-                lb_new = tk.Listbox(frame2, listvariable=v2, width=18, height=10)
-                lb_new.grid(row=0, column=0)
-                scrollbar_2 = tk.Scrollbar(frame2, orient="v", command=lb_new.yview)
-                lb_new['yscrollcommand'] = scrollbar_2.set
-                scrollbar_2.grid(row=0, column=1, sticky=tk.NS)
+                listbox_update()
                 
 
         # 命令削除系統
@@ -330,31 +343,60 @@ class Application(tk.Frame):
                 del dlb_l[i] # リストで選択されている部分を削除する
                 FILTER_SET = tuple(dlb_l) # タプルに戻す
                 print(dlb + "を削除しました")
-
-                # リストボックス更新
-                frame2 = tk.Frame(sub_win)
-                frame2.place(x=250, y=50)
-                v2 = tk.StringVar(value=FILTER_SET)
-                lb_new = tk.Listbox(frame2, listvariable=v2, width=18, height=10)
-                lb_new.grid(row=0, column=0)
-                scrollbar_2 = tk.Scrollbar(frame2, orient="v", command=lb_new.yview)
-                lb_new['yscrollcommand'] = scrollbar_2.set
-                scrollbar_2.grid(row=0, column=1, sticky=tk.NS)
+                
+                listbox_update()
 
 
         # 命令全クリア
         def action_all_clear():
+            global lb_new
             global FILTER_SET
             FILTER_SET = ()
+            lb_new = ()
+            print("命令を全消去しました")
             
-            frame2 = tk.Frame(sub_win)
-            frame2.place(x=250, y=50)
-            v2 = tk.StringVar(value=FILTER_SET)
-            lb_new = tk.Listbox(frame2, listvariable=v2, width=18, height=10)
-            lb_new.grid(row=0, column=0)
-            scrollbar_2 = tk.Scrollbar(frame2, orient="v", command=lb_new.yview)
-            lb_new['yscrollcommand'] = scrollbar_2.set
-            scrollbar_2.grid(row=0, column=1, sticky=tk.NS)
+            listbox_update()
+
+        
+        # 命令入れ替え
+        def action_change():
+            show_selection_c()
+    
+        def listbox_selected_c():
+            show_selection_c()
+    
+        def show_selection_c():
+            global lb_new
+            global FILTER_SET
+            for i in lb_new.curselection():
+                f = lb_new.get(i+1)
+                if f != "":
+                    clb = list(FILTER_SET) # リスト変換
+                    clb[i] = lb_new.get(i+1)
+                    clb[i+1] = lb_new.get(i)
+                    FILTER_SET = tuple(clb) # タプル変換
+                    print(clb[i+1] + "と" + clb[i] + "を入れ替えました")
+                else:
+                    print("下には何もありません")
+                
+                listbox_update()
+        
+        # 命令ソート
+        def action_sort():
+            show_selection_s()
+    
+        def listbox_selected_s():
+            show_selection_s()
+    
+        def show_selection_s():
+            global lb_new
+            global FILTER_SET
+            sort_l = list(FILTER_SET) # リスト変換
+            sort_l.reverse()
+            FILTER_SET = tuple(sort_l)
+            print("全命令を逆順にソートしました")
+            
+            listbox_update()
             
 
         # リストボックス用フレーム
@@ -369,6 +411,8 @@ class Application(tk.Frame):
         f3 = action_del_bn
         f4 = listbox_selected_d
         f5 = action_all_clear
+        f6 = action_change
+        f7 = action_sort
 
         # デフォルトでのリストボックスとスクロールバー生成
         v1 = tk.StringVar(value=FILTER)
@@ -405,10 +449,43 @@ class Application(tk.Frame):
         button = tk.Button(sub_win, text="命令をクリア", command=f5)
         button.place(x=350, y=10)
 
-        # 命令組み込み時にサブウィンドウへとフォーカスする
+        button = tk.Button(sub_win, text="⇅", command=f6, font=("", 12))
+        button.place(x=435, y=80)
+
+        button = tk.Button(sub_win, text="↕", command=f7, font=("", 14))
+        button.place(x=438, y=120)
+
+        # 命令組み込み時にサブウィンドウへとフォーカスする、ウィンドウを無限に増やさない
         button.focus_set()
         sub_win.transient(self.master)
         sub_win.grab_set()
+        
+
+        # リストボックス更新
+        def listbox_update():
+            global lb_new
+            global FILTER_SET
+            # リストボックス更新
+            frame2 = tk.Frame(sub_win)
+            frame2.place(x=250, y=50)
+            v2 = tk.StringVar(value=FILTER_SET)
+            lb_new = tk.Listbox(frame2, listvariable=v2, width=18, height=10)
+            lb_new.grid(row=0, column=0)
+            scrollbar_2 = tk.Scrollbar(frame2, orient="v", command=lb_new.yview)
+            lb_new['yscrollcommand'] = scrollbar_2.set
+            scrollbar_2.grid(row=0, column=1, sticky=tk.NS)
+            
+            # メインのリストボックスを更新
+            frame = tk.Frame(root)
+            frame.place(x=285, y=43)
+            
+            v = tk.StringVar(value=FILTER_SET)
+            self.listbox_main = tk.Listbox(frame, listvariable=v, width=20, height=15, relief=tk.RIDGE, bd=2)
+            self.scrollbar_m = tk.Scrollbar(frame, orient="v", command=self.listbox_main.yview)
+            self.listbox_main['yscrollcommand'] = self.scrollbar_m.set
+            
+            self.listbox_main.grid(row=0, column=0)
+            self.scrollbar_m.grid(row=0, column=1, sticky=tk.NS)
 
 
     # 命令セット逐次実行
@@ -554,9 +631,6 @@ class Application(tk.Frame):
 
 # ひながた        
 if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("beta")
-    root.geometry("720x480") # ウィンドウサイズ
-    
     app = Application(master=root)
+    app.pack()
     app.mainloop()
