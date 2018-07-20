@@ -6,6 +6,8 @@
 # 他のパッケージはpipコマンドでインストール
 import sys, os, shutil
 import datetime
+import webbrowser as wb
+
 import cv2
 import numpy
 import tkinter as tk
@@ -19,8 +21,8 @@ from PIL import ImageTk
 import func_collection as fc
 
 root = tk.Tk()
-root.title("beta")
-root.geometry("720x480") # ウィンドウサイズ
+root.title("KPCAS beta 0.1")
+root.geometry("720x380") # ウィンドウサイズ
 
 #RuntimeError: maximum recursion depth exceeded (再帰の数が深すぎるエラー)
 #https://qiita.com/narupo/items/e25ac05a9065c0bd9c03
@@ -98,6 +100,7 @@ class Application(tk.Frame):
         self.button_exe = tk.Button(self, text=u"命令を実行", command=self.exe_action, width=20)
         self.button_save = tk.Button(self, text=u"出力結果を保存", command=self.save, width=20)
         self.button_clear = tk.Button(self, text=u"すべてクリア", command=self.all_clear, width=20)
+        self.button_web = tk.Button(self, text=u"Wikiをみる", command=self.web_link, width=20)
         
         # キャンバス定義
         self.canvas = tk.Canvas(self, width=200, height=200, relief=tk.RIDGE, bd=2)
@@ -125,11 +128,12 @@ class Application(tk.Frame):
         # ボタンなど
         self.button.place(x=655, y=0)
         self.button_qt.place(x=10, y=5)
-        self.button_man.place(x=500, y=270)
-        self.button_act.place(x=500, y=300)
-        self.button_exe.place(x=500, y=330)
-        self.button_save.place(x=500, y=360)
-        self.button_clear.place(x=500, y=390)
+        self.button_man.place(x=500, y=275)
+        self.button_act.place(x=280, y=310)
+        self.button_exe.place(x=280, y=340)
+        self.button_save.place(x=40, y=320)
+        self.button_clear.place(x=500, y=310)
+        self.button_web.place(x=500, y=340)
         #self.button.grid(column=2, row=0, sticky=tk.E)
 
         # キャンバスなど
@@ -143,6 +147,7 @@ class Application(tk.Frame):
         self.scrollbar_m.grid(row=0, column=1, sticky=tk.NS)
         
         # その他
+        
         
         
 
@@ -205,7 +210,12 @@ class Application(tk.Frame):
         shutil.copy(O_REAL_PATH, S_REAL_PATH + str(NOW) + "_" + str(FO) + ".jpg")
         FO += 1
         print("save")
-            
+
+
+    # リンクに飛ぶ
+    def web_link(self):
+        wb.open_new("https://github.com/nyanten/KPCAS/wiki")
+    
 
     # すべてクリア
     def all_clear(self):
@@ -356,16 +366,10 @@ class Application(tk.Frame):
             print("命令を全消去しました")
             
             listbox_update()
+            
 
-        
         # 命令入れ替え
         def action_change():
-            show_selection_c()
-    
-        def listbox_selected_c():
-            show_selection_c()
-    
-        def show_selection_c():
             global lb_new
             global FILTER_SET
             for i in lb_new.curselection():
@@ -380,15 +384,10 @@ class Application(tk.Frame):
                     print("下には何もありません")
                 
                 listbox_update()
+
         
         # 命令ソート
         def action_sort():
-            show_selection_s()
-    
-        def listbox_selected_s():
-            show_selection_s()
-    
-        def show_selection_s():
             global lb_new
             global FILTER_SET
             sort_l = list(FILTER_SET) # リスト変換
@@ -622,7 +621,7 @@ class Application(tk.Frame):
                         print("ぶっこわれ")
 
             self.img_2 = ImageTk.PhotoImage(file=O_REAL_PATH)
-            self.o_canvas.create_image(127, 127, image=self.img_2)
+            self.o_canvas.create_image(133, 134, image=self.img_2)
 
         else:
             print("命令セットが組み込まれていません")
