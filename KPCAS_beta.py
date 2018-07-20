@@ -36,9 +36,8 @@ FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青�
           '色交換(赤青)', '色交換(赤緑)', '色交換(緑青)', 
           'HSV色空間(色相シフト)', 'HSV色空間(彩度シフト)', 'HSV色空間(明度シフト)',
           '明るく', '暗く', 'ガンマ補正', 'セピア', 'モザイク', 'ネガポジ反転', 'ミラー',
-          '減色', 
-          'フーリエ変換', '逆フーリエ変換', 'エッジ抽出', 'ノイズのせ', '平均化', 
-          'メディアンフィルタ', 'ガウシアンフィルタ', 'アフィン変換(90度)', 
+          '減色', 'ソーサライズ', 'ポスタライズ', 'イコライズ', 'アフィン変換(90度)', 
+          '平均化(1/9)', 'メディアンフィルタ', 'ガウシアンフィルタ', 'エッジ抽出', 'ノイズのせ', 
           '顔検出')
 
 FILTER_SET = ()
@@ -559,6 +558,15 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"アフィン変換(90度)"}:
                         print("アフィン変換")
                         fc.Rotate(REAL_PATH)
+                    elif FILTER_SET[i] in {"平均化(1/9)"}:
+                        print("平均化(1/9)")
+                        fc.Average(REAL_PATH)
+                    elif FILTER_SET[i] in {"メディアン"}:
+                        print("メディアン")
+                        fc.Median(REAL_PATH)
+                    elif FILTER_SET[i] in {"ガウシアン"}:
+                        print("ガウシアン")
+                        fc.Gaussian(REAL_PATH)
                     else:
                         print("ぶっこわれ")
                         
@@ -621,6 +629,15 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"減色"}:
                         print("減色")
                         fc.Loss(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"平均化(1/9)"}:
+                        print("平均化(1/9)")
+                        fc.Average(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"メディアン"}:
+                        print("メディアン")
+                        fc.Median(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ガウシアン"}:
+                        print("ガウシアン")
+                        fc.Gaussian(O_REAL_PATH)
                     elif FILTER_SET[i] in {"アフィン変換(90度)"}:
                         print("アフィン変換")
                         fc.Rotate(O_REAL_PATH)

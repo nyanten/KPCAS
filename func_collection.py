@@ -236,13 +236,55 @@ def Loss(self):
     img.close()
 
 
+# 
+
 # アフィン変換(90度)
 def Rotate(self):
     img = Image.open(self, 'r')
     r90 = img.rotate(90, expand=True)
     r90.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     img.close()
+
+
+# 平均化(1/9)
+def Average(self):
+    img = cv2.imread(self)
+
+    # カーネル
+    kernel = np.array([[1/9, 1/9, 1/9],
+                       [1/9, 1/9, 1/9],
+                       [1/9, 1/9, 1/9]])
     
+    dst2 = cv2.filter2D(img, -1, kernel)
+
+    cv2.imwrite(O_REAL_PATH, dst2)
+
+
+# メディアンフィルタ
+def Median(self):
+    img = cv2.imread(self)
+
+    # メディアン(カーネルサイズ)
+    dst2 = cv2.medianBlur(img, ksize=5)
+
+    cv2.imwrite(O_REAL_PATH, dst2)
+
+
+# ガウシアンフィルタ
+def Gaussian(self):
+    img = cv2.imread(self)
+
+    # カーネル
+    kernel = np.array([[1/16, 1/8, 1/16],
+                       [1/8, 1/4, 1/8],
+                       [1/16, 1/8, 1/16]])
+
+    dst2 = cv2.filter2D(img, -1, kernel)
+
+    cv2.imwrite(O_REAL_PATH, dst2)
+
+
+# 
 
 
     
