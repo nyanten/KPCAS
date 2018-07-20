@@ -35,7 +35,8 @@ root.geometry("720x380") # ウィンドウサイズ
 FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青単色',
           '色交換(赤青)', '色交換(赤緑)', '色交換(緑青)', 
           'HSV色空間(色相シフト)', 'HSV色空間(彩度シフト)', 'HSV色空間(明度シフト)',
-          '明るく', '暗く', 'ガンマ補正', 'セピア', 'モザイク', 'ネガポジ反転', 'ミラー', 
+          '明るく', '暗く', 'ガンマ補正', 'セピア', 'モザイク', 'ネガポジ反転', 'ミラー',
+          '減色', 
           'フーリエ変換', '逆フーリエ変換', 'エッジ抽出', 'ノイズのせ', '平均化', 
           'メディアンフィルタ', 'ガウシアンフィルタ', 'アフィン変換(90度)', 
           '顔検出')
@@ -552,6 +553,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ミラー"}:
                         print("ミラー")
                         fc.Mirror(REAL_PATH)
+                    elif FILTER_SET[i] in {"減色"}:
+                        print("減色")
+                        fc.Loss(REAL_PATH)
                     elif FILTER_SET[i] in {"アフィン変換(90度)"}:
                         print("アフィン変換")
                         fc.Rotate(REAL_PATH)
@@ -614,6 +618,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ミラー"}:
                         print("ミラー")
                         fc.Mirror(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"減色"}:
+                        print("減色")
+                        fc.Loss(O_REAL_PATH)
                     elif FILTER_SET[i] in {"アフィン変換(90度)"}:
                         print("アフィン変換")
                         fc.Rotate(O_REAL_PATH)

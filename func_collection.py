@@ -52,6 +52,7 @@ def Gray(self):
     img = Image.open(self, 'r')
     gray = img.convert("L")
     gray.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
 
 
 # 赤・緑・青 分解
@@ -62,6 +63,7 @@ def Red(self):
 
     red = Image.fromarray(im_r)
     red.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
     
 def Green(self):
     img = np.array(Image.open(self))
@@ -70,6 +72,7 @@ def Green(self):
 
     green = Image.fromarray(im_g)
     green.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
     
 def Blue(self):
     img = np.array(Image.open(self))
@@ -78,6 +81,7 @@ def Blue(self):
 
     blue = Image.fromarray(im_b)
     blue.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
 
 
 # 色交換(R <-> B)
@@ -89,6 +93,7 @@ def RtoB(self):
 
     rtob = Image.fromarray(im_swap_rb)
     rtob.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
 
 # (R <-> G)
 def RtoG(self):
@@ -99,6 +104,7 @@ def RtoG(self):
 
     rtog = Image.fromarray(im_swap_rg)
     rtog.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
 
 # (G <-> B)
 def GtoB(self):
@@ -109,6 +115,7 @@ def GtoB(self):
 
     gtob = Image.fromarray(im_swap_gb)
     gtob.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
 
 
 # HSV 色相シフト
@@ -118,6 +125,7 @@ def HSV_h(self):
     _h = ImageMath.eval("(h + 128) % 255", h=h).convert("L")
     hsv_h = Image.merge("HSV", (_h, s, v)).convert("RGB")
     hsv_h.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
 
 # HSV 彩度シフト
 def HSV_s(self):
@@ -126,6 +134,7 @@ def HSV_s(self):
     _s = ImageMath.eval("(s + 128) % 255", s=s).convert("L")
     hsv_s = Image.merge("HSV", (h, _s, v)).convert("RGB")
     hsv_s.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
 
 # HSV 明度シフト
 def HSV_v(self):
@@ -134,6 +143,7 @@ def HSV_v(self):
     _v = ImageMath.eval("(v + 128) % 255", v=v).convert("L")
     hsv_v = Image.merge("HSV", (h, s, _v)).convert("RGB")
     hsv_v.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
 
 
 # 明るく
@@ -141,12 +151,15 @@ def Bright(self):
     img = Image.open(self, 'r')
     img_b = img.point(lambda x: x * 1.5)
     img_b.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
+    
 
 # 暗く
 def Dark(self):
     img = Image.open(self, 'r')
     img_d = img.point(lambda x: x * 0.5)
     img_d.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
 
 
 # ガンマ補正
@@ -161,6 +174,7 @@ def Gamma(self):
 
     img_g = img.point(gamma_table(1.2, 0.5, 0.5))
     img_g.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
 
 
 # セピア
@@ -178,6 +192,7 @@ def Sepia(self):
     )
 
     sepia.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
     
 
 # モザイク
@@ -185,6 +200,7 @@ def Moza(self):
     img = Image.open(self, 'r')
     pix = img.resize([x // 8 for x in img.size]).resize(img.size)
     pix.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
 
 
 # ネガポジ反転
@@ -192,6 +208,7 @@ def NegaPosi(self):
     img = Image.open(self, 'r')
     im_np = ImageOps.invert(img)
     im_np.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
 
 
 # ミラー
@@ -199,6 +216,19 @@ def Mirror(self):
     img = Image.open(self, 'r')
     im_m = ImageOps.mirror(img)
     im_m.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
+
+
+# 減色
+def Loss(self):
+    img = Image.open(self, 'r')
+    im_a = np.array(img)
+
+    im_32 = im_a // 32 * 32
+    
+    im_los = Image.fromarray(im_32)
+    im_los.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
 
 
 # アフィン変換(90度)
