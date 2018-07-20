@@ -236,7 +236,29 @@ def Loss(self):
     img.close()
 
 
-# 
+# ソーラライズ
+def Solarize(self):
+    img = Image.open(self, 'r')
+    im_s = ImageOps.solarize(img, 127)
+    im_s.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
+
+
+# ポスタライズ
+def Posterize(self):
+    img = Image.open(self, 'r')
+    im_p = ImageOps.posterize(img, 2)
+    im_p.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
+
+
+# イコライズ
+def Equalize(self):
+    img = Image.open(self, 'r')
+    im_e = ImageOps.equalize(img)
+    im_e.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
+
 
 # アフィン変換(90度)
 def Rotate(self):
@@ -284,9 +306,69 @@ def Gaussian(self):
     cv2.imwrite(O_REAL_PATH, dst2)
 
 
-# 
+# 一次微分(横)
+def Diff_w(self):
+    img = cv2.imread(self)
+
+    kernel = np.array([[0, 0, 0],
+                       [-1, 0, 1],
+                       [0, 0, 0]])
+
+    dst2 = cv2.filter2D(img, -1, kernel)
+
+    cv2.imwrite(O_REAL_PATH, dst2)
 
 
+# 一次微分(縦)
+def Diff_h(self):
+    img = cv2.imread(self)
+
+    kernel = np.array([[0, -1, 0],
+                       [0, 0, 0],
+                       [0, 1, 0]])
+
+    dst2 = cv2.filter2D(img, -1, kernel)
+
+    cv2.imwrite(O_REAL_PATH, dst2)
+
+
+# Prewitt
+def Prewitt(self):
+    img = cv2.imread(self)
+
+    kernel = np.array([[-1, 0, 1],
+                       [-1, 0, 1],
+                       [-1, 0, 1]])
+
+    dst2 = cv2.filter2D(img, -1, kernel)
+
+    cv2.imwrite(O_REAL_PATH, dst2)
+
+
+# Sobel
+def Sobel(self):
+    img = cv2.imread(self)
+
+    kernel = np.array([[-1, 0, 1],
+                       [-2, 0, 2],
+                       [-1, 0, 1]])
+
+    dst2 = cv2.filter2D(img, -1, kernel)
+
+    cv2.imwrite(O_REAL_PATH, dst2)
+
+
+# ラプラシアン
+def Laplacian(self):
+    img = cv2.imread(self)
+
+    kernel = np.array([[1, 1, 1],
+                       [1, -8, 1],
+                       [1, 1, 1]])
+
+    dst2 = cv2.filter2D(img, -1, kernel)
+
+    cv2.imwrite(O_REAL_PATH, dst2)
     
     
     

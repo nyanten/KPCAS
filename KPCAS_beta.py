@@ -36,11 +36,11 @@ FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青�
           '色交換(赤青)', '色交換(赤緑)', '色交換(緑青)', 
           'HSV色空間(色相シフト)', 'HSV色空間(彩度シフト)', 'HSV色空間(明度シフト)',
           '明るく', '暗く', 'ガンマ補正', 'セピア', 'モザイク', 'ネガポジ反転', 'ミラー',
-          '減色', 'ソーサライズ', 'ポスタライズ', 'イコライズ', 'アフィン変換(90度)', 
-          '平均化(1/9)', 'メディアンフィルタ', 'ガウシアンフィルタ',
-          '一次微分', 'Prewitt', 'Sobel', 'ラプラシアンフィルタ', 'エンボス',
+          '減色', 'ソーラライズ', 'ポスタライズ', 'イコライズ', 'アフィン変換(90度)', 
+          '平均化', 'メディアンフィルタ', 'ガウシアンフィルタ',
+          '一次微分(横)', '一次微分(縦)', 'Prewitt', 'Sobel', 'ラプラシアンフィルタ', 'エンボス',
           'LoG', 'Canny', 'ノイズのせ', 
-          '顔検出')
+          '顔検出', 'アニメ顔検出', '猫検出')
 
 FILTER_SET = ()
 
@@ -557,11 +557,23 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"減色"}:
                         print("減色")
                         fc.Loss(REAL_PATH)
+                    elif FILTER_SET[i] in {"減色"}:
+                        print("減色")
+                        fc.Loss(REAL_PATH)
+                    elif FILTER_SET[i] in {"ソーラライズ"}:
+                        print("ソーラライズ")
+                        fc.Solarize(REAL_PATH)
+                    elif FILTER_SET[i] in {"ポスタライズ"}:
+                        print("ポスタライズ")
+                        fc.Posterize(REAL_PATH)
+                    elif FILTER_SET[i] in {"イコライズ"}:
+                        print("イコライズ")
+                        fc.Equalize(REAL_PATH)
                     elif FILTER_SET[i] in {"アフィン変換(90度)"}:
-                        print("アフィン変換")
+                        print("アフィン変換(90度)")
                         fc.Rotate(REAL_PATH)
-                    elif FILTER_SET[i] in {"平均化(1/9)"}:
-                        print("平均化(1/9)")
+                    elif FILTER_SET[i] in {"平均化"}:
+                        print("平均化")
                         fc.Average(REAL_PATH)
                     elif FILTER_SET[i] in {"メディアンフィルタ"}:
                         print("メディアンフィルタ")
@@ -569,9 +581,25 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ガウシアンフィルタ"}:
                         print("ガウシアンフィルタ")
                         fc.Gaussian(REAL_PATH)
+                    elif FILTER_SET[i] in {"一次微分(横)"}:
+                        print("一次微分(横)")
+                        fc.Diff_w(REAL_PATH)
+                    elif FILTER_SET[i] in {"一次微分(縦)"}:
+                        print("一次微分(縦)")
+                        fc.Diff_h(REAL_PATH)
+                    elif FILTER_SET[i] in {"Prewitt"}:
+                        print("Prewitt")
+                        fc.Prewitt(REAL_PATH)
+                    elif FILTER_SET[i] in {"Sobel"}:
+                        print("Sobel")
+                        fc.Sobel(REAL_PATH)
+                    elif FILTER_SET[i] in {"ラプラシアンフィルタ"}:
+                        print("ラプラシアンフィルタ")
+                        fc.Laplacian(REAL_PATH)
                     else:
                         print("ぶっこわれ")
-                        
+
+                
                 # 初回以降
                 else:
                     if FILTER_SET[i] in {"２値化"}:
@@ -631,8 +659,20 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"減色"}:
                         print("減色")
                         fc.Loss(O_REAL_PATH)
-                    elif FILTER_SET[i] in {"平均化(1/9)"}:
-                        print("平均化(1/9)")
+                    elif FILTER_SET[i] in {"ソーラライズ"}:
+                        print("ソーラライズ")
+                        fc.Solarize(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ポスタライズ"}:
+                        print("ポスタライズ")
+                        fc.Posterize(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"イコライズ"}:
+                        print("イコライズ")
+                        fc.Equalize(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"アフィン変換(90度)"}:
+                        print("アフィン変換")
+                        fc.Rotate(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"平均化"}:
+                        print("平均化")
                         fc.Average(O_REAL_PATH)
                     elif FILTER_SET[i] in {"メディアンフィルタ"}:
                         print("メディアンフィルタ")
@@ -640,9 +680,21 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ガウシアンフィルタ"}:
                         print("ガウシアンフィルタ")
                         fc.Gaussian(O_REAL_PATH)
-                    elif FILTER_SET[i] in {"アフィン変換(90度)"}:
-                        print("アフィン変換")
-                        fc.Rotate(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"一次微分(横)"}:
+                        print("一次微分(横)")
+                        fc.Diff_w(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"一次微分(縦)"}:
+                        print("一次微分(縦)")
+                        fc.Diff_h(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"Prewitt"}:
+                        print("Prewitt")
+                        fc.Prewitt(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"Sobel"}:
+                        print("Sobel")
+                        fc.Sobel(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ラプラシアンフィルタ"}:
+                        print("ラプラシアンフィルタ")
+                        fc.Laplacian(O_REAL_PATH)
                     else:
                         print("ぶっこわれ")
 
