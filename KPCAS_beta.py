@@ -4,7 +4,8 @@
 # パッケージのインポート
 # OpenCV使用
 # 他のパッケージはpipコマンドでインストール
-import sys, os
+import sys, os, shutil
+import datetime
 import cv2
 import numpy
 import tkinter as tk
@@ -49,6 +50,16 @@ print(REAL_PATH)
 # 出力絶対パス
 O_REAL_PATH = os.path.join(CD, "output_img", "output_img.jpg")
 print(O_REAL_PATH)
+
+# 保存先パス
+S_REAL_PATH = os.path.join(CD, "save_image", "Final_img_")
+
+# フラグ
+FO = 0
+
+# 現時刻
+NOW = datetime.datetime.now()
+
 
 # 命令セット追加削除時のリスト用グローバル変数
 # 本来、グローバル変数は大文字表記が暗黙の了解だが、これら以下のものは例外とする。理由は以下の通り。
@@ -176,8 +187,11 @@ class Application(tk.Frame):
         man.close()
 
 
-    def save():
-        
+    # 保存
+    def save(self):
+        global FO
+        shutil.copy(O_REAL_PATH, S_REAL_PATH + str(NOW) + "_" + str(FO) + ".jpg")
+        FO += 1
         print("save")
             
 
@@ -212,10 +226,7 @@ class Application(tk.Frame):
         flag2 = os.path.exists(O_REAL_PATH)
         if flag1 == True:
             os.remove(REAL_PATH)
-        elif flag2 == True:
-            os.remove(O_REAL_PATH)
-        elif flag1 == True and flag2 == True:
-            os.remove(REAL_PATH)
+        if flag2 == True:
             os.remove(O_REAL_PATH)
 
         print("FILTER SET EMPTY")
