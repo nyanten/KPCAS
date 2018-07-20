@@ -131,7 +131,7 @@ class Application(tk.Frame):
 
         # リストボックス・スクロールなど
         # その他
-        #self.checkbox_make()
+
         
 
     # 参照ファイルコマンド
@@ -549,25 +549,7 @@ class Application(tk.Frame):
 
         else:
             print("命令セットが組み込まれていません")
-
-    
-    # チェックボックス(命令セット) 仮で10とする
-    def checkbox_make(self):
-        check_val = []
-        check_h = []
-
-        for n in range(int(10)):
-            #BooleanVarの作成
-            bl = tk.BooleanVar()
-            bl.set(False)
-
-            b = tk.Checkbutton(text=u"命令" + str(n+1), variable = bl)
-            b.place(x=400, y=20*n + 100)
             
-            #チェックの値を入れる
-            check_val.append(bl)
-            #チェックハンドルを入れる
-            check_h.append(b)
 
 
 # ひながた        
