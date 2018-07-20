@@ -54,11 +54,11 @@ def Gray(self):
     gray.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     img.close()
 
-
 # 赤・緑・青 分解
 def Red(self):
-    img = np.array(Image.open(self))
-    im_r = img.copy()
+    img = Image.open(self)
+    im_a = np.array(img)
+    im_r = im_a.copy()
     im_r[:, :, (1, 2)] = 0
 
     red = Image.fromarray(im_r)
@@ -66,18 +66,20 @@ def Red(self):
     img.close()
     
 def Green(self):
-    img = np.array(Image.open(self))
-    im_g = img.copy()
-    im_g[:, :, (0, 2)] = 0
+    img = Image.open(self)
+    im_a = np.array(img)
+    im_g = im_a.copy()
+    im_g[:, :, (1, 2)] = 0
 
     green = Image.fromarray(im_g)
     green.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     img.close()
     
 def Blue(self):
-    img = np.array(Image.open(self))
-    im_b = img.copy()
-    im_b[:, :, (0, 1)] = 0
+    img = Image.open(self)
+    im_a = np.array(img)
+    im_b = im_a.copy()
+    im_b[:, :, (1, 2)] = 0
 
     blue = Image.fromarray(im_b)
     blue.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
@@ -86,8 +88,9 @@ def Blue(self):
 
 # 色交換(R <-> B)
 def RtoB(self):
-    img = np.array(Image.open(self))
-    im_swap_rb = img.copy()
+    img = Image.open(self)
+    im_a = np.array(img)
+    im_swap_rb = im_a.copy()
     im_swap_rb[:, :, 0] = img[:, :, 2]
     im_swap_rb[:, :, 2] = img[:, :, 0]
 
@@ -97,8 +100,9 @@ def RtoB(self):
 
 # (R <-> G)
 def RtoG(self):
-    img = np.array(Image.open(self))
-    im_swap_rg = img.copy()
+    img = Image.open(self)
+    im_a = np.array(img)
+    im_swap_rg = im_a.copy()
     im_swap_rg[:, :, 1] = img[:, :, 2]
     im_swap_rg[:, :, 2] = img[:, :, 1]
 
@@ -108,8 +112,9 @@ def RtoG(self):
 
 # (G <-> B)
 def GtoB(self):
-    img = np.array(Image.open(self))
-    im_swap_gb = img.copy()
+    img = Image.open(self)
+    im_a = np.array(img)
+    im_swap_gb = im_a.copy()
     im_swap_gb[:, :, 0] = img[:, :, 1]
     im_swap_gb[:, :, 1] = img[:, :, 0]
 
@@ -236,6 +241,7 @@ def Rotate(self):
     img = Image.open(self, 'r')
     r90 = img.rotate(90, expand=True)
     r90.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
     
 
 
