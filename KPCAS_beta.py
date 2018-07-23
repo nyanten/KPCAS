@@ -584,8 +584,8 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"イコライズ"}:
                         print("イコライズ")
                         fc.Equalize(REAL_PATH)
-                    elif FILTER_SET[i] in {"アフィン変換(90度)"}:
-                        print("アフィン変換(90度)")
+                    elif FILTER_SET[i] in {"回転(90度)"}:
+                        print("回転(90度)")
                         fc.Rotate(REAL_PATH)
                     elif FILTER_SET[i] in {"平均化"}:
                         print("平均化")
@@ -608,8 +608,8 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"Sobel"}:
                         print("Sobel")
                         fc.Sobel(REAL_PATH)
-                    elif FILTER_SET[i] in {"ラプラシアンフィルタ"}:
-                        print("ラプラシアンフィルタ")
+                    elif FILTER_SET[i] in {"ラプラシアン"}:
+                        print("ラプラシアン")
                         fc.Laplacian(REAL_PATH)
                     elif FILTER_SET[i] in {"エンボス"}:
                         print("エンボス")
@@ -689,8 +689,8 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"イコライズ"}:
                         print("イコライズ")
                         fc.Equalize(O_REAL_PATH)
-                    elif FILTER_SET[i] in {"アフィン変換(90度)"}:
-                        print("アフィン変換")
+                    elif FILTER_SET[i] in {"回転(90度)"}:
+                        print("回転(90度")
                         fc.Rotate(O_REAL_PATH)
                     elif FILTER_SET[i] in {"平均化"}:
                         print("平均化")
@@ -713,8 +713,8 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"Sobel"}:
                         print("Sobel")
                         fc.Sobel(O_REAL_PATH)
-                    elif FILTER_SET[i] in {"ラプラシアンフィルタ"}:
-                        print("ラプラシアンフィルタ")
+                    elif FILTER_SET[i] in {"ラプラシアン"}:
+                        print("ラプラシアン")
                         fc.Laplacian(O_REAL_PATH)
                     elif FILTER_SET[i] in {"エンボス"}:
                         print("エンボス")
