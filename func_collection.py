@@ -15,7 +15,7 @@
 import sys, os
 import cv2
 import numpy as np
-from PIL import Image, ImageFilter, ImageMath, ImageOps
+from PIL import Image, ImageFilter, ImageMath, ImageOps, ImageDraw, ImageFont
 import random
 
 # カレントディレクトリ取得
@@ -410,3 +410,67 @@ def Salt_Noise(self):
     img = cv2.imread(self)
     img_n = sn_add(img, 0.05)
     cv2.imwrite(O_REAL_PATH, img_n)
+
+
+def GaussianNoise(self):
+
+    def addGauNoi(img):
+        row, col, ch = img.shape
+        mean = 0
+        var = 0.1
+        sigma = 15
+
+        gauss = np.random.normal(mean, sigma, (row, col, ch))
+        gauss = gauss.reshape(row, col, ch)
+
+        img_n = img + gauss
+
+        return img_n
+
+    
+    img = cv2.imread(self)
+    im_gn = addGauNoi(img)
+    cv2.imwrite(O_REAL_PATH, im_gn)
+
+
+# レターボックス
+
+
+
+# Hideo 1
+def Hideo_1(self):
+    fontsize = 22
+    font_d = "/Users/nyanten/Library/Fonts/EXO-Bold.otf"
+    img = Image.open(self, 'r')
+
+    x = 180
+    y = 16
+    text = "Hideo 1"
+
+    draw = ImageDraw.Draw(img)
+    font = ImageFont.truetype(font_d, fontsize)
+    draw.text((x, y), text, font=font, fill=(0, 255, 0, 0))
+
+    img.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
+    
+
+# Hideo 2
+
+# FOX DIE
+def Foxdie(self):
+    img = Image.open(self, 'r')
+    
+    im_np = ImageOps.invert(img)
+
+    h, s, v = im_np.convert("HSV").split()
+    _s = ImageMath.eval("(s + 128) % 255", s=s).convert("L")
+    hsv_s = Image.merge("HSV", (h, _s, v)).convert("RGB")
+
+    im_s = ImageOps.solarize(hsv_s, 127)
+
+    im_s.filter(ImageFilter.GaussianBlur(1.5))
+
+    img_b = im_s.point(lambda x: x * 1.5)
+    img_b.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()

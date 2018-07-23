@@ -13,7 +13,7 @@ import numpy
 import tkinter as tk
 import tkinter.filedialog as tkFD
 from tkinter import PhotoImage
-from PIL import ImageTk
+from PIL import ImageTk, Image
 
 #print(sys.path)
 
@@ -39,7 +39,7 @@ FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青�
           '減色', 'ソーラライズ', 'ポスタライズ', 'イコライズ', '回転(90度)', 
           '平均化', 'メディアンフィルタ', 'ガウシアンフィルタ',
           '一次微分(横)', '一次微分(縦)', 'Prewitt', 'Sobel', 'ラプラシアンフィルタ', 'エンボス',
-          'ごま塩ノイズ', 'ガウシアンノイズ', 'レターボックス', 'ヒデオ1', 'ヒデオ2', 
+          'ごま塩ノイズ', 'ガウシアンノイズ', 'レターボックス', 'ヒデオ1', 'ヒデオ2', 'FOXDIE',  
           '顔検出', 'アニメ顔検出', '猫検出', '顔面ぼかし')
 
 FILTER_SET = ()
@@ -170,9 +170,12 @@ class Application(tk.Frame):
             print("ファイルが指定されていません")
 
         # picture_resize(self.fname)
-        img_r = cv2.imread(fname)
-        im_re = cv2.resize(img_r, (256, 256))
-        cv2.imwrite(REAL_PATH, im_re)
+        img = Image.open(fname)
+        im_r = img.resize((256, 256))
+        im_r.save(REAL_PATH)
+        #img_r = cv2.imread(fname)
+        #im_re = cv2.resize(img_r, (256, 256))
+        #cv2.imwrite(REAL_PATH, im_re)
         # ソースコードの保存場所に気をつける
 
         # 以下、リサイズ後の絶対パス。なぜかはわからないが、絶対パスでないとエラーを吐く
@@ -224,6 +227,7 @@ class Application(tk.Frame):
     # すべてクリア
     def all_clear(self):
         global FILTER_SET
+        FILTER_SET = ()
         print("All Set clear")
 
         self.clear_module()
@@ -263,6 +267,7 @@ class Application(tk.Frame):
     # Exitする 全リセットして終了
     def button_quit(self):
         global FILTER_SET
+        FILTER_SET = ()
         print("Good Bye.")
         self.clear_module()
         exit()
@@ -270,7 +275,6 @@ class Application(tk.Frame):
 
     # クリア系統
     def clear_module(self):
-        FILTER_SET = ()
         flag1 = os.path.exists(REAL_PATH)
         flag2 = os.path.exists(O_REAL_PATH)
         if flag1 == True:
@@ -617,6 +621,15 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ごま塩ノイズ"}:
                         print("ごま塩ノイズ")
                         fc.Salt_Noise(REAL_PATH)
+                    elif FILTER_SET[i] in {"ガウシアンノイズ"}:
+                        print("ガウシアンノイズ")
+                        fc.GaussianNoise(REAL_PATH)
+                    elif FILTER_SET[i] in {"ヒデオ1"}:
+                        print("Hideo")
+                        fc.Hideo_1(REAL_PATH)
+                    elif FILTER_SET[i] in {"FOXDIE"}:
+                        print("FOXDIE")
+                        fc.Foxdie(REAL_PATH)
                     else:
                         print("ぶっこわれ")
 
@@ -722,6 +735,15 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ごま塩ノイズ"}:
                         print("ごま塩ノイズ")
                         fc.Salt_Noise(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ガウシアンノイズ"}:
+                        print("ガウシアンノイズ")
+                        fc.GaussianNoise(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ヒデオ1"}:
+                        print("Hideo")
+                        fc.Hideo_1(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"FOXDIE"}:
+                        print("FOXDIE")
+                        fc.Foxdie(O_REAL_PATH)
                     else:
                         print("ぶっこわれ")
 
