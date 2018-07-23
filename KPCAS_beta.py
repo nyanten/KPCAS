@@ -38,9 +38,11 @@ FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青�
           '明るく', '暗く', 'ガンマ補正', 'セピア', 'モザイク', 'ネガポジ反転', 'ミラー',
           '減色', 'ソーラライズ', 'ポスタライズ', 'イコライズ', '回転(90度)', 
           '平均化', 'メディアンフィルタ', 'ガウシアンフィルタ',
-          '一次微分(横)', '一次微分(縦)', 'Prewitt', 'Sobel', 'ラプラシアンフィルタ', 'エンボス',
-          'ごま塩ノイズ', 'ガウシアンノイズ', 'レターボックス', 'ヒデオ1', 'ヒデオ2', 'FOXDIE',  
-          '顔検出', 'アニメ顔検出', '猫検出', '顔面ぼかし')
+          '一次微分(横)', '一次微分(縦)', 'Prewitt', 'Sobel', 'ラプラシアン', 'ラプラシアン(PIL)',
+          'エンボス', 'エンボス(PIL)', 
+          'ごま塩ノイズ', 'ガウシアンノイズ', 'フーリエ変換', 'ローパスフィルタ', 'ハイパスフィルタ',
+          '顔検出', 'アニメ顔検出', '猫検出', '顔面ぼかし',
+          'ヒデオ1', 'ヒデオ2', 'FOXDIE',)
 
 FILTER_SET = ()
 
@@ -252,9 +254,6 @@ class Application(tk.Frame):
 
     # 出力結果画像クリア
     def output_clear(self):
-        global FILTER_SET
-        print("All Set clear")
-        FILTER_SET = ()
         flag2 = os.path.exists(O_REAL_PATH)
         if flag2 == True:
             os.remove(O_REAL_PATH)
@@ -513,6 +512,7 @@ class Application(tk.Frame):
         print(len(FILTER_SET))
         # 作成した命令セットの長さ
         j = range(len(FILTER_SET))
+        fc.FFT_FLAG = 0
 
         if FILTER_SET != ():
         # 命令セット分だけ順に実行する
@@ -615,15 +615,24 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ラプラシアン"}:
                         print("ラプラシアン")
                         fc.Laplacian(REAL_PATH)
+                    elif FILTER_SET[i] in {"ラプラシアン(PIL)"}:
+                        print("ラプラシアン(PIL)")
+                        fc.Laplacian_re(REAL_PATH)
                     elif FILTER_SET[i] in {"エンボス"}:
                         print("エンボス")
                         fc.Emboss(REAL_PATH)
+                    elif FILTER_SET[i] in {"エンボス(PIL)"}:
+                        print("エンボス(PIL)")
+                        fc.Emboss_re(REAL_PATH)
                     elif FILTER_SET[i] in {"ごま塩ノイズ"}:
                         print("ごま塩ノイズ")
                         fc.Salt_Noise(REAL_PATH)
                     elif FILTER_SET[i] in {"ガウシアンノイズ"}:
                         print("ガウシアンノイズ")
                         fc.GaussianNoise(REAL_PATH)
+                    elif FILTER_SET[i] in {"フーリエ変換"}:
+                        print("フーリエ変換")
+                        fc.FFT(REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(REAL_PATH)
@@ -729,15 +738,27 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ラプラシアン"}:
                         print("ラプラシアン")
                         fc.Laplacian(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ラプラシアン(PIL)"}:
+                        print("ラプラシアン(PIL)")
+                        fc.Laplacian_re(O_REAL_PATH)
                     elif FILTER_SET[i] in {"エンボス"}:
                         print("エンボス")
                         fc.Emboss(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"エンボス(PIL)"}:
+                        print("エンボス(PIL)")
+                        fc.Emboss_re(O_REAL_PATH)
                     elif FILTER_SET[i] in {"ごま塩ノイズ"}:
                         print("ごま塩ノイズ")
                         fc.Salt_Noise(O_REAL_PATH)
                     elif FILTER_SET[i] in {"ガウシアンノイズ"}:
                         print("ガウシアンノイズ")
                         fc.GaussianNoise(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"フーリエ変換"}:
+                        print("フーリエ変換")
+                        fc.FFT(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ローパスフィルタ"}:
+                        print("ローパスフィルタ")
+                        fc.Lowpass(O_REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(O_REAL_PATH)

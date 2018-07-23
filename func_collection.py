@@ -370,7 +370,17 @@ def Laplacian(self):
     dst2 = cv2.filter2D(img, -1, kernel)
 
     cv2.imwrite(O_REAL_PATH, dst2)
+
+
+# PIL(CONTOUR)
+def Laplacian_re(self):
+    img = Image.open(self, 'r')
     
+    im_l = img.filter(ImageFilter.CONTOUR)
+
+    im_l.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
+
 
 # エンボス
 def Emboss(self):
@@ -386,6 +396,16 @@ def Emboss(self):
 
     cv2.imwrite(O_REAL_PATH, dst2)
 
+
+# エンボス(PIL)
+def Emboss_re(self):
+    img = Image.open(self, 'r')
+
+    im_e = img.filter(ImageFilter.EMBOSS)
+
+    im_e.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
+    
 
 # ごま塩
 def Salt_Noise(self):
@@ -412,6 +432,7 @@ def Salt_Noise(self):
     cv2.imwrite(O_REAL_PATH, img_n)
 
 
+# ガウシアンノイズ
 def GaussianNoise(self):
 
     def addGauNoi(img):
@@ -433,8 +454,51 @@ def GaussianNoise(self):
     cv2.imwrite(O_REAL_PATH, im_gn)
 
 
-# レターボックス
+# FFT
+def FFT(self):
+    global FFT_FLAG
+    img = cv2.imread(self)
 
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # 高速フーリエ変換
+    fimg = np.fft.fft2(gray)
+    # 各象限の入れ替え
+    fimg = np.fft.fftshift(fimg)
+    # パワースペクトル
+    mag = 20*np.log(np.abs(fimg))
+
+    cv2.imwrite(O_REAL_PATH, mag)
+    
+    
+# ローパス
+def Lowpass(self):
+    img = cv2.imread(self)
+
+    def low(img, a=0.5):
+        src = np.fft.fft2(img)
+        
+        h, w = img.shape
+        
+        cy, cx = int(h/2), int(w/2)
+        
+        rh, rw = int(a*cy), int(a*cx)
+
+        fsrc = np.fft.fftshift(src)
+        fdst = np.zeros(src.shape, dtype=complex)
+
+        fdst[cy-rh:cy+rh, cx-rw:cx+rw] = fsrc[cy-rh:cy+rh, cx-rw:cx+rw]
+
+        fdst = np.fft.fftshift(fdst)
+
+        dst = np.fft.ifft2(fdst)
+
+        return np.uint8(dst.real)
+
+    gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+    limg = low(gray, 0.3)
+
+    cv2.imwrite(O_REAL_PATH, limg)
 
 
 # Hideo 1
