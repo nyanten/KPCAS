@@ -254,6 +254,9 @@ class Application(tk.Frame):
 
     # 出力結果画像クリア
     def output_clear(self):
+        global FILTER_SET
+        FILTER_SET = ()
+        print("All Set clear")
         flag2 = os.path.exists(O_REAL_PATH)
         if flag2 == True:
             os.remove(O_REAL_PATH)
@@ -261,6 +264,18 @@ class Application(tk.Frame):
         self.o_canvas.delete("all")
         self.o_canvas.create_text(127, 127, text=u"Not Output Image...")
         print("Output Image Delete")
+
+        # メインのリストボックスを更新
+        frame = tk.Frame(root)
+        frame.place(x=285, y=43)
+        
+        v = tk.StringVar(value=FILTER_SET)
+        self.listbox_main = tk.Listbox(frame, listvariable=v, width=20, height=15, relief=tk.RIDGE, bd=2)
+        self.scrollbar_m = tk.Scrollbar(frame, orient="v", command=self.listbox_main.yview)
+        self.listbox_main['yscrollcommand'] = self.scrollbar_m.set
+        
+        self.listbox_main.grid(row=0, column=0)
+        self.scrollbar_m.grid(row=0, column=1, sticky=tk.NS)
 
 
     # Exitする 全リセットして終了
