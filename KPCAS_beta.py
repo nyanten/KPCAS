@@ -633,6 +633,12 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"フーリエ変換"}:
                         print("フーリエ変換")
                         fc.FFT(REAL_PATH)
+                    elif FILTER_SET[i] in {"ローパスフィルタ"}:
+                        print("ローパスフィルタ")
+                        fc.Lowpass(REAL_PATH)
+                    elif FILTER_SET[i] in {"ハイパスフィルタ"}:
+                        print("ハイパスフィルタ")
+                        fc.Highpass(REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(REAL_PATH)
@@ -759,6 +765,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ローパスフィルタ"}:
                         print("ローパスフィルタ")
                         fc.Lowpass(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ハイパスフィルタ"}:
+                        print("ハイパスフィルタ")
+                        fc.Highpass(O_REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(O_REAL_PATH)
