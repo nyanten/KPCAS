@@ -501,6 +501,37 @@ def Lowpass(self):
     cv2.imwrite(O_REAL_PATH, limg)
 
 
+# ハイパス
+def Highpass(self):
+    img = cv2.imread(self)
+    
+    def high(img, a=0.5):
+        src = np.fft.fft2(img)
+        
+        h, w = img.shape
+        
+        cy, cx = int(h/2), int(w/2)
+        
+        rh, rw = int(a*cy), int(a*cx)
+
+        fsrc = np.fft.fftshift(src)
+        
+        fdst = fsrc.copy()
+        
+        fdst[cy-rh:cy+rh, cx-rw:cx+rw] = 0
+
+        fdst = np.fft.fftshift(fdst)
+
+        dst = np.fft.ifft2(fdst)
+
+        return np.uint8(dst.real)
+
+    gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+    himg = high(gray, 0.8)
+
+    cv2.imwrite(O_REAL_PATH, himg)
+
+
 # Hideo 1
 def Hideo_1(self):
     fontsize = 22
