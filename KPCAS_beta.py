@@ -36,11 +36,11 @@ FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青�
           '色交換(赤青)', '色交換(赤緑)', '色交換(緑青)', 
           'HSV色空間(色相シフト)', 'HSV色空間(彩度シフト)', 'HSV色空間(明度シフト)',
           '明るく', '暗く', 'ガンマ補正', 'セピア', 'モザイク', 'ネガポジ反転', 'ミラー',
-          '減色', 'ソーラライズ', 'ポスタライズ', 'イコライズ', 'アフィン変換(90度)', 
+          '減色', 'ソーラライズ', 'ポスタライズ', 'イコライズ', '回転(90度)', 
           '平均化', 'メディアンフィルタ', 'ガウシアンフィルタ',
           '一次微分(横)', '一次微分(縦)', 'Prewitt', 'Sobel', 'ラプラシアンフィルタ', 'エンボス',
-          'LoG', 'Canny', 'ノイズのせ', 
-          '顔検出', 'アニメ顔検出', '猫検出')
+          'ごま塩ノイズ', 'ガウシアンノイズ', 'レターボックス', 'ヒデオ1', 'ヒデオ2', 
+          '顔検出', 'アニメ顔検出', '猫検出', '顔面ぼかし')
 
 FILTER_SET = ()
 
@@ -226,7 +226,7 @@ class Application(tk.Frame):
         global FILTER_SET
         print("All Set clear")
 
-        clear_module()
+        self.clear_module()
 
         self.canvas.delete("all")
         self.canvas.create_text(110, 110, text=u"Not Found Image...")
@@ -264,12 +264,12 @@ class Application(tk.Frame):
     def button_quit(self):
         global FILTER_SET
         print("Good Bye.")
-        clear_module()
+        self.clear_module()
         exit()
 
 
     # クリア系統
-    def clear_module():
+    def clear_module(self):
         FILTER_SET = ()
         flag1 = os.path.exists(REAL_PATH)
         flag2 = os.path.exists(O_REAL_PATH)
@@ -611,6 +611,12 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ラプラシアンフィルタ"}:
                         print("ラプラシアンフィルタ")
                         fc.Laplacian(REAL_PATH)
+                    elif FILTER_SET[i] in {"エンボス"}:
+                        print("エンボス")
+                        fc.Emboss(REAL_PATH)
+                    elif FILTER_SET[i] in {"ごま塩ノイズ"}:
+                        print("ごま塩ノイズ")
+                        fc.Salt_Noise(REAL_PATH)
                     else:
                         print("ぶっこわれ")
 
@@ -710,6 +716,12 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ラプラシアンフィルタ"}:
                         print("ラプラシアンフィルタ")
                         fc.Laplacian(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"エンボス"}:
+                        print("エンボス")
+                        fc.Emboss(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ごま塩ノイズ"}:
+                        print("ごま塩ノイズ")
+                        fc.Salt_Noise(O_REAL_PATH)
                     else:
                         print("ぶっこわれ")
 

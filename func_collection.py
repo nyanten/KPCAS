@@ -16,6 +16,7 @@ import sys, os
 import cv2
 import numpy as np
 from PIL import Image, ImageFilter, ImageMath, ImageOps
+import random
 
 # カレントディレクトリ取得
 CD = os.getcwd()
@@ -370,5 +371,42 @@ def Laplacian(self):
 
     cv2.imwrite(O_REAL_PATH, dst2)
     
-    
-    
+
+# エンボス
+def Emboss(self):
+    img = cv2.imread(self)
+
+    kernel = np.array([[-2, -1, 0],
+                       [-1, 1, 1],
+                       [0, 1, 2]])
+
+    offs = 128
+
+    dst2 = cv2.filter2D(img, -1, kernel, delta=offs)
+
+    cv2.imwrite(O_REAL_PATH, dst2)
+
+
+# ごま塩
+def Salt_Noise(self):
+
+    def sn_add(img, p):
+        output = np.zeros(img.shape, np.uint8)
+        thres = 1 - p
+        
+        for i in range(img.shape[0]):
+            for j in range(img.shape[1]):
+                rdn = random.random()
+                
+                if rdn < p:
+                    output[i][j] = 0
+                elif rdn > thres:
+                    output[i][j] = 255
+                else:
+                    output[i][j] = img[i][j]
+
+        return output
+
+    img = cv2.imread(self)
+    img_n = sn_add(img, 0.05)
+    cv2.imwrite(O_REAL_PATH, img_n)
