@@ -5,7 +5,7 @@
 # OpenCV使用
 # 他のパッケージはpipコマンドでインストール
 import sys, os, shutil
-import datetime, time
+import datetime
 import webbrowser as wb
 
 import cv2
@@ -14,6 +14,7 @@ import tkinter as tk
 import tkinter.filedialog as tkFD
 from tkinter import PhotoImage
 from PIL import ImageTk, Image
+import random
 
 #print(sys.path)
 
@@ -41,8 +42,7 @@ FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青�
           '一次微分(横)', '一次微分(縦)', 'Prewitt', 'Sobel', 'ラプラシアン', 'ラプラシアン(PIL)',
           'エンボス', 'エンボス(PIL)', 
           'ごま塩ノイズ', 'ガウシアンノイズ', 'フーリエ変換', 'ローパスフィルタ', 'ハイパスフィルタ',
-          '顔検出', 'アニメ顔検出', '猫検出', '顔面ぼかし',
-          'ヒデオ1', 'ヒデオ2', 'FOXDIE',)
+          '顔検出', 'アニメ顔検出', '猫検出', '顔面ぼかし')
 
 FILTER_SET = ()
 
@@ -65,6 +65,7 @@ S_REAL_PATH = os.path.join(CD, "save_image", "Final_img_")
 
 # フラグ
 FO = 0
+ADD_FLAG = 0
 PT_FLAG = 0
 
 # 現時刻
@@ -205,13 +206,13 @@ class Application(tk.Frame):
         
         man_win = tk.Toplevel(master=self.master)
         man_win.title("マニュアル")
-        man_win.geometry("680x420")
+        man_win.geometry("680x420+100+100")
 
         text_in = man.read()
         text_in.ljust(100)
 
-        button = tk.Button(man_win, text="Quit", command=man_win.destroy)
-        button.place(x=10, y=10)
+        self.button = tk.Button(man_win, text="Quit", command=man_win.destroy)
+        self.button.place(x=10, y=10)
 
         self.label = tk.Label(man_win, text=text_in, justify="left")
         self.label.place(x=10, y=50)
@@ -219,9 +220,28 @@ class Application(tk.Frame):
         #button.focus_set()
         man_win.transient(self.master)
         #man_win.grab_set()
+        self.konami = tk.StringVar()
+        self.K_COM = tk.Entry(man_win, textvariable=self.konami, width=14)
+        self.K_COM.place(x=460, y=10)
+        self.button_k = tk.Button(man_win, text="Go", command=self.check_K_COM)
+        self.button_k.place(x=600, y=10)
         man.close()
-
-
+        
+    def check_K_COM(self):
+        global FILTER
+        global ADD_FLAG
+        check = self.K_COM.get()
+        if ADD_FLAG == 0:
+            if check == "uuddlrlrAB":
+                FILTER += ('ヒデオ1', 'ヒデオ2', 'FOXDIE', )
+                ADD_FLAG = 1
+                print("君は選ばれた")
+            else:
+                print("204863")
+        else:
+            print("俺は歩いたよ\n歩くことしかできなかったんだ\nやがて 俺の前を歩く俺が見えた\nだが あれは俺じゃない\n気をつけろ\nそのドアの隙間は 分断された現実(セパレート・リアリティ)だ\n俺なのは 俺だけだ\nお前なのは お前だけか？")
+        
+        
     # 保存
     def save(self):
         global FO
@@ -808,35 +828,34 @@ class Application(tk.Frame):
     def do_PT(self):
         PT_win = tk.Toplevel(master=self.master)
         PT_win.title("???")
-        PT_win.geometry("1280x720")
+        PT_win.geometry("1280x720+100+50")
+
+        PT_l = ["./PT/PT_1.txt", "./PT/PT_2.txt"]
+
+        str = random.choice(PT_l)
         
-        canvas_b = tk.Canvas(PT_win, width=1280, height=720)
-        canvas_b.create_rectangle(0, 0, 1280, 720, fill="black")
-        canvas_b.create_text(300, 40,
-                             text="This game is purely fictitious. It cannot harm you in any way. shape, or form.", 
-                             font=('FixedSys', 14),
-                             fill="white")
-        canvas_b.create_text(315, 80,
-                             text="Ce jeu est une fiction. Il ne peut être dangereux sous quelque forme que ce soit.", 
-                             font=('FixedSys', 14),
-                             fill="white")
-        canvas_b.create_text(340, 120,
-                             text="Dieses Spiel ist reing Fiktion. Es kann dich auf keine Weise und in keiner Form verletzen.", 
-                             font=('FixedSys', 14),
-                             fill="white")
-        canvas_b.create_text(300, 160,
-                             text="Este juego es completamente ficticio. De ningún modo puede hacerte daño.", 
-                             font=('FixedSys', 14),
-                             fill="white")
-        canvas_b.create_text(290, 200,
-                             text="このゲームは完全なる創作であり、あなたに危害を及ぼすことは絶対にありません", 
-                             font=('FixedSys', 14),
-                             fill="white")
-        canvas_b.pack()
+        PT_t = open(str, "r")
+        text_in = PT_t.read()
+
+        if str == "./PT/PT_1.txt":
+            canvas = tk.Canvas(PT_win, width=1280, height=720)
+            canvas.create_rectangle(0, 0, 1280, 720, fill="black")
+            canvas.pack(fill="x")
+            label = tk.Label(PT_win, text=text_in, justify="left", foreground="white", background="black")
+            label.place(x=40, y=50)
+        elif str == "./PT/PT_2.txt":
+            canvas = tk.Canvas(PT_win, width=1280, height=720)
+            canvas.create_rectangle(0, 0, 1280, 720, fill="white")
+            canvas.pack(fill="x")
+            label = tk.Label(PT_win, text=text_in, justify="left", foreground="black", background="white")
+            label.place(x=40, y=300)
         
         PT_win.transient(self.master)
         PT_win.grab_set()
         PT_win.focus_set()
+
+        PT_t.close()
+
         
 
 # ひながた        
