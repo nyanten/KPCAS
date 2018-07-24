@@ -812,9 +812,26 @@ class Application(tk.Frame):
         
         canvas_b = tk.Canvas(PT_win, width=1280, height=720)
         canvas_b.create_rectangle(0, 0, 1280, 720, fill="black")
-        canvas_b.create_text(10, 10,
-                             text="This game is purely fictitious.", 
-                             font=('FixedSys', 14))
+        canvas_b.create_text(300, 40,
+                             text="This game is purely fictitious. It cannot harm you in any way. shape, or form.", 
+                             font=('FixedSys', 14),
+                             fill="white")
+        canvas_b.create_text(315, 80,
+                             text="Ce jeu est une fiction. Il ne peut être dangereux sous quelque forme que ce soit.", 
+                             font=('FixedSys', 14),
+                             fill="white")
+        canvas_b.create_text(340, 120,
+                             text="Dieses Spiel ist reing Fiktion. Es kann dich auf keine Weise und in keiner Form verletzen.", 
+                             font=('FixedSys', 14),
+                             fill="white")
+        canvas_b.create_text(300, 160,
+                             text="Este juego es completamente ficticio. De ningún modo puede hacerte daño.", 
+                             font=('FixedSys', 14),
+                             fill="white")
+        canvas_b.create_text(290, 200,
+                             text="このゲームは完全なる創作であり、あなたに危害を及ぼすことは絶対にありません", 
+                             font=('FixedSys', 14),
+                             fill="white")
         canvas_b.pack()
         
         PT_win.transient(self.master)
