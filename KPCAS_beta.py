@@ -5,7 +5,7 @@
 # OpenCV使用
 # 他のパッケージはpipコマンドでインストール
 import sys, os, shutil
-import datetime
+import datetime, time
 import webbrowser as wb
 
 import cv2
@@ -65,6 +65,7 @@ S_REAL_PATH = os.path.join(CD, "save_image", "Final_img_")
 
 # フラグ
 FO = 0
+PT_FLAG = 0
 
 # 現時刻
 NOW = datetime.datetime.now()
@@ -112,12 +113,12 @@ class Application(tk.Frame):
         self.o_canvas = tk.Canvas(self, width=256, height=256, relief=tk.RIDGE, bd=2)
 
         # リストボックス/スクロールバー
-        frame = tk.Frame(root)
-        frame.place(x=285, y=43)
+        self.frame = tk.Frame(root)
+        self.frame.place(x=285, y=43)
         
-        v = tk.StringVar(value=FILTER_SET)
-        self.listbox_main = tk.Listbox(frame, listvariable=v, width=20, height=15, relief=tk.RIDGE, bd=2)
-        self.scrollbar_m = tk.Scrollbar(frame, orient="v", command=self.listbox_main.yview)
+        self.v = tk.StringVar(value=FILTER_SET)
+        self.listbox_main = tk.Listbox(self.frame, listvariable=self.v, width=20, height=15, relief=tk.RIDGE, bd=2)
+        self.scrollbar_m = tk.Scrollbar(self.frame, orient="v", command=self.listbox_main.yview)
         self.listbox_main['yscrollcommand'] = self.scrollbar_m.set
 
         # チェックボックス
@@ -158,9 +159,8 @@ class Application(tk.Frame):
         
         # その他
         self.checkbox.place(x=500, y=5)
-        
-        
-        
+
+        # おまけ
         
 
     # 参照ファイルコマンド
@@ -263,9 +263,6 @@ class Application(tk.Frame):
 
     # 出力結果画像クリア
     def output_clear(self):
-        global FILTER_SET
-        FILTER_SET = ()
-        print("All Set clear")
         flag2 = os.path.exists(O_REAL_PATH)
         if flag2 == True:
             os.remove(O_REAL_PATH)
@@ -273,18 +270,6 @@ class Application(tk.Frame):
         self.o_canvas.delete("all")
         self.o_canvas.create_text(127, 127, text=u"Not Output Image...")
         print("Output Image Delete")
-
-        # メインのリストボックスを更新
-        frame = tk.Frame(root)
-        frame.place(x=285, y=43)
-        
-        v = tk.StringVar(value=FILTER_SET)
-        self.listbox_main = tk.Listbox(frame, listvariable=v, width=20, height=15, relief=tk.RIDGE, bd=2)
-        self.scrollbar_m = tk.Scrollbar(frame, orient="v", command=self.listbox_main.yview)
-        self.listbox_main['yscrollcommand'] = self.scrollbar_m.set
-        
-        self.listbox_main.grid(row=0, column=0)
-        self.scrollbar_m.grid(row=0, column=1, sticky=tk.NS)
 
 
     # Exitする 全リセットして終了
@@ -533,10 +518,11 @@ class Application(tk.Frame):
 
     # 命令セット逐次実行
     def exe_action(self):
+        global PT_FLAG
+        PT_FLAG = 0
         print(len(FILTER_SET))
         # 作成した命令セットの長さ
         j = range(len(FILTER_SET))
-        fc.FFT_FLAG = 0
 
         if FILTER_SET != ():
         # 命令セット分だけ順に実行する
@@ -669,6 +655,7 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ヒデオ2"}:
                         print("Hideo")
                         fc.Hideo_2(REAL_PATH)
+                        PT_FLAG = 1
                     elif FILTER_SET[i] in {"FOXDIE"}:
                         print("FOXDIE")
                         fc.Foxdie(REAL_PATH)
@@ -801,6 +788,7 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ヒデオ2"}:
                         print("Hideo")
                         fc.Hideo_2(O_REAL_PATH)
+                        PT_FLAG = 1
                     elif FILTER_SET[i] in {"FOXDIE"}:
                         print("FOXDIE")
                         fc.Foxdie(O_REAL_PATH)
@@ -810,10 +798,29 @@ class Application(tk.Frame):
             self.img_2 = ImageTk.PhotoImage(file=O_REAL_PATH)
             self.o_canvas.create_image(133, 134, image=self.img_2)
 
+            if PT_FLAG == 1:
+                self.do_PT()
+                                  
         else:
             print("命令セットが組み込まれていません")
             
 
+    def do_PT(self):
+        PT_win = tk.Toplevel(master=self.master)
+        PT_win.title("???")
+        PT_win.geometry("1280x720")
+        
+        canvas_b = tk.Canvas(PT_win, width=1280, height=720)
+        canvas_b.create_rectangle(0, 0, 1280, 720, fill="black")
+        canvas_b.create_text(10, 10,
+                             text="This game is purely fictitious.", 
+                             font=('FixedSys', 14))
+        canvas_b.pack()
+        
+        PT_win.transient(self.master)
+        PT_win.grab_set()
+        PT_win.focus_set()
+        
 
 # ひながた        
 if __name__ == "__main__":
