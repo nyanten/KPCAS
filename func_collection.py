@@ -551,6 +551,28 @@ def Hideo_1(self):
     
 
 # Hideo 2
+def Hideo_2(self):
+    fontsize = 22
+    font_d = "/Users/nyanten/Library/Fonts/JNR-SB-Font.otf"
+    img = Image.open(self, 'r').convert('L')
+    im_n = np.array(img)
+
+    t = 128
+    im_bool = im_n > t
+    h, w = im_n.shape
+
+    im_dst = np.empty((h, w, 3))
+    
+    r, g, b = 128, 160, 192
+    
+    im_dst[:, :, 0] = im_bool * r
+    im_dst[:, :, 1] = ~im_bool * g
+    im_dst[:, :, 2] = im_bool * b
+    
+    im_2 = Image.fromarray(np.uint8(im_dst))
+    im_2.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
+    
 
 # FOX DIE
 def Foxdie(self):

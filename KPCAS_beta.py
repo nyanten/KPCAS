@@ -87,10 +87,10 @@ class Application(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
+        global val_c
         # 各ウィジェット
         # 文字定義
         self.title = tk.Label(self, text=u"KrProCessAS", font=("", 20), bg='#ffaacc')
-        self.label = tk.Label(self, text=u"入力ファイル")
 
         # エントリ定義
         self.var_entry = tk.StringVar()
@@ -119,19 +119,23 @@ class Application(tk.Frame):
         self.listbox_main = tk.Listbox(frame, listvariable=v, width=20, height=15, relief=tk.RIDGE, bd=2)
         self.scrollbar_m = tk.Scrollbar(frame, orient="v", command=self.listbox_main.yview)
         self.listbox_main['yscrollcommand'] = self.scrollbar_m.set
+
+        # チェックボックス
+        val_c = tk.BooleanVar()
+        val_c.set(False)
+        self.checkbox = tk.Checkbutton(self, text=u"リサイズしない", variable=val_c)
         
         
         # 各物体の位置(gridだとややこしいので、placeで直接指定する)
         # 文字など
         self.title.place(x=100, y=5)
-        self.label.place(x=500, y=3)
 
         # エントリなど
         self.entry.place(x=500, y=30) #source
         self.entry.insert(tk.END, "開くを押して参照する")
 
         # ボタンなど
-        self.button.place(x=655, y=0)
+        self.button.place(x=655, y=2)
         self.button_qt.place(x=10, y=5)
         self.button_man.place(x=500, y=275)
         self.button_act.place(x=280, y=310)
@@ -153,6 +157,8 @@ class Application(tk.Frame):
         self.scrollbar_m.grid(row=0, column=1, sticky=tk.NS)
         
         # その他
+        self.checkbox.place(x=500, y=5)
+        
         
         
         
@@ -165,19 +171,22 @@ class Application(tk.Frame):
         # fname = tkFD.askopenfilename(filetypes=[('data files','*.csv;*.txt')],initialdir=os.getcwd())
         # 参照ファイルの拡張子を絞る方法が異なるようで、Windowsの場合は'*.*'で全表示も可能
         global REAL_PATH
+        global val_c
         
-        fname = tkFD.askopenfilename(filetypes=[("jpg files","*.jpg")],initialdir=os.getcwd())
+        fname = tkFD.askopenfilename(filetypes=[("jpg files","*.jpg"),("png files","*.png")],initialdir=os.getcwd())
         print(fname)
         if not fname:
             print("ファイルが指定されていません")
 
-        # picture_resize(self.fname)
-        img = Image.open(fname)
-        im_r = img.resize((256, 256))
-        im_r.save(REAL_PATH)
-        #img_r = cv2.imread(fname)
-        #im_re = cv2.resize(img_r, (256, 256))
-        #cv2.imwrite(REAL_PATH, im_re)
+        if val_c.get() == True:
+            img = Image.open(fname)
+            img.save(REAL_PATH)
+        else:
+            img = Image.open(fname)
+            im_r = img.resize((256, 256))
+            im_r.save(REAL_PATH)
+
+        
         # ソースコードの保存場所に気をつける
 
         # 以下、リサイズ後の絶対パス。なぜかはわからないが、絶対パスでないとエラーを吐く
@@ -657,6 +666,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(REAL_PATH)
+                    elif FILTER_SET[i] in {"ヒデオ2"}:
+                        print("Hideo")
+                        fc.Hideo_2(REAL_PATH)
                     elif FILTER_SET[i] in {"FOXDIE"}:
                         print("FOXDIE")
                         fc.Foxdie(REAL_PATH)
@@ -786,6 +798,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ヒデオ2"}:
+                        print("Hideo")
+                        fc.Hideo_2(O_REAL_PATH)
                     elif FILTER_SET[i] in {"FOXDIE"}:
                         print("FOXDIE")
                         fc.Foxdie(O_REAL_PATH)
