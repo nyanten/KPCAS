@@ -825,15 +825,15 @@ class Application(tk.Frame):
             print("命令セットが組み込まれていません")
             
 
+    # おまけ
     def do_PT(self):
         PT_win = tk.Toplevel(master=self.master)
-        PT_win.title("???")
+        PT_win.title("204863")
         PT_win.geometry("1280x720+100+50")
 
-        PT_l = ["./PT/PT_1.txt", "./PT/PT_2.txt"]
+        PT_l = ["./PT/PT_1.txt", "./PT/PT_2.txt", "./PT/PT_3.txt", "./PT/PT_4.txt"]
 
         str = random.choice(PT_l)
-        
         PT_t = open(str, "r")
         text_in = PT_t.read()
 
@@ -849,6 +849,25 @@ class Application(tk.Frame):
             canvas.pack(fill="x")
             label = tk.Label(PT_win, text=text_in, justify="left", foreground="black", background="white")
             label.place(x=40, y=300)
+        elif str == "./PT/PT_3.txt":
+            canvas = tk.Canvas(PT_win, width=1280, height=720)
+            canvas.create_rectangle(0, 0, 1280, 720, fill="gray")
+            canvas.pack(fill="x")
+            label = tk.Label(PT_win, text=text_in, justify="right", foreground="black", background="gray")
+            label.place(x=700, y=50)
+        elif str == "./PT/PT_4.txt":
+            canvas = tk.Canvas(PT_win, width=1280, height=720)
+            canvas.create_rectangle(0, 0, 1280, 720, fill="black")
+            canvas.pack(fill="x")
+            label = tk.Label(PT_win, text=text_in, justify="left", foreground="white", background="black")
+            label.place(x=40, y=50)
+        elif str == "./PT/PT_5.txt":
+            canvas = tk.Canvas(PT_win, width=1280, height=720)
+            canvas.create_rectangle(0, 0, 1280, 720, fill="yellow")
+            canvas.pack(fill="x")
+            label = tk.Label(PT_win, text=text_in, justify="left", foreground="black", background="yellow")
+            label.place(x=10, y=10)
+            
         
         PT_win.transient(self.master)
         PT_win.grab_set()
