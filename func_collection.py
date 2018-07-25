@@ -314,6 +314,23 @@ def Gaussian(self):
     cv2.imwrite(O_REAL_PATH, dst2)
 
 
+# DoG
+def DoG(self):
+    def dog_12(gray, kernel, sigma1, sigma2):
+        g1 = cv2.GaussianBlur(gray, kernel, sigma1)
+        g2 = cv2.GaussianBlur(gray, kernel, sigma2)
+
+        return g1 - g2
+
+    img = cv2.imread(self)
+
+    gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+
+    dst = dog_12(gray, (3, 3), 1.5, 3.0)
+
+    cv2.imwrite(O_REAL_PATH, dst)
+
+
 # 一次微分(横)
 def Diff_w(self):
     img = cv2.imread(self)
