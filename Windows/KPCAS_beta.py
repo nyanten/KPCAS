@@ -96,7 +96,7 @@ class Application(tk.Frame):
 
         # エントリ定義
         self.var_entry = tk.StringVar()
-        self.entry = tk.Entry(self, textvariable=self.var_entry, width=22)
+        self.entry = tk.Entry(self, textvariable=self.var_entry, width=34)
 
         # ボタン定義
         self.button = tk.Button(self, text=u"開く", command=self.button_pushed)
@@ -115,10 +115,10 @@ class Application(tk.Frame):
 
         # リストボックス/スクロールバー
         self.frame = tk.Frame(root)
-        self.frame.place(x=285, y=43)
+        self.frame.place(x=285, y=40)
 
         self.v = tk.StringVar(value=FILTER_SET)
-        self.listbox_main = tk.Listbox(self.frame, listvariable=self.v, width=20, height=15, relief=tk.RIDGE, bd=2)
+        self.listbox_main = tk.Listbox(self.frame, listvariable=self.v, width=28, height=16, relief=tk.RIDGE, bd=2)
         self.scrollbar_m = tk.Scrollbar(self.frame, orient="v", command=self.listbox_main.yview)
         self.listbox_main['yscrollcommand'] = self.scrollbar_m.set
 
@@ -133,19 +133,19 @@ class Application(tk.Frame):
         self.title.place(x=100, y=5)
 
         # エントリなど
-        self.entry.place(x=500, y=30) #source
+        self.entry.place(x=500, y=35) #source
         self.entry.insert(tk.END, "開くを押して参照する")
 
         # ボタンなど
-        self.button.place(x=655, y=2)
+        self.button.place(x=660, y=3)
         self.button_qt.place(x=10, y=5)
-        self.button_man.place(x=500, y=275)
-        self.button_act.place(x=280, y=310)
-        self.button_exe.place(x=280, y=340)
-        self.button_save.place(x=40, y=310)
-        self.button_output_clear.place(x=40, y=340)
-        self.button_clear.place(x=500, y=310)
-        self.button_web.place(x=500, y=340)
+        self.button_man.place(x=530, y=275)
+        self.button_act.place(x=300, y=310)
+        self.button_exe.place(x=300, y=340)
+        self.button_save.place(x=70, y=310)
+        self.button_output_clear.place(x=70, y=340)
+        self.button_clear.place(x=530, y=310)
+        self.button_web.place(x=530, y=340)
         #self.button.grid(column=2, row=0, sticky=tk.E)
 
         # キャンバスなど
@@ -270,10 +270,10 @@ class Application(tk.Frame):
 
         # メインのリストボックスを更新
         frame = tk.Frame(root)
-        frame.place(x=285, y=43)
+        frame.place(x=285, y=40)
 
         v = tk.StringVar(value=FILTER_SET)
-        self.listbox_main = tk.Listbox(frame, listvariable=v, width=20, height=15, relief=tk.RIDGE, bd=2)
+        self.listbox_main = tk.Listbox(frame, listvariable=v, width=28, height=16, relief=tk.RIDGE, bd=2)
         self.scrollbar_m = tk.Scrollbar(frame, orient="v", command=self.listbox_main.yview)
         self.listbox_main['yscrollcommand'] = self.scrollbar_m.set
 
@@ -465,8 +465,8 @@ class Application(tk.Frame):
         # デフォルトでのリストボックスとスクロールバー生成
         v1 = tk.StringVar(value=FILTER)
         v2 = tk.StringVar(value=FILTER_SET)
-        lb_default = tk.Listbox(frame1, listvariable=v1, width=18, height=10)
-        lb_new = tk.Listbox(frame2, listvariable=v2, width=18, height=10)
+        lb_default = tk.Listbox(frame1, listvariable=v1, width=24, height=10)
+        lb_new = tk.Listbox(frame2, listvariable=v2, width=24, height=10)
 
         # リストボックスの配置
         lb_default.grid(row=0, column=0)
@@ -517,7 +517,7 @@ class Application(tk.Frame):
             frame2 = tk.Frame(sub_win)
             frame2.place(x=250, y=50)
             v2 = tk.StringVar(value=FILTER_SET)
-            lb_new = tk.Listbox(frame2, listvariable=v2, width=18, height=10)
+            lb_new = tk.Listbox(frame2, listvariable=v2, width=24, height=10)
             lb_new.grid(row=0, column=0)
             scrollbar_2 = tk.Scrollbar(frame2, orient="v", command=lb_new.yview)
             lb_new['yscrollcommand'] = scrollbar_2.set
@@ -525,10 +525,10 @@ class Application(tk.Frame):
 
             # メインのリストボックスを更新
             frame = tk.Frame(root)
-            frame.place(x=285, y=43)
+            frame.place(x=285, y=40)
 
             v = tk.StringVar(value=FILTER_SET)
-            self.listbox_main = tk.Listbox(frame, listvariable=v, width=20, height=15, relief=tk.RIDGE, bd=2)
+            self.listbox_main = tk.Listbox(frame, listvariable=v, width=28, height=16, relief=tk.RIDGE, bd=2)
             self.scrollbar_m = tk.Scrollbar(frame, orient="v", command=self.listbox_main.yview)
             self.listbox_main['yscrollcommand'] = self.scrollbar_m.set
 
