@@ -34,13 +34,13 @@ root.geometry("720x380") # ウィンドウサイズ
 
 
 FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青単色',
-          '色交換(赤青)', '色交換(赤緑)', '色交換(緑青)', 
+          '色交換(赤青)', '色交換(赤緑)', '色交換(緑青)',
           'HSV色空間(色相シフト)', 'HSV色空間(彩度シフト)', 'HSV色空間(明度シフト)',
           '明るく', '暗く', 'ガンマ補正', 'セピア', 'モザイク', 'ネガポジ反転', 'ミラー',
-          '減色', 'ソーラライズ', 'ポスタライズ', 'イコライズ', '回転(90度)', 
-          '平均化', 'メディアンフィルタ', 'ガウシアンフィルタ', 'DoG', 
+          '減色', 'ソーラライズ', 'ポスタライズ', 'イコライズ', '回転(90度)',
+          '平均化', 'メディアンフィルタ', 'ガウシアンフィルタ', 'DoG',
           '一次微分(横)', '一次微分(縦)', 'Prewitt', 'Sobel', 'ラプラシアン', 'ラプラシアン(PIL)',
-          'エンボス', 'エンボス(PIL)', 
+          'エンボス', 'エンボス(PIL)',
           'ごま塩ノイズ', 'ガウシアンノイズ', 'フーリエ変換', 'ローパスフィルタ', 'ハイパスフィルタ',
           '顔検出', '顔面モザイク')
 
@@ -108,7 +108,7 @@ class Application(tk.Frame):
         self.button_clear = tk.Button(self, text=u"すべてクリア", command=self.all_clear, width=20)
         self.button_output_clear = tk.Button(self, text=u"出力結果をクリア", command=self.output_clear, width=20)
         self.button_web = tk.Button(self, text=u"Wikiをみる", command=self.web_link, width=20)
-        
+
         # キャンバス定義
         self.canvas = tk.Canvas(self, width=200, height=200, relief=tk.RIDGE, bd=2)
         self.o_canvas = tk.Canvas(self, width=256, height=256, relief=tk.RIDGE, bd=2)
@@ -116,7 +116,7 @@ class Application(tk.Frame):
         # リストボックス/スクロールバー
         self.frame = tk.Frame(root)
         self.frame.place(x=285, y=43)
-        
+
         self.v = tk.StringVar(value=FILTER_SET)
         self.listbox_main = tk.Listbox(self.frame, listvariable=self.v, width=20, height=15, relief=tk.RIDGE, bd=2)
         self.scrollbar_m = tk.Scrollbar(self.frame, orient="v", command=self.listbox_main.yview)
@@ -126,8 +126,8 @@ class Application(tk.Frame):
         val_c = tk.BooleanVar()
         val_c.set(False)
         self.checkbox = tk.Checkbutton(self, text=u"リサイズしない", variable=val_c)
-        
-        
+
+
         # 各物体の位置(gridだとややこしいので、placeで直接指定する)
         # 文字など
         self.title.place(x=100, y=5)
@@ -157,23 +157,23 @@ class Application(tk.Frame):
         # リストボックス/スクロールバーなど
         self.listbox_main.grid(row=0, column=0)
         self.scrollbar_m.grid(row=0, column=1, sticky=tk.NS)
-        
+
         # その他
         self.checkbox.place(x=500, y=5)
 
         # おまけ
-        
+
 
     # 参照ファイルコマンド
     def button_pushed(self):
         # http://spcx8.hatenablog.com/entry/2017/12/24/112528
-        # ファイルの参照方法はWindowsとmacOSで異なる        
+        # ファイルの参照方法はWindowsとmacOSで異なる
         # Windowsの場合は以下のようになる
         # fname = tkFD.askopenfilename(filetypes=[('data files','*.csv;*.txt')],initialdir=os.getcwd())
         # 参照ファイルの拡張子を絞る方法が異なるようで、Windowsの場合は'*.*'で全表示も可能
         global REAL_PATH
         global val_c
-        
+
         fname = tkFD.askopenfilename(filetypes=[("jpg files","*.jpg"),("png files","*.png")],initialdir=os.getcwd())
         print(fname)
         if not fname:
@@ -187,13 +187,13 @@ class Application(tk.Frame):
             im_r = img.resize((256, 256))
             im_r.save(REAL_PATH)
 
-        
+
         # ソースコードの保存場所に気をつける
 
         # 以下、リサイズ後の絶対パス。なぜかはわからないが、絶対パスでないとエラーを吐く
         # ex) ~/Documents/... とするとエラー
         # 読み込み毎にリサイズされて上書きされる
-        
+
         self.var_entry.set(fname)
 
         self.img = ImageTk.PhotoImage(file=REAL_PATH)
@@ -202,8 +202,8 @@ class Application(tk.Frame):
 
     # マニュアルを開く
     def manual_op(self):
-        man = open("./manual.txt","r")
-        
+        man = open("./manual.txt","r", encoding="utf-8")
+
         man_win = tk.Toplevel(master=self.master)
         man_win.title("マニュアル")
         man_win.geometry("680x420+100+100")
@@ -226,7 +226,7 @@ class Application(tk.Frame):
         self.button_k = tk.Button(man_win, text="Go", command=self.check_K_COM)
         self.button_k.place(x=600, y=10)
         man.close()
-        
+
     def check_K_COM(self):
         global FILTER
         global ADD_FLAG
@@ -240,8 +240,8 @@ class Application(tk.Frame):
                 print("204863")
         else:
             print("俺は歩いたよ\n歩くことしかできなかったんだ\nやがて 俺の前を歩く俺が見えた\nだが あれは俺じゃない\n気をつけろ\nそのドアの隙間は 分断された現実(セパレート・リアリティ)だ\n俺なのは 俺だけだ\nお前なのは お前だけか？")
-        
-        
+
+
     # 保存
     def save(self):
         global FO
@@ -253,7 +253,7 @@ class Application(tk.Frame):
     # リンクに飛ぶ
     def web_link(self):
         wb.open_new("https://github.com/nyanten/KPCAS/wiki")
-    
+
 
     # すべてクリア
     def all_clear(self):
@@ -271,12 +271,12 @@ class Application(tk.Frame):
         # メインのリストボックスを更新
         frame = tk.Frame(root)
         frame.place(x=285, y=43)
-        
+
         v = tk.StringVar(value=FILTER_SET)
         self.listbox_main = tk.Listbox(frame, listvariable=v, width=20, height=15, relief=tk.RIDGE, bd=2)
         self.scrollbar_m = tk.Scrollbar(frame, orient="v", command=self.listbox_main.yview)
         self.listbox_main['yscrollcommand'] = self.scrollbar_m.set
-        
+
         self.listbox_main.grid(row=0, column=0)
         self.scrollbar_m.grid(row=0, column=1, sticky=tk.NS)
 
@@ -312,7 +312,7 @@ class Application(tk.Frame):
 
         print("FILTER SET EMPTY")
 
-        
+
     #
     # beta作成時に発生していた、命令セットサブウィンドウが無限に増えるVer
     # 組み込んだ命令を動的にリストボックス表示したいがためにaction関数を繰り返し呼び出していた
@@ -320,10 +320,10 @@ class Application(tk.Frame):
     # 命令追加系統
     #def action_add_bn(self):
     #    self.show_selection_a()
-    
+
     #def listbox_selected(self, event):
     #    self.show_selection_a()
-    
+
     # def show_selection_a(self):
     #     global slb
     #     global FILTER_SET
@@ -336,10 +336,10 @@ class Application(tk.Frame):
     # 命令削除系統
     # def action_del_bn(self):
     #     self.show_selection_d()
-    
+
     # def listbox_selected(self, event):
     #     self.show_selection_d()
-    
+
     # def show_selection_d(self):
     #     global dlb
     #     global FILTER_SET
@@ -354,26 +354,26 @@ class Application(tk.Frame):
     # action関数を繰り返し呼び出さず、組み込んだリストボックス(lb_new)を再表示させるために、以下のようにコード改変。
     # action関数に内部関数として呼び出すことで解決。
     #
-    
-    
+
+
     # 命令セット
     def action(self):
         global lb_default
         global lb_new
-        
+
         sub_win = tk.Toplevel(master=self.master)
         sub_win.title("命令セット")
         sub_win.geometry("480x240+100+50")
 
         print("Open Assembly Set")
-        
+
         # 命令追加系統
         def action_add_bn():
             show_selection_a()
-    
+
         def listbox_selected():
             show_selection_a()
-    
+
         def show_selection_a():
             global lb_default
             global lb_new
@@ -384,15 +384,15 @@ class Application(tk.Frame):
                 FILTER_SET += (slb, )
 
                 listbox_update()
-                
+
 
         # 命令削除系統
         def action_del_bn():
             show_selection_d()
-    
+
         def listbox_selected_d():
             show_selection_d()
-    
+
         def show_selection_d():
             global lb_new
             global FILTER_SET
@@ -402,7 +402,7 @@ class Application(tk.Frame):
                 del dlb_l[i] # リストで選択されている部分を削除する
                 FILTER_SET = tuple(dlb_l) # タプルに戻す
                 print(dlb + "を削除しました")
-                
+
                 listbox_update()
 
 
@@ -413,9 +413,9 @@ class Application(tk.Frame):
             FILTER_SET = ()
             lb_new = ()
             print("命令を全消去しました")
-            
+
             listbox_update()
-            
+
 
         # 命令入れ替え
         def action_change():
@@ -431,10 +431,10 @@ class Application(tk.Frame):
                     print(clb[i+1] + "と" + clb[i] + "を入れ替えました")
                 else:
                     print("下には何もありません")
-                
+
                 listbox_update()
 
-        
+
         # 命令ソート
         def action_sort():
             global lb_new
@@ -443,9 +443,9 @@ class Application(tk.Frame):
             sort_l.reverse()
             FILTER_SET = tuple(sort_l)
             print("全命令を逆順にソートしました")
-            
+
             listbox_update()
-            
+
 
         # リストボックス用フレーム
         frame1 = tk.Frame(sub_win)
@@ -507,7 +507,7 @@ class Application(tk.Frame):
         button.focus_set()
         sub_win.transient(self.master)
         sub_win.grab_set()
-        
+
 
         # リストボックス更新
         def listbox_update():
@@ -522,16 +522,16 @@ class Application(tk.Frame):
             scrollbar_2 = tk.Scrollbar(frame2, orient="v", command=lb_new.yview)
             lb_new['yscrollcommand'] = scrollbar_2.set
             scrollbar_2.grid(row=0, column=1, sticky=tk.NS)
-            
+
             # メインのリストボックスを更新
             frame = tk.Frame(root)
             frame.place(x=285, y=43)
-            
+
             v = tk.StringVar(value=FILTER_SET)
             self.listbox_main = tk.Listbox(frame, listvariable=v, width=20, height=15, relief=tk.RIDGE, bd=2)
             self.scrollbar_m = tk.Scrollbar(frame, orient="v", command=self.listbox_main.yview)
             self.listbox_main['yscrollcommand'] = self.scrollbar_m.set
-            
+
             self.listbox_main.grid(row=0, column=0)
             self.scrollbar_m.grid(row=0, column=1, sticky=tk.NS)
 
@@ -691,7 +691,7 @@ class Application(tk.Frame):
                     else:
                         print("ぶっこわれ")
 
-                
+
                 # 初回以降
                 else:
                     if FILTER_SET[i] in {"２値化"}:
@@ -838,10 +838,10 @@ class Application(tk.Frame):
 
             if PT_FLAG == 1:
                 self.do_PT()
-                                  
+
         else:
             print("命令セットが組み込まれていません")
-            
+
 
     # おまけ
     def do_PT(self):
@@ -852,7 +852,7 @@ class Application(tk.Frame):
         PT_l = ["./PT/PT_1.txt", "./PT/PT_2.txt", "./PT/PT_3.txt", "./PT/PT_4.txt"]
 
         str = random.choice(PT_l)
-        PT_t = open(str, "r")
+        PT_t = open(str, "r", encoding="utf-8")
         text_in = PT_t.read()
 
         if str == "./PT/PT_1.txt":
@@ -885,17 +885,17 @@ class Application(tk.Frame):
             canvas.pack(fill="x")
             label = tk.Label(PT_win, text=text_in, justify="left", foreground="black", background="yellow")
             label.place(x=10, y=10)
-            
-        
+
+
         PT_win.transient(self.master)
         PT_win.grab_set()
         PT_win.focus_set()
 
         PT_t.close()
 
-        
 
-# ひながた        
+
+# ひながた
 if __name__ == "__main__":
     app = Application(master=root)
     app.pack()
