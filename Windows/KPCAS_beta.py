@@ -5,7 +5,6 @@
 # OpenCV使用
 # 他のパッケージはpipコマンドでインストール
 import sys, os, shutil
-import datetime
 import webbrowser as wb
 
 import cv2
@@ -67,9 +66,6 @@ S_REAL_PATH = os.path.join(CD, "save_image", "Final_img_")
 FO = 0
 ADD_FLAG = 0
 PT_FLAG = 0
-
-# 現時刻
-NOW = datetime.datetime.now()
 
 
 # 命令セット追加削除時のリスト用グローバル変数
@@ -245,7 +241,7 @@ class Application(tk.Frame):
     # 保存
     def save(self):
         global FO
-        shutil.copy(O_REAL_PATH, S_REAL_PATH + str(NOW) + "_" + str(FO) + ".jpg")
+        shutil.copy(O_REAL_PATH, S_REAL_PATH + "_" + str(FO) + ".jpg")
         FO += 1
         print("save")
 

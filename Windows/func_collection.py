@@ -24,9 +24,8 @@ CD = os.getcwd()
 # 出力絶対パス
 O_REAL_PATH = os.path.join(CD, "output_img", "output_img.jpg")
 
-# OpenCV
-FACE_CASCADE_PATH = "/usr/local/Cellar/opencv/3.4.1_5/"\
-                    "share/OpenCV/haarcascades/"\
+# OpenCV haarcascade***.xml 保存場所
+FACE_CASCADE_PATH = "/opencv-3/opencv/sources/data/haarcascades/"\
                     "haarcascade_frontalface_default.xml"
 
 
