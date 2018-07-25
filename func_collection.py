@@ -24,6 +24,13 @@ CD = os.getcwd()
 # 出力絶対パス
 O_REAL_PATH = os.path.join(CD, "output_img", "output_img.jpg")
 
+# OpenCV
+FACE_CASCADE_PATH = "/usr/local/Cellar/opencv/3.4.1_5/"\
+                    "share/OpenCV/haarcascades/"\
+                    "haarcascade_frontalface_default.xml"
+
+
+
 
 # ２値化処理
 def Binary(self):
@@ -530,6 +537,40 @@ def Highpass(self):
     himg = high(gray, 0.8)
 
     cv2.imwrite(O_REAL_PATH, himg)
+    
+
+# 顔検出
+def Face_check(self):
+    img = cv2.imread(self)
+
+    cascade = cv2.CascadeClassifier(FACE_CASCADE_PATH)
+    im_g = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    faces = cascade.detectMultiScale(im_g)
+
+    # 顔の部分に矩形
+    for x, y, w, h in faces:
+        cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
+        face = img[y: y + h, x: x + w]
+        face_gray = im_g[y: y + h, x: x + w]
+
+    cv2.imwrite(O_REAL_PATH, img)
+
+
+# 顔にモザイク
+def Face_Moza(self):
+    img = cv2.imread(self)
+
+    ratio = 0.05
+    cascade = cv2.CascadeClassifier(FACE_CASCADE_PATH)
+    im_g = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    faces = cascade.detectMultiScale(im_g)
+
+    # 顔の部分だけモザイク
+    for x, y, w, h in faces:
+        small = cv2.resize(img[y: y + h, x: x + w], None, fx=ratio, fy=ratio, interpolation=cv2.INTER_NEAREST)
+        img[y: y + h, x: x + w] = cv2.resize(small, (w, h), interpolation=cv2.INTER_NEAREST)
+
+    cv2.imwrite(O_REAL_PATH, img)
 
 
 # Hideo 1

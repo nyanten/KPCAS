@@ -42,7 +42,7 @@ FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青�
           '一次微分(横)', '一次微分(縦)', 'Prewitt', 'Sobel', 'ラプラシアン', 'ラプラシアン(PIL)',
           'エンボス', 'エンボス(PIL)', 
           'ごま塩ノイズ', 'ガウシアンノイズ', 'フーリエ変換', 'ローパスフィルタ', 'ハイパスフィルタ',
-          '顔検出', 'アニメ顔検出', '猫検出', '顔面ぼかし')
+          '顔検出', '顔面モザイク')
 
 FILTER_SET = ()
 
@@ -669,6 +669,12 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ハイパスフィルタ"}:
                         print("ハイパスフィルタ")
                         fc.Highpass(REAL_PATH)
+                    elif FILTER_SET[i] in {"顔検出"}:
+                        print("顔検出")
+                        fc.Face_check(REAL_PATH)
+                    elif FILTER_SET[i] in {"顔面モザイク"}:
+                        print("顔面モザイク")
+                        fc.Face_Moza(REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(REAL_PATH)
@@ -802,6 +808,12 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ハイパスフィルタ"}:
                         print("ハイパスフィルタ")
                         fc.Highpass(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"顔検出"}:
+                        print("顔検出")
+                        fc.Face_check(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"顔面モザイク"}:
+                        print("顔面モザイク")
+                        fc.Face_Moza(O_REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(O_REAL_PATH)
