@@ -77,7 +77,7 @@ def Green(self):
     img = Image.open(self)
     im_a = np.array(img)
     im_g = im_a.copy()
-    im_g[:, :, (1, 2)] = 0
+    im_g[:, :, (0, 2)] = 0
 
     green = Image.fromarray(im_g)
     green.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
@@ -87,7 +87,7 @@ def Blue(self):
     img = Image.open(self)
     im_a = np.array(img)
     im_b = im_a.copy()
-    im_b[:, :, (1, 2)] = 0
+    im_b[:, :, (0, 1)] = 0
 
     blue = Image.fromarray(im_b)
     blue.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
@@ -99,8 +99,8 @@ def RtoB(self):
     img = Image.open(self)
     im_a = np.array(img)
     im_swap_rb = im_a.copy()
-    im_swap_rb[:, :, 0] = img[:, :, 2]
-    im_swap_rb[:, :, 2] = img[:, :, 0]
+    im_swap_rb[:, :, 0] = im_a[:, :, 2]
+    im_swap_rb[:, :, 2] = im_a[:, :, 0]
 
     rtob = Image.fromarray(im_swap_rb)
     rtob.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
@@ -111,8 +111,8 @@ def RtoG(self):
     img = Image.open(self)
     im_a = np.array(img)
     im_swap_rg = im_a.copy()
-    im_swap_rg[:, :, 1] = img[:, :, 2]
-    im_swap_rg[:, :, 2] = img[:, :, 1]
+    im_swap_rg[:, :, 1] = im_a[:, :, 2]
+    im_swap_rg[:, :, 2] = im_a[:, :, 1]
 
     rtog = Image.fromarray(im_swap_rg)
     rtog.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
@@ -123,8 +123,8 @@ def GtoB(self):
     img = Image.open(self)
     im_a = np.array(img)
     im_swap_gb = im_a.copy()
-    im_swap_gb[:, :, 0] = img[:, :, 1]
-    im_swap_gb[:, :, 1] = img[:, :, 0]
+    im_swap_gb[:, :, 0] = im_a[:, :, 1]
+    im_swap_gb[:, :, 1] = im_a[:, :, 0]
 
     gtob = Image.fromarray(im_swap_gb)
     gtob.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
