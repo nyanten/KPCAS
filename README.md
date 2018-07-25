@@ -87,8 +87,8 @@
 - フーリエ変換
 - ローパスフィルタ
 - ハイパスフィルタ
-- **顔検出**
-- **顔面モザイク**
+- 顔検出
+- 顔面モザイク
 
 そのほか。
 
@@ -98,22 +98,38 @@
 
 ### ディジタル画像のなりたち
 
+[wiki](https://github.com/nyanten/KPCAS/wiki)をみて。
+
 ## 環境構築
-Python3.6.5は[Pythonの公式サイト](https://www.python.org/downloads/)からダウンロード。
+Python3.6.5は[Pythonの公式サイト](https://www.python.org/downloads/)からダウンロード。  
 macOSの場合、デフォルトでPython2.xがインストールされている。ターミナルで `python` と入力してバージョン情報を、`which python` と入力して場所を確認する。  
 
-Python3.6.5以外の動作は確認していないが、Python3.x.xより後のバージョンならばおそらく問題ない。
+Python3.6.5以外の動作は確認していないが、Python3.x.xより後のバージョンならばおそらく問題ない。  
 
 パッケージの管理にはpipを用いた。Pythonをインストールした時にデフォルトでインストールされる。macOSにはデフォルトで入っていない、あるいはすでに入っているかのどちらかである。  
-ターミナルで `pip --version` と入力して、入っているなら **Python2.xのpip** が入っていることになる。Python3.xを後からインストールした場合は、`pip3` となることがあるため、注意。
+ターミナルで `pip --version` と入力して、入っているなら **Python2.xのpip** が入っていることになる。Python3.xを後からインストールした場合は、`pip3` となることがあるため、注意。  
 
-Windows環境での動作確認は行なったが、ウィンドウサイズなどの誤差により配置がおかしくなることもある。動作については一応保証している。  
+Windows環境での動作確認は行なったが、ウィンドウサイズなどの誤差により配置がおかしくなることもある。動作については一応保証している。
 
 なお、ソースコードをみてもらえればわかるが、OpenCVを用いている。  
 こいつとPythonの環境によっては、本プログラムが動作しないことがある。  
-~2018/7/18 現時点では、Windows環境にてOpenCVを使わずにPillowを用いて命令セットを組み直している。tsukareta...~
+~2018/7/18 現時点では、Windows環境にてOpenCVを使わずにPillowを用いて命令セットを組み直している。tsukareta...~  
+~WindowsにPython3.6.5とOpenCVを入れたのだが、動作しないことを確認した。模索中...~
 
-WindowsにPython3.6.5とOpenCVを入れたのだが、動作しないことを確認した。模索中...
+## Windows用ソース 2018/7/25 追加
+別環境のWindowsにてPyInstallerを用いたところ、実行ファイルを作成できた。
+[Windowsファイル](https://github.com/nyanten/KPCAS/tree/master/Windows)に入っている。Windows環境に合わせて作り直してあるため、環境さえ整って入ればおそらく動作する。  
+
+以下、Windowsでの環境構築。  
+
+### Windows 環境構築
+Python公式サイトから、[Python3.6.5のインストーラをダウンロード](https://www.python.org/ftp/python/3.6.5/python-3.6.5-amd64.exe)する。  
+既にPythonがインストールされている場合はそのままでもよいと思われる。
+
+Pythonのインストーラを起動して、お好みの場所にインストールする。
+
+次に、OpenCVを導入するが、[次の非公式サイト](https://www.lfd.uci.edu/~gohlke/pythonlibs/#opencv)にうつる。
+
 
 ## py2app を使ったビルドメモ
 setup.pyをそのまんまmakeしたが、うまくいかずsetupのみで構成したファイルを実行。  
