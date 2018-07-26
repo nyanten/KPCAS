@@ -20,6 +20,7 @@ import random
 
 # 外部ファイル
 import func_collection as fc
+import camera as cam
 
 root = tk.Tk()
 root.title("KPCAS beta 0.1")
@@ -108,6 +109,8 @@ class Application(tk.Frame):
         self.button_clear = tk.Button(self, text=u"すべてクリア", command=self.all_clear, width=20)
         self.button_output_clear = tk.Button(self, text=u"出力結果をクリア", command=self.output_clear, width=20)
         self.button_web = tk.Button(self, text=u"Wikiをみる", command=self.web_link, width=20)
+
+        self.button_cam = tk.Button(self, text=u"カメラ起動", command=self.cam)
         
         # キャンバス定義
         self.canvas = tk.Canvas(self, width=200, height=200, relief=tk.RIDGE, bd=2)
@@ -146,6 +149,7 @@ class Application(tk.Frame):
         self.button_output_clear.place(x=40, y=340)
         self.button_clear.place(x=500, y=310)
         self.button_web.place(x=500, y=340)
+        self.button_cam.place(x=340, y=7)
         #self.button.grid(column=2, row=0, sticky=tk.E)
 
         # キャンバスなど
@@ -162,7 +166,11 @@ class Application(tk.Frame):
         self.checkbox.place(x=500, y=5)
 
         # おまけ
-        
+
+    def cam(self):
+        cam.Camera()
+        print("escで終了")
+        print("spaceで画像取得")
 
     # 参照ファイルコマンド
     def button_pushed(self):
