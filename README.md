@@ -145,13 +145,17 @@ opencv python-XXX-cpYY-cpYYm-win ZZZZ.whl
 
 CPUはコントロールパネルなどから確認できる。  
 
-次に、Windowsのコマンドプロンプトを起動する。  
+次に、Windowsのコマンドプロンプトを起動する。
+`python pip install --upgrade pip` と入力してpipをアップグレードする。
+このコマンドでアップグレードされない場合は、`pip list` とでも入力すればわかる。
+オレンジ色で警告文が出てくると思うので、その通りにすればアップグレードできる。  
+
 `cd Downloads` で先ほどダウンロードした `opencv python-3.4 ....` のあるところに移動する。  
 `pip install opencv python-3.4.2-cp36-cp36m-win amd64.whl` と入力。
 
-完了後、`pip list` で必要項目がインストールされているかチェック。
+完了後、`pip list` で必要項目がインストールされているかチェック。  
 
-`python` と入力。
+そして、 `python` と入力。pythonが立ち上がるので、  
 
 ```
 >>> import cv2
