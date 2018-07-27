@@ -15,7 +15,7 @@ import tkinter.filedialog as tkFD
 from tkinter import PhotoImage
 from PIL import ImageTk, Image
 import random
-import qrcode
+#import qrcode
 
 #print(sys.path)
 
@@ -152,8 +152,8 @@ class Application(tk.Frame):
         self.button_output_clear.place(x=40, y=340)
         self.button_clear.place(x=500, y=310)
         self.button_web.place(x=500, y=340)
-        self.button_cam.place(x=340, y=7)
-        self.button_qr.place(x=280, y=7)
+        self.button_cam.place(x=360, y=7)
+        self.button_qr.place(x=300, y=7)
         #self.button.grid(column=2, row=0, sticky=tk.E)
 
         # キャンバスなど
