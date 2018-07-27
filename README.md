@@ -66,7 +66,7 @@ Spaceキーで撮影。escキーで終了。
 [wiki](https://github.com/nyanten/KPCAS/wiki/Image-Processing)をみてくだし。
 
 
-## 環境構築
+## 環境構築(macOS)
 Python3.6.5は[Pythonの公式サイト](https://www.python.org/downloads/)からダウンロード。  
 macOSの場合、デフォルトでPython2.xがインストールされている。
 ターミナルで `python` と入力してバージョン情報、  
@@ -79,13 +79,6 @@ Python3.6.5以外の動作は確認していないが、Python3.x.xより後の�
 macOSにはデフォルトで入っていない、あるいはすでに入っているかのどちらかである。  
 ターミナルで `pip --version` と入力して、入っているなら **Python2.xのpip** が入っていることになる。  
 Python3.xを後からインストールした場合は、`pip3` となることがあるため、注意。  
-
-Windows環境での動作確認は行なったが、ウィンドウサイズなどの誤差により配置がおかしくなることもある。動作については一応保証している。  
-
-なお、ソースコードをみてもらえればわかるが、OpenCVを用いている。  
-こいつとPythonの環境によっては、本プログラムが動作しないことがある。  
-~2018/7/18 現時点では、Windows環境にてOpenCVを使わずにPillowを用いて命令セットを組み直している。tsukareta...~  
-~WindowsにPython3.6.5とOpenCVを入れたのだが、動作しないことを確認した。模索中...~
 
 ## Windows用ソース 2018/7/25 追加
 別環境のWindowsにてPyInstallerを用いたところ、実行ファイルを作成できた。
@@ -112,9 +105,13 @@ opencv python-XXX-cpYY-cpYYm-win ZZZZ.whl
 CPUはコントロールパネルなどから確認できる。  
 
 次に、Windowsのコマンドプロンプトを起動する。
-`python pip install --upgrade pip` と入力してpipをアップグレードする。
-このコマンドでアップグレードされない場合は、`pip list` とでも入力すればわかる。
-オレンジ色で警告文が出てくると思うので、その通りにすればアップグレードできる。  
+`python pip install --upgrade pip` と入力してpipをアップグレードする。  
+このコマンドでアップグレードされない場合は、`pip list` とでも入力すればわかる。  
+オレンジ色で警告文が出てくると思うので、その通りにすればアップグレードできる。
+
+`pip install numpy` と入力してNumpyを導入する。
+OpenCVはNumpy必須となっているので注意。  
+`pip install Pillow` と入力してPILを導入する。  
 
 `cd Downloads` で先ほどダウンロードした `opencv python-3.4 ....` のあるところに移動する。  
 `pip install opencv python-3.4.2-cp36-cp36m-win amd64.whl` と入力。
@@ -129,8 +126,6 @@ CPUはコントロールパネルなどから確認できる。
 ```
 
 と入力して、cv2がインポートできているか確認する。
-
-他、必要なライブラリも `pip` でインストールする。
 
 ## py2app を使ったビルドメモ
 setup.pyをそのまんまmakeしたが、うまくいかずsetupのみで構成したファイルを実行。  
