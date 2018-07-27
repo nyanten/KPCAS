@@ -135,10 +135,10 @@ OpenCVはNumpy必須となっているので注意。
 と入力して、cv2がインポートできているか確認する。
 
 ## ~py2app を使ったビルドメモ~
-~setup.pyをそのまんまmakeしたが、うまくいかずsetupのみで構成したファイルを実行。  ~
-~以下、ビルドするための実行コマンド。アイコンを埋め込むため、--iconfileで指定。~
+~setup.pyをそのまんまmakeしたが、うまくいかずsetupのみで構成したファイルを実行。~  
+~以下、ビルドするための実行コマンド。アイコンを埋め込むため、--iconfileで指定。~  
 
-~`python3 setup.py py2app --iconfile test.icns` ~
+~python3 setup.py py2app --iconfile test.icns~
 
 ### QRコードについて
 こちらは未実装。

@@ -33,6 +33,9 @@ distディレクトリが作成され、そこに.exeファイルが作られる
 - output_img (出力結果画像をおいておく場所)
 - save_image (出力結果画像を保存する場所)
 
+また、OpenCVの `haarcascade_frontalface_default.xml` は、
+実行ファイルと同じ場所にコピーしてください。
+
 ## 作業環境
 <dl>
   <dt>EPSON MR7300E-L</dt>
