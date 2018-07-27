@@ -25,9 +25,7 @@ CD = os.getcwd()
 O_REAL_PATH = os.path.join(CD, "output_img", "output_img.jpg")
 
 # OpenCV
-FACE_CASCADE_PATH = "/usr/local/Cellar/opencv/3.4.1_5/"\
-                    "share/OpenCV/haarcascades/"\
-                    "haarcascade_frontalface_default.xml"
+FACE_CASCADE_PATH = "./haarcascade_frontalface_default.xml"
 
 
 
@@ -72,7 +70,7 @@ def Red(self):
     red = Image.fromarray(im_r)
     red.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     img.close()
-    
+
 def Green(self):
     img = Image.open(self)
     im_a = np.array(img)
@@ -82,7 +80,7 @@ def Green(self):
     green = Image.fromarray(im_g)
     green.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     img.close()
-    
+
 def Blue(self):
     img = Image.open(self)
     im_a = np.array(img)
@@ -165,7 +163,7 @@ def Bright(self):
     img_b = img.point(lambda x: x * 1.5)
     img_b.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     img.close()
-    
+
 
 # 暗く
 def Dark(self):
@@ -206,7 +204,7 @@ def Sepia(self):
 
     sepia.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     img.close()
-    
+
 
 # モザイク
 def Moza(self):
@@ -238,7 +236,7 @@ def Loss(self):
     im_a = np.array(img)
 
     im_32 = im_a // 32 * 32
-    
+
     im_los = Image.fromarray(im_32)
     im_los.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     img.close()
@@ -284,7 +282,7 @@ def Average(self):
     kernel = np.array([[1/9, 1/9, 1/9],
                        [1/9, 1/9, 1/9],
                        [1/9, 1/9, 1/9]])
-    
+
     dst2 = cv2.filter2D(img, -1, kernel)
 
     cv2.imwrite(O_REAL_PATH, dst2)
@@ -404,7 +402,7 @@ def Sobel(self):
 # ラプラシアン
 def Laplacian(self):
     img = cv2.imread(self)
-    
+
     kernel = np.array([[1, 1, 1],
                        [1, -8, 1],
                        [1, 1, 1]])
@@ -417,7 +415,7 @@ def Laplacian(self):
 # PIL(CONTOUR)
 def Laplacian_re(self):
     img = Image.open(self, 'r')
-    
+
     im_l = img.filter(ImageFilter.CONTOUR)
 
     im_l.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
@@ -460,7 +458,7 @@ def UnsharpMask(self):
     dst = cv2.filter2D(img, -1, kernel)
 
     cv2.imwrite(O_REAL_PATH, dst)
-    
+
 
 # ごま塩
 def Salt_Noise(self):
@@ -468,11 +466,11 @@ def Salt_Noise(self):
     def sn_add(img, p):
         output = np.zeros(img.shape, np.uint8)
         thres = 1 - p
-        
+
         for i in range(img.shape[0]):
             for j in range(img.shape[1]):
                 rdn = random.random()
-                
+
                 if rdn < p:
                     output[i][j] = 0
                 elif rdn > thres:
@@ -503,7 +501,7 @@ def GaussianNoise(self):
 
         return img_n
 
-    
+
     img = cv2.imread(self)
     im_gn = addGauNoi(img)
     cv2.imwrite(O_REAL_PATH, im_gn)
@@ -524,19 +522,19 @@ def FFT(self):
     mag = 20*np.log(np.abs(fimg))
 
     cv2.imwrite(O_REAL_PATH, mag)
-    
-    
+
+
 # ローパス
 def Lowpass(self):
     img = cv2.imread(self)
 
     def low(img, a=0.5):
         src = np.fft.fft2(img)
-        
+
         h, w = img.shape
-        
+
         cy, cx = int(h/2), int(w/2)
-        
+
         rh, rw = int(a*cy), int(a*cx)
 
         fsrc = np.fft.fftshift(src)
@@ -559,20 +557,20 @@ def Lowpass(self):
 # ハイパス
 def Highpass(self):
     img = cv2.imread(self)
-    
+
     def high(img, a=0.5):
         src = np.fft.fft2(img)
-        
+
         h, w = img.shape
-        
+
         cy, cx = int(h/2), int(w/2)
-        
+
         rh, rw = int(a*cy), int(a*cx)
 
         fsrc = np.fft.fftshift(src)
-        
+
         fdst = fsrc.copy()
-        
+
         fdst[cy-rh:cy+rh, cx-rw:cx+rw] = 0
 
         fdst = np.fft.fftshift(fdst)
@@ -585,7 +583,7 @@ def Highpass(self):
     himg = high(gray, 0.8)
 
     cv2.imwrite(O_REAL_PATH, himg)
-    
+
 
 # 顔検出
 def Face_check(self):
@@ -629,7 +627,7 @@ def ORB(self):
     orb = cv2.ORB_create()
     # 特徴点
     point = orb.detect(img, None)
-    
+
     point, des = orb.compute(img, point)
     # 点描画
     point_im = cv2.drawKeypoints(img, point, None)
@@ -653,7 +651,7 @@ def Hideo_1(self):
 
     img.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     img.close()
-    
+
 
 # Hideo 2
 def Hideo_2(self):
@@ -667,22 +665,22 @@ def Hideo_2(self):
     h, w = im_n.shape
 
     im_dst = np.empty((h, w, 3))
-    
+
     r, g, b = 128, 160, 192
-    
+
     im_dst[:, :, 0] = im_bool * r
     im_dst[:, :, 1] = ~im_bool * g
     im_dst[:, :, 2] = im_bool * b
-    
+
     im_2 = Image.fromarray(np.uint8(im_dst))
     im_2.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     img.close()
-    
+
 
 # FOX DIE
 def Foxdie(self):
     img = Image.open(self, 'r')
-    
+
     im_np = ImageOps.invert(img)
 
     h, s, v = im_np.convert("HSV").split()
@@ -706,14 +704,12 @@ def Foxdie(self):
     # OpenCV
     # img = cv2.imread(self)
 
-    
+
     #
     # 処理をかく
     #
 
 
     # 書き込み
-    # output.save(O_REAL_PATH) 
+    # output.save(O_REAL_PATH)
     # cv2.imwrite(O_REAL_PATH, output)
-
-

@@ -38,10 +38,11 @@ FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青�
           '明るく', '暗く', 'ガンマ補正', 'セピア', 'モザイク', 'ネガポジ反転', 'ミラー',
           '減色', 'ソーラライズ', 'ポスタライズ', 'イコライズ', '回転(90度)',
           '平均化', 'メディアンフィルタ', 'ガウシアンフィルタ', 'DoG',
+          'バイラテラルフィルタ', 'ノンローカルミーンフィルタ',
           '一次微分(横)', '一次微分(縦)', 'Prewitt', 'Sobel', 'ラプラシアン', 'ラプラシアン(PIL)',
-          'エンボス', 'エンボス(PIL)',
+          'エンボス', 'エンボス(PIL)', 'アンシャープマスキング',
           'ごま塩ノイズ', 'ガウシアンノイズ', 'フーリエ変換', 'ローパスフィルタ', 'ハイパスフィルタ',
-          '顔検出', '顔面モザイク')
+          '顔検出', '顔面モザイク', 'ORB')
 
 FILTER_SET = ()
 
@@ -629,6 +630,12 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"DoG"}:
                         print("DoG")
                         fc.DoG(REAL_PATH)
+                    elif FILTER_SET[i] in {"バイラテラルフィルタ"}:
+                        print("バイラテラルフィルタ")
+                        fc.Bilateral(REAL_PATH)
+                    elif FILTER_SET[i] in {"ノンローカルミーンフィルタ"}:
+                        print("ノンローカルミーンフィルタ")
+                        fc.Nonlocal(REAL_PATH)
                     elif FILTER_SET[i] in {"一次微分(横)"}:
                         print("一次微分(横)")
                         fc.Diff_w(REAL_PATH)
@@ -653,6 +660,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"エンボス(PIL)"}:
                         print("エンボス(PIL)")
                         fc.Emboss_re(REAL_PATH)
+                    elif FILTER_SET[i] in {"アンシャープマスキング"}:
+                        print("アンシャープマスキング")
+                        fc.UnsharpMask(REAL_PATH)
                     elif FILTER_SET[i] in {"ごま塩ノイズ"}:
                         print("ごま塩ノイズ")
                         fc.Salt_Noise(REAL_PATH)
@@ -674,6 +684,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"顔面モザイク"}:
                         print("顔面モザイク")
                         fc.Face_Moza(REAL_PATH)
+                    elif FILTER_SET[i] in {"ORB"}:
+                        print("ORB")
+                        fc.ORB(REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(REAL_PATH)
@@ -771,6 +784,12 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"DoG"}:
                         print("DoG")
                         fc.DoG(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"バイラテラルフィルタ"}:
+                        print("バイラテラルフィルタ")
+                        fc.Bilateral(REAL_PATH)
+                    elif FILTER_SET[i] in {"ノンローカルミーンフィルタ"}:
+                        print("ノンローカルミーンフィルタ")
+                        fc.Nonlocal(REAL_PATH)
                     elif FILTER_SET[i] in {"一次微分(横)"}:
                         print("一次微分(横)")
                         fc.Diff_w(O_REAL_PATH)
@@ -795,6 +814,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"エンボス(PIL)"}:
                         print("エンボス(PIL)")
                         fc.Emboss_re(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"アンシャープマスキング"}:
+                        print("アンシャープマスキング")
+                        fc.UnsharpMask(O_REAL_PATH)
                     elif FILTER_SET[i] in {"ごま塩ノイズ"}:
                         print("ごま塩ノイズ")
                         fc.Salt_Noise(O_REAL_PATH)
@@ -816,6 +838,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"顔面モザイク"}:
                         print("顔面モザイク")
                         fc.Face_Moza(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ORB"}:
+                        print("ORB")
+                        fc.ORB(O_REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(O_REAL_PATH)
