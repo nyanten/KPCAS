@@ -9,12 +9,13 @@ import datetime
 import webbrowser as wb
 
 import cv2
-import numpy
+import numpy as np
 import tkinter as tk
 import tkinter.filedialog as tkFD
 from tkinter import PhotoImage
 from PIL import ImageTk, Image
 import random
+import qrcode
 
 #print(sys.path)
 
@@ -42,9 +43,9 @@ FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青�
           '平均化', 'メディアンフィルタ', 'ガウシアンフィルタ', 'DoG',
           'バイラテラルフィルタ', 'ノンローカルミーンフィルタ', 
           '一次微分(横)', '一次微分(縦)', 'Prewitt', 'Sobel', 'ラプラシアン', 'ラプラシアン(PIL)',
-          'エンボス', 'エンボス(PIL)', 
+          'エンボス', 'エンボス(PIL)', 'アンシャープマスキング',
           'ごま塩ノイズ', 'ガウシアンノイズ', 'フーリエ変換', 'ローパスフィルタ', 'ハイパスフィルタ',
-          '顔検出', '顔面モザイク')
+          '顔検出', '顔面モザイク', 'ORB')
 
 FILTER_SET = ()
 
@@ -112,6 +113,7 @@ class Application(tk.Frame):
         self.button_web = tk.Button(self, text=u"Wikiをみる", command=self.web_link, width=20)
 
         self.button_cam = tk.Button(self, text=u"カメラ起動", command=self.cam)
+        self.button_qr = tk.Button(self, text=u"QR", command=self.qrcode)
         
         # キャンバス定義
         self.canvas = tk.Canvas(self, width=200, height=200, relief=tk.RIDGE, bd=2)
@@ -151,6 +153,7 @@ class Application(tk.Frame):
         self.button_clear.place(x=500, y=310)
         self.button_web.place(x=500, y=340)
         self.button_cam.place(x=340, y=7)
+        self.button_qr.place(x=280, y=7)
         #self.button.grid(column=2, row=0, sticky=tk.E)
 
         # キャンバスなど
@@ -172,6 +175,10 @@ class Application(tk.Frame):
         cam.Camera()
         print("escで終了")
         print("spaceで画像取得")
+
+    def qrcode(self):
+        print("未実装")
+        
 
     # 参照ファイルコマンド
     def button_pushed(self):
@@ -672,6 +679,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"エンボス(PIL)"}:
                         print("エンボス(PIL)")
                         fc.Emboss_re(REAL_PATH)
+                    elif FILTER_SET[i] in {"アンシャープマスキング"}:
+                        print("アンシャープマスキング")
+                        fc.UnsharpMask(REAL_PATH)
                     elif FILTER_SET[i] in {"ごま塩ノイズ"}:
                         print("ごま塩ノイズ")
                         fc.Salt_Noise(REAL_PATH)
@@ -693,6 +703,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"顔面モザイク"}:
                         print("顔面モザイク")
                         fc.Face_Moza(REAL_PATH)
+                    elif FILTER_SET[i] in {"ORB"}:
+                        print("ORB")
+                        fc.ORB(REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(REAL_PATH)
@@ -820,6 +833,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"エンボス(PIL)"}:
                         print("エンボス(PIL)")
                         fc.Emboss_re(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"アンシャープマスキング"}:
+                        print("アンシャープマスキング")
+                        fc.UnsharpMask(REAL_PATH)
                     elif FILTER_SET[i] in {"ごま塩ノイズ"}:
                         print("ごま塩ノイズ")
                         fc.Salt_Noise(O_REAL_PATH)
@@ -841,6 +857,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"顔面モザイク"}:
                         print("顔面モザイク")
                         fc.Face_Moza(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ORB"}:
+                        print("ORB")
+                        fc.ORB(O_REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(O_REAL_PATH)

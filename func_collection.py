@@ -447,6 +447,19 @@ def Emboss_re(self):
 
     im_e.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     img.close()
+
+
+# アンシャープマスク
+def UnsharpMask(self):
+    img = cv2.imread(self)
+
+    kernel = np.array([[0, -1, 0],
+                       [-1, 5, -1],
+                       [0, -1, 0]])
+
+    dst = cv2.filter2D(img, -1, kernel)
+
+    cv2.imwrite(O_REAL_PATH, dst)
     
 
 # ごま塩
@@ -606,6 +619,22 @@ def Face_Moza(self):
         img[y: y + h, x: x + w] = cv2.resize(small, (w, h), interpolation=cv2.INTER_NEAREST)
 
     cv2.imwrite(O_REAL_PATH, img)
+
+
+# ORB
+def ORB(self):
+    img = cv2.imread(self)
+
+    # ORB検出
+    orb = cv2.ORB_create()
+    # 特徴点
+    point = orb.detect(img, None)
+    
+    point, des = orb.compute(img, point)
+    # 点描画
+    point_im = cv2.drawKeypoints(img, point, None)
+
+    cv2.imwrite(O_REAL_PATH, point_im)
 
 
 # Hideo 1
