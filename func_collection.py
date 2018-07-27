@@ -331,6 +331,24 @@ def DoG(self):
     cv2.imwrite(O_REAL_PATH, dst)
 
 
+# Bilateral
+def Bilateral(self):
+    img = cv2.imread(self)
+
+    dst = cv2.bilateralFilter(img, 15, 20, 20)
+
+    cv2.imwrite(O_REAL_PATH, dst)
+
+
+# Nonlocalmean
+def Nonlocal(self):
+    img = cv2.imread(self)
+
+    dst = cv2.fastNlMeansDenoisingColored(img,None,10,10,5,16)
+
+    cv2.imwrite(O_REAL_PATH, dst)
+
+
 # 一次微分(横)
 def Diff_w(self):
     img = cv2.imread(self)
@@ -649,3 +667,24 @@ def Foxdie(self):
     img_b = im_s.point(lambda x: x * 1.5)
     img_b.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
     img.close()
+
+
+# お好きな処理を組み込む際は以下にどうぞ
+#def sample(self):
+    # 読み込み
+    # Pillow
+    # img = Image.open(self, 'r')
+    # OpenCV
+    # img = cv2.imread(self)
+
+    
+    #
+    # 処理をかく
+    #
+
+
+    # 書き込み
+    # output.save(O_REAL_PATH) 
+    # cv2.imwrite(O_REAL_PATH, output)
+
+

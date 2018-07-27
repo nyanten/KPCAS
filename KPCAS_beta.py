@@ -39,7 +39,8 @@ FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青�
           'HSV色空間(色相シフト)', 'HSV色空間(彩度シフト)', 'HSV色空間(明度シフト)',
           '明るく', '暗く', 'ガンマ補正', 'セピア', 'モザイク', 'ネガポジ反転', 'ミラー',
           '減色', 'ソーラライズ', 'ポスタライズ', 'イコライズ', '回転(90度)', 
-          '平均化', 'メディアンフィルタ', 'ガウシアンフィルタ', 'DoG', 
+          '平均化', 'メディアンフィルタ', 'ガウシアンフィルタ', 'DoG',
+          'バイラテラルフィルタ', 'ノンローカルミーンフィルタ', 
           '一次微分(横)', '一次微分(縦)', 'Prewitt', 'Sobel', 'ラプラシアン', 'ラプラシアン(PIL)',
           'エンボス', 'エンボス(PIL)', 
           'ごま塩ノイズ', 'ガウシアンノイズ', 'フーリエ変換', 'ローパスフィルタ', 'ハイパスフィルタ',
@@ -641,6 +642,12 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"DoG"}:
                         print("DoG")
                         fc.DoG(REAL_PATH)
+                    elif FILTER_SET[i] in {"バイラテラルフィルタ"}:
+                        print("バイラテラルフィルタ")
+                        fc.Bilateral(REAL_PATH)
+                    elif FILTER_SET[i] in {"ノンローカルミーンフィルタ"}:
+                        print("ノンローカルミーンフィルタ")
+                        fc.Nonlocal(REAL_PATH)
                     elif FILTER_SET[i] in {"一次微分(横)"}:
                         print("一次微分(横)")
                         fc.Diff_w(REAL_PATH)
@@ -783,6 +790,12 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"DoG"}:
                         print("DoG")
                         fc.DoG(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"バイラテラルフィルタ"}:
+                        print("バイラテラルフィルタ")
+                        fc.Bilateral(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ノンローカルミーンフィルタ"}:
+                        print("ノンローカルミーンフィルタ")
+                        fc.Nonlocal(O_REAL_PATH)
                     elif FILTER_SET[i] in {"一次微分(横)"}:
                         print("一次微分(横)")
                         fc.Diff_w(O_REAL_PATH)
