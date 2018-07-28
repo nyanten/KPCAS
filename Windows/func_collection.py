@@ -634,7 +634,7 @@ def ORB(self):
 # Hideo 1
 def Hideo_1(self):
     fontsize = 22
-    font_d = "/Users/nyanten/Library/Fonts/EXO-Bold.otf"
+    font_d = ""
     img = Image.open(self, 'r')
 
     x = 180
@@ -651,8 +651,6 @@ def Hideo_1(self):
 
 # Hideo 2
 def Hideo_2(self):
-    fontsize = 22
-    font_d = "/Users/nyanten/Library/Fonts/JNR-SB-Font.otf"
     img = Image.open(self, 'r').convert('L')
     im_n = np.array(img)
 

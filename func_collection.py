@@ -652,8 +652,6 @@ def Hideo_1(self):
 
 # Hideo 2
 def Hideo_2(self):
-    fontsize = 22
-    font_d = "/Users/nyanten/Library/Fonts/JNR-SB-Font.otf"
     img = Image.open(self, 'r').convert('L')
     im_n = np.array(img)
 

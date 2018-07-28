@@ -1,5 +1,6 @@
 # KrProCessAS (Kr-ProCesser Assembly System)
-　　　　　Build now(beta)
+
+Ver0.50  
 　　　　　*ようこそ*
 
 ## 概要
@@ -132,7 +133,9 @@ OpenCVはNumpy必須となっているので注意。
 >>> 
 ```
 
-と入力して、cv2がインポートできているか確認する。
+と入力して、cv2がインポートできているか確認する。  
+
+`python KPCAS_beta.py` でEnterを押すと起動する。
 
 ## ~py2app を使ったビルドメモ~
 ~setup.pyをそのまんまmakeしたが、うまくいかずsetupのみで構成したファイルを実行。~  
