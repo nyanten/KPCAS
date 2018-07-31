@@ -835,7 +835,7 @@ class Application(tk.Frame):
                         fc.Emboss_re(O_REAL_PATH)
                     elif FILTER_SET[i] in {"アンシャープマスキング"}:
                         print("アンシャープマスキング")
-                        fc.UnsharpMask(REAL_PATH)
+                        fc.UnsharpMask(O_REAL_PATH)
                     elif FILTER_SET[i] in {"ごま塩ノイズ"}:
                         print("ごま塩ノイズ")
                         fc.Salt_Noise(O_REAL_PATH)

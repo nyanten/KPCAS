@@ -7,10 +7,10 @@ missing module named multiprocessing.get_context - imported by multiprocessing, 
 missing module named multiprocessing.BufferTooShort - imported by multiprocessing, multiprocessing.connection
 missing module named multiprocessing.AuthenticationError - imported by multiprocessing, multiprocessing.connection
 missing module named pyimod03_importers - imported by c:\users\nyanten\appdata\local\programs\python\python36\lib\site-packages\PyInstaller\loader\rthooks\pyi_rth_pkgres.py
-missing module named 'pkg_resources.extern.pyparsing' - imported by pkg_resources._vendor.packaging.markers, pkg_resources._vendor.packaging.requirements
-missing module named StringIO - imported by numpy.lib.utils, numpy.testing._private.utils, scipy._lib.six, numpy.lib.format, pkg_resources._vendor.six
 missing module named 'com.sun' - imported by pkg_resources._vendor.appdirs
 missing module named com - imported by pkg_resources._vendor.appdirs
+missing module named 'pkg_resources.extern.pyparsing' - imported by pkg_resources._vendor.packaging.requirements, pkg_resources._vendor.packaging.markers
+missing module named StringIO - imported by numpy.lib.utils, numpy.testing._private.utils, scipy._lib.six, numpy.lib.format, pkg_resources._vendor.six
 missing module named __builtin__ - imported by numpy.core.numerictypes, numpy.core.numeric, numpy.distutils.misc_util, scipy._lib.six, numpy.lib.function_base, numpy.lib._iotools, numpy.ma.core, numpy, PIL.Image, PIL.ImageMath, pkg_resources._vendor.pyparsing
 missing module named ordereddict - imported by pkg_resources._vendor.pyparsing
 missing module named __main__ - imported by pkg_resources
@@ -22,7 +22,6 @@ missing module named 'multiprocessing.forking' - imported by c:\users\nyanten\ap
 missing module named resource - imported by posix, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
 missing module named posix - imported by os, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
 missing module named _posixsubprocess - imported by subprocess, multiprocessing.util, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
-missing module named org - imported by pickle, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
 missing module named readline - imported by cmd, code, pdb, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
 excluded module named _frozen_importlib - imported by importlib, importlib.abc, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
 missing module named _frozen_importlib_external - imported by importlib._bootstrap, importlib, importlib.abc, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
@@ -33,9 +32,10 @@ missing module named 'java.lang' - imported by platform, C:\Users\nyanten\Docume
 missing module named vms_lib - imported by platform, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
 missing module named termios - imported by tty, getpass, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
 missing module named grp - imported by shutil, tarfile, pathlib, distutils.archive_util, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
-missing module named pwd - imported by posixpath, shutil, tarfile, http.server, webbrowser, pathlib, distutils.util, distutils.archive_util, netrc, getpass, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
 missing module named _dummy_threading - imported by dummy_threading, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
-missing module named 'org.python' - imported by copy, setuptools.sandbox, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py, xml.sax
+missing module named org - imported by copy, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
+missing module named pwd - imported by posixpath, shutil, tarfile, http.server, webbrowser, pathlib, distutils.util, distutils.archive_util, netrc, getpass, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py
+missing module named 'org.python' - imported by pickle, setuptools.sandbox, C:\Users\nyanten\Documents\KPCAS\Windows\KPCAS_beta.py, xml.sax
 missing module named PIL._imagingagg - imported by PIL, PIL.ImageDraw
 missing module named olefile - imported by PIL.MicImagePlugin, PIL.FpxImagePlugin
 missing module named UserDict - imported by PIL.PdfParser
