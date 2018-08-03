@@ -45,7 +45,7 @@ FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青�
           '一次微分(横)', '一次微分(縦)', 'Prewitt', 'Sobel', 'ラプラシアン', 'ラプラシアン(PIL)',
           'エンボス', 'エンボス(PIL)', 'アンシャープマスキング',
           'ごま塩ノイズ', 'ガウシアンノイズ', 'フーリエ変換', 'ローパスフィルタ', 'ハイパスフィルタ',
-          '顔検出', '顔面モザイク', 'ORB')
+          '顔検出', '顔面モザイク', 'ORB', )
 
 FILTER_SET = ()
 
@@ -706,6 +706,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ORB"}:
                         print("ORB")
                         fc.ORB(REAL_PATH)
+                    elif FILTER_SET[i] in {"ヒストグラム(RGB)"}:
+                        print("ヒストグラム(RGB)")
+                        fc.RGB_hist(REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(REAL_PATH)
@@ -860,6 +863,9 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ORB"}:
                         print("ORB")
                         fc.ORB(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ヒストグラム(RGB)"}:
+                        print("ヒストグラム(RGB)")
+                        fc.RGB_hist(O_REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(O_REAL_PATH)

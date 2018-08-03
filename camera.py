@@ -1,5 +1,8 @@
 import os
 import cv2
+import numpy as np
+
+import func_collection as func
 
 CD = os.getcwd()
 REAL_PATH = os.path.join(CD, "image_folder", "take.jpg")
@@ -22,29 +25,29 @@ def Camera():
 
     face_cascade = cv2.CascadeClassifier(FACE_CASCADE)
     
-    glass = cv2.imread("./image_folder/glass.png")
-    
-    while True:
-        ret, im = cap.read()
-        face = face_cascade.detectMultiScale(im)
-        gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-        #dst = cv2.addWeighted(im, 1, glass, 0.8, 0)
+    while (cap.isOpened()):
+        ret, frame = cap.read()
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        face = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3, minSize=(30, 30))
         
         key = cv2.waitKey(10)
         if key == 27:  # esc
             break
         
         if key == 32: # space
-            save = cv2.imwrite(REAL_PATH, im)
+            save = cv2.imwrite(REAL_PATH, frame)
             print("take a photo")
 
-        for x, y, w, h in face:
-            col = (255, 0, 0)
-            bd = 2
-            cv2.rectangle(im, (x, y), (x+w, y+h), col, thickness=bd)
-                
-        cv2.imshow('camera capture', im)
+        if key == 48:
+            for x, y, w, h in face:
+                col = (255, 0, 0)
+                bd = 2
+                cv2.rectangle(frame, (x, y), (x+w, y+h), col, thickness=bd)
+        
+        cv2.imshow('camera capture', frame)
         
         
     cap.release()
     cv2.destroyAllWindows()
+
+

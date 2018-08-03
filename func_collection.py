@@ -15,6 +15,7 @@
 import sys, os
 import cv2
 import numpy as np
+#import matplotlib
 from PIL import Image, ImageFilter, ImageMath, ImageOps, ImageDraw, ImageFont
 import random
 
@@ -630,6 +631,9 @@ def ORB(self):
     point_im = cv2.drawKeypoints(img, point, None)
 
     cv2.imwrite(O_REAL_PATH, point_im)
+
+
+# RGBヒストグラム抽出
 
 
 # Hideo 1
