@@ -38,8 +38,9 @@ root.geometry("720x380") # ウィンドウサイズ
 FILTER = ('２値化', 'グレイスケール', '赤単色', '緑単色', '青単色',
           '色交換(赤青)', '色交換(赤緑)', '色交換(緑青)', 
           'HSV色空間(色相シフト)', 'HSV色空間(彩度シフト)', 'HSV色空間(明度シフト)',
-          '明るく', '暗く', 'ガンマ補正', 'セピア', 'モザイク', 'ネガポジ反転', 'ミラー',
-          '減色', 'ソーラライズ', 'ポスタライズ', 'イコライズ', '回転(90度)', 
+          '明るく', '暗く', 'ガンマ補正', 'セピア', 'モザイク', 'ネガポジ反転',
+          '減色', 'ソーラライズ', 'ポスタライズ', 'イコライズ', 'ミラー', '回転(90度)',
+          '膨張', '収縮', 
           '平均化', 'メディアンフィルタ', 'ガウシアンフィルタ', 'DoG',
           'バイラテラルフィルタ', 'ノンローカルミーンフィルタ', 
           '一次微分(横)', '一次微分(縦)', 'Prewitt', 'Sobel', 'ラプラシアン', 'ラプラシアン(PIL)',
@@ -242,7 +243,8 @@ class Application(tk.Frame):
         self.button_k = tk.Button(man_win, text="Go", command=self.check_K_COM)
         self.button_k.place(x=600, y=10)
         man.close()
-        
+
+    # コナミコマンドチェック用
     def check_K_COM(self):
         global FILTER
         global ADD_FLAG
@@ -616,9 +618,6 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ネガポジ反転"}:
                         print("ネガポジ反転")
                         fc.NegaPosi(REAL_PATH)
-                    elif FILTER_SET[i] in {"ミラー"}:
-                        print("ミラー")
-                        fc.Mirror(REAL_PATH)
                     elif FILTER_SET[i] in {"減色"}:
                         print("減色")
                         fc.Loss(REAL_PATH)
@@ -634,9 +633,18 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"イコライズ"}:
                         print("イコライズ")
                         fc.Equalize(REAL_PATH)
+                    elif FILTER_SET[i] in {"ミラー"}:
+                        print("ミラー")
+                        fc.Mirror(REAL_PATH)
                     elif FILTER_SET[i] in {"回転(90度)"}:
                         print("回転(90度)")
                         fc.Rotate(REAL_PATH)
+                    elif FILTER_SET[i] in {"膨張"}:
+                        print("膨張")
+                        fc.Dilate(REAL_PATH)
+                    elif FILTER_SET[i] in {"収縮"}:
+                        print("収縮")
+                        fc.Erode(REAL_PATH)
                     elif FILTER_SET[i] in {"平均化"}:
                         print("平均化")
                         fc.Average(REAL_PATH)
@@ -776,9 +784,6 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ネガポジ反転"}:
                         print("ネガポジ反転")
                         fc.NegaPosi(O_REAL_PATH)
-                    elif FILTER_SET[i] in {"ミラー"}:
-                        print("ミラー")
-                        fc.Mirror(O_REAL_PATH)
                     elif FILTER_SET[i] in {"減色"}:
                         print("減色")
                         fc.Loss(O_REAL_PATH)
@@ -791,9 +796,18 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"イコライズ"}:
                         print("イコライズ")
                         fc.Equalize(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"ミラー"}:
+                        print("ミラー")
+                        fc.Mirror(O_REAL_PATH)
                     elif FILTER_SET[i] in {"回転(90度)"}:
                         print("回転(90度")
                         fc.Rotate(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"膨張"}:
+                        print("膨張")
+                        fc.Dilate(O_REAL_PATH)
+                    elif FILTER_SET[i] in {"収縮"}:
+                        print("収縮")
+                        fc.Erode(O_REAL_PATH)
                     elif FILTER_SET[i] in {"平均化"}:
                         print("平均化")
                         fc.Average(O_REAL_PATH)
@@ -931,8 +945,7 @@ class Application(tk.Frame):
             canvas.pack(fill="x")
             label = tk.Label(PT_win, text=text_in, justify="left", foreground="black", background="yellow")
             label.place(x=10, y=10)
-            
-        
+                    
         PT_win.transient(self.master)
         PT_win.grab_set()
         PT_win.focus_set()

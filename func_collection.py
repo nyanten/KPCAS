@@ -38,7 +38,7 @@ def Binary(self):
     t = 127
 
     # 読み込んだ画像の読み込み
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     # グレイスケール
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
@@ -222,14 +222,6 @@ def NegaPosi(self):
     img.close()
 
 
-# ミラー
-def Mirror(self):
-    img = Image.open(self, 'r')
-    im_m = ImageOps.mirror(img)
-    im_m.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
-    img.close()
-
-
 # 減色
 def Loss(self):
     img = Image.open(self, 'r')
@@ -266,6 +258,14 @@ def Equalize(self):
     img.close()
 
 
+# ミラー
+def Mirror(self):
+    img = Image.open(self, 'r')
+    im_m = ImageOps.mirror(img)
+    im_m.save(O_REAL_PATH, "JPEG", quality=100, optimize=True)
+    img.close()
+
+
 # アフィン変換(90度)
 def Rotate(self):
     img = Image.open(self, 'r')
@@ -274,9 +274,33 @@ def Rotate(self):
     img.close()
 
 
+# 膨張
+def Dilate(self):
+    img = cv2.imread(self)
+    
+    kernel = np.ones((6, 6), np.uint8)
+
+    # 膨張
+    dilate = cv2.dilate(img, kernel)
+
+    cv2.imwrite(O_REAL_PATH, dilate)
+
+
+# 収縮
+def Erode(self):
+    img = cv2.imread(self)
+
+    kernel = np.ones((6, 6), np.uint8)
+
+    # 収縮
+    erode = cv2.erode(img, kernel)
+
+    cv2.imwrite(O_REAL_PATH, erode)
+    
+
 # 平均化(1/9)
 def Average(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     # カーネル
     kernel = np.array([[1/9, 1/9, 1/9],
@@ -290,7 +314,7 @@ def Average(self):
 
 # メディアンフィルタ
 def Median(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     # メディアン(カーネルサイズ)
     dst2 = cv2.medianBlur(img, ksize=5)
@@ -300,7 +324,7 @@ def Median(self):
 
 # ガウシアンフィルタ
 def Gaussian(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     # カーネル
     kernel = np.array([[1/16, 1/8, 1/16],
@@ -320,7 +344,7 @@ def DoG(self):
 
         return g1 - g2
 
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 
@@ -331,7 +355,7 @@ def DoG(self):
 
 # Bilateral
 def Bilateral(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     dst = cv2.bilateralFilter(img, 15, 20, 20)
 
@@ -340,7 +364,7 @@ def Bilateral(self):
 
 # Nonlocalmean
 def Nonlocal(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     dst = cv2.fastNlMeansDenoisingColored(img,None,10,10,5,16)
 
@@ -349,7 +373,7 @@ def Nonlocal(self):
 
 # 一次微分(横)
 def Diff_w(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     kernel = np.array([[0, 0, 0],
                        [-1, 0, 1],
@@ -362,7 +386,7 @@ def Diff_w(self):
 
 # 一次微分(縦)
 def Diff_h(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     kernel = np.array([[0, -1, 0],
                        [0, 0, 0],
@@ -375,7 +399,7 @@ def Diff_h(self):
 
 # Prewitt
 def Prewitt(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     kernel = np.array([[-1, 0, 1],
                        [-1, 0, 1],
@@ -388,7 +412,7 @@ def Prewitt(self):
 
 # Sobel
 def Sobel(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     kernel = np.array([[-1, 0, 1],
                        [-2, 0, 2],
@@ -401,7 +425,7 @@ def Sobel(self):
 
 # ラプラシアン
 def Laplacian(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
     
     kernel = np.array([[1, 1, 1],
                        [1, -8, 1],
@@ -424,7 +448,7 @@ def Laplacian_re(self):
 
 # エンボス
 def Emboss(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     kernel = np.array([[-2, -1, 0],
                        [-1, 1, 1],
@@ -449,7 +473,7 @@ def Emboss_re(self):
 
 # アンシャープマスク
 def UnsharpMask(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     kernel = np.array([[0, -1, 0],
                        [-1, 5, -1],
@@ -480,7 +504,7 @@ def Salt_Noise(self):
 
         return output
 
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
     img_n = sn_add(img, 0.05)
     cv2.imwrite(O_REAL_PATH, img_n)
 
@@ -502,14 +526,14 @@ def GaussianNoise(self):
         return img_n
 
     
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
     im_gn = addGauNoi(img)
     cv2.imwrite(O_REAL_PATH, im_gn)
 
 
 # FFT
 def FFT(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -525,7 +549,7 @@ def FFT(self):
     
 # ローパス
 def Lowpass(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     def low(img, a=0.5):
         src = np.fft.fft2(img)
@@ -555,7 +579,7 @@ def Lowpass(self):
 
 # ハイパス
 def Highpass(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
     
     def high(img, a=0.5):
         src = np.fft.fft2(img)
@@ -586,7 +610,7 @@ def Highpass(self):
 
 # 顔検出
 def Face_check(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     cascade = cv2.CascadeClassifier(FACE_CASCADE_PATH)
     im_g = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -603,7 +627,7 @@ def Face_check(self):
 
 # 顔にモザイク
 def Face_Moza(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     ratio = 0.05
     cascade = cv2.CascadeClassifier(FACE_CASCADE_PATH)
@@ -620,7 +644,7 @@ def Face_Moza(self):
 
 # ORB
 def ORB(self):
-    img = cv2.imread(self, 1)
+    img = cv2.imread(self)
 
     # ORB検出
     orb = cv2.ORB_create()
