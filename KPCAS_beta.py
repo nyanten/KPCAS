@@ -938,7 +938,6 @@ class Application(tk.Frame):
         PT_win.focus_set()
 
         PT_t.close()
-
         
 
 # ひながた        

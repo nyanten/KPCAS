@@ -15,6 +15,7 @@
 import sys, os
 import cv2
 import numpy as np
+#import tkinter as tk
 #import matplotlib
 from PIL import Image, ImageFilter, ImageMath, ImageOps, ImageDraw, ImageFont
 import random
@@ -712,5 +713,3 @@ def Foxdie(self):
     # 書き込み
     # output.save(O_REAL_PATH) 
     # cv2.imwrite(O_REAL_PATH, output)
-
-
