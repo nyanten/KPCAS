@@ -909,7 +909,7 @@ class Application(tk.Frame):
         PT_win.title("204863")
         PT_win.geometry("1280x720+100+50")
 
-        PT_l = ["./PT/PT_1.txt", "./PT/PT_2.txt", "./PT/PT_3.txt", "./PT/PT_4.txt"]
+        PT_l = ["./PT/PT_1.txt", "./PT/PT_2.txt", "./PT/PT_3.txt", "./PT/PT_4.txt", "./PT/PT_5.txt"]
 
         str = random.choice(PT_l)
         PT_t = open(str, "r")
