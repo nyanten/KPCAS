@@ -15,6 +15,9 @@ import tkinter.filedialog as tkFD
 from tkinter import PhotoImage
 from PIL import ImageTk, Image
 import random
+import matplotlib
+matplotlib.use("TkAgg")
+from matplotlib import pyplot as plt
 #import qrcode
 
 #print(sys.path)
@@ -108,10 +111,11 @@ class Application(tk.Frame):
         self.button_man = tk.Button(self, text=u"マニュアル", command=self.manual_op, width=20)
         self.button_act = tk.Button(self, text=u"命令を組み込む", command=self.action, width=20)
         self.button_exe = tk.Button(self, text=u"命令を実行", command=self.exe_action, width=20)
-        self.button_save = tk.Button(self, text=u"出力結果を保存", command=self.save, width=20)
+        self.button_save = tk.Button(self, text=u"出力結果を保存", command=self.save, width=10)
         self.button_clear = tk.Button(self, text=u"すべてクリア", command=self.all_clear, width=20)
         self.button_output_clear = tk.Button(self, text=u"出力結果をクリア", command=self.output_clear, width=20)
         self.button_web = tk.Button(self, text=u"Wikiをみる", command=self.web_link, width=20)
+        self.button_hist = tk.Button(self, text=u"ヒストグラム", command=self.histgram, width=10)
 
         self.button_cam = tk.Button(self, text=u"カメラ起動", command=self.cam)
         self.button_qr = tk.Button(self, text=u"QR", command=self.qrcode)
@@ -149,8 +153,9 @@ class Application(tk.Frame):
         self.button_man.place(x=500, y=275)
         self.button_act.place(x=280, y=310)
         self.button_exe.place(x=280, y=340)
-        self.button_save.place(x=40, y=310)
-        self.button_output_clear.place(x=40, y=340)
+        self.button_save.place(x=20, y=340)
+        self.button_hist.place(x=150, y=340)
+        self.button_output_clear.place(x=40, y=310)
         self.button_clear.place(x=500, y=310)
         self.button_web.place(x=500, y=340)
         self.button_cam.place(x=360, y=7)
@@ -308,6 +313,40 @@ class Application(tk.Frame):
         self.o_canvas.delete("all")
         self.o_canvas.create_text(127, 127, text=u"Not Output Image...")
         print("Output Image Delete")
+
+
+    # ヒストグラム
+    def histgram(self):
+        img = cv2.imread(O_REAL_PATH)
+        
+        if len(img.shape) == 3:
+            b, g, r = img[:, :, 0], img[:, :, 1], img[:, :, 2]
+            
+            hist_r, bins = np.histogram(r.ravel(),256,[0,256])
+            hist_g, bins = np.histogram(g.ravel(),256,[0,256])
+            hist_b, bins = np.histogram(b.ravel(),256,[0,256])
+
+            plt.xlim(0, 255)
+            plt.plot(hist_r, "-r", label="Red")
+            plt.plot(hist_g, "-g", label="Green")
+            plt.plot(hist_b, "-b", label="Blue")
+            plt.xlabel("Pixel value", fontsize=20)
+            plt.ylabel("Number of pixels", fontsize=20)
+            plt.legend()
+            plt.grid()
+            plt.show()
+
+        else:
+            gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+            
+            hist, bins = np.histogram(gray.ravel(),256,[0,256])
+
+            plt.xlim(0, 255)
+            plt.plot(hist)
+            plt.xlabel("Pixel value", fontsize=20)
+            plt.ylaabel("Number of pixels", fontsize=20)
+            plt.grid()
+            plt.show()
 
 
     # Exitする 全リセットして終了
@@ -714,9 +753,6 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ORB"}:
                         print("ORB")
                         fc.ORB(REAL_PATH)
-                    elif FILTER_SET[i] in {"ヒストグラム(RGB)"}:
-                        print("ヒストグラム(RGB)")
-                        fc.RGB_hist(REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(REAL_PATH)
@@ -877,9 +913,6 @@ class Application(tk.Frame):
                     elif FILTER_SET[i] in {"ORB"}:
                         print("ORB")
                         fc.ORB(O_REAL_PATH)
-                    elif FILTER_SET[i] in {"ヒストグラム(RGB)"}:
-                        print("ヒストグラム(RGB)")
-                        fc.RGB_hist(O_REAL_PATH)
                     elif FILTER_SET[i] in {"ヒデオ1"}:
                         print("Hideo")
                         fc.Hideo_1(O_REAL_PATH)
